@@ -1,0 +1,7 @@
+{
+  "name": "Mona",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
