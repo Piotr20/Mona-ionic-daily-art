@@ -1,7 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getDatabase, ref } from "firebase/database";
+import { getStorage } from "firebase/storage";
+import { initializeAuth, indexedDBLocalPersistence, getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -14,4 +14,17 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+// Initialize auth
+export const auth = getAuth(app);
+// Create database reference
+export const database = getDatabase(app);
+// Reference to posts in Realtime DB
+
+// Get reference to specific user using user id
+export function getUserRef(userId) {
+  return ref(database, "users/" + userId);
+}
+
+// Reference to the storage service
+export const storage = getStorage(app);

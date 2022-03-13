@@ -14,6 +14,7 @@ import { ellipse, square, triangle } from "ionicons/icons";
 import Daily from "./pages/Daily";
 import Collections from "./pages/Collections";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -34,6 +35,8 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import Collection from "./pages/Collection";
+import SignUpPage from "./pages/Signup";
+import LandingPage from "./pages/LandingPage";
 
 setupIonicReact();
 
@@ -54,8 +57,14 @@ const App: React.FC = () => (
           <Route path="/profile">
             <Profile />
           </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
           <Route exact path="/">
-            <Redirect to="/daily" />
+            <LandingPage />
+          </Route>
+          <Route exact path="/signup">
+            <SignUpPage />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
@@ -78,3 +87,17 @@ const App: React.FC = () => (
 );
 
 export default App;
+
+export function hideTabs() {
+  const tabsEl = document.querySelector("ion-tab-bar");
+  if (tabsEl) {
+    tabsEl.hidden = true;
+  }
+}
+
+export function showTabs() {
+  const tabsEl = document.querySelector("ion-tab-bar");
+  if (tabsEl) {
+    tabsEl.hidden = false;
+  }
+}
