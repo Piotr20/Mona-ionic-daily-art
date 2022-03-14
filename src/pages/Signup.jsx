@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
 import { auth, app } from "../firebase/firebaseInit";
-import { hideTabs } from "../components/utilities";
+import { hideTabs, showTabs } from "../components/utilities";
 import "./Signup.css";
 
 export default function SignUpPage() {
@@ -36,6 +36,7 @@ export default function SignUpPage() {
         const user = userCredential.user;
         user.auth.currentUser.displayName = name;
         console.log(user);
+        showTabs();
         history.replace("/daily");
       })
       .catch((error) => {
