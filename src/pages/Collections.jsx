@@ -1,6 +1,8 @@
 import {
   IonButton,
+  IonCol,
   IonContent,
+  IonGrid,
   IonHeader,
   IonImg,
   IonInput,
@@ -9,23 +11,49 @@ import {
   IonList,
   IonModal,
   IonPage,
+  IonRow,
   IonThumbnail,
   IonTitle,
+  useIonViewWillEnter,
 } from "@ionic/react";
-import { useState } from "react";
+import { addDoc, getDocs, setDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { collectionsRef } from "../firebase/firebaseInit";
 import "./Collections.css";
 
 const Collections = () => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState("");
+  const [collections, setCollections] = useState();
 
-  const addNewCollection = () => {
-    console.log(newCollectionName + " added");
-    history.push("/collections/2");
+  useIonViewWillEnter(() => {
+    getData();
+  });
+
+  const getData = async () => {
+    const querySnapshot = await getDocs(collectionsRef);
+    const collectionsArray = [];
+    querySnapshot.forEach((doc) => {
+      const col = {
+        id: doc.id,
+        data: doc.data(),
+      };
+      collectionsArray.push(col);
+    });
+    setCollections(collectionsArray);
+    console.log(collectionsArray);
+  };
+
+  const addNewCollection = async () => {
+    const newDoc = await addDoc(collectionsRef, {
+      name: newCollectionName,
+    });
+    history.push(`/collections/${newDoc.id}`);
     setIsOpen(false);
   };
+
   return (
     <IonPage>
       <IonHeader>
@@ -53,32 +81,17 @@ const Collections = () => {
         </IonItem>
       </IonHeader>
       <IonContent>
-        <IonList>
-          <Link to="/collections/2">
-            <IonItem>
-              <IonThumbnail slot="start">
-                <IonImg src="https://cdn.shopify.com/s/files/1/0344/6469/files/Screen_Shot_2018-07-10_at_12.24.43_PM.png?v=1531239937" />
-              </IonThumbnail>
-              <IonLabel>Favorites</IonLabel>
-            </IonItem>
-          </Link>
-          <Link to="/collections/2">
-            <IonItem>
-              <IonThumbnail slot="start">
-                <IonImg src="https://cdn.shopify.com/s/files/1/0344/6469/files/Screen_Shot_2018-07-10_at_12.24.43_PM.png?v=1531239937" />
-              </IonThumbnail>
-              <IonLabel>Medieval cats</IonLabel>
-            </IonItem>
-          </Link>
-          <Link to="/collections/2">
-            <IonItem>
-              <IonThumbnail slot="start">
-                <IonImg src="https://cdn.shopify.com/s/files/1/0344/6469/files/Screen_Shot_2018-07-10_at_12.24.43_PM.png?v=1531239937" />
-              </IonThumbnail>
-              <IonLabel>Women in art</IonLabel>
-            </IonItem>
-          </Link>
-        </IonList>
+        <div className="collections-grid">
+          {collections &&
+            collections.map((collection) => {
+              return (
+                <Link to={`/collections/${collection.id}`} key={collection.id}>
+                  <IonImg src="https://cdn.shopify.com/s/files/1/0344/6469/files/Screen_Shot_2018-07-10_at_12.24.43_PM.png?v=1531239937" />
+                  <IonLabel>{collection.data.name}</IonLabel>
+                </Link>
+              );
+            })}
+        </div>
       </IonContent>
     </IonPage>
   );

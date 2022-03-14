@@ -1,7 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref } from "firebase/database";
 import { getStorage } from "firebase/storage";
-import { initializeAuth, indexedDBLocalPersistence, getAuth } from "firebase/auth";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+
+import {
+  initializeAuth,
+  indexedDBLocalPersistence,
+  getAuth,
+} from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,3 +34,6 @@ export function getUserRef(userId) {
 
 // Reference to the storage service
 export const storage = getStorage(app);
+
+const db = getFirestore(app);
+export const collectionsRef = collection(db, "collections");

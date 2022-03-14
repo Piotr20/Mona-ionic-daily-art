@@ -1,0 +1,14 @@
+/* COLLECTIONS */
+.collections-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 20px;
+}
+
+a {
+  text-decoration: none;
+  color: white !important;
+}
+
+/* COLLECTION */
