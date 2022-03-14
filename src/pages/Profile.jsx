@@ -1,50 +1,3 @@
-// import {
-//   IonContent,
-//   IonHeader,
-//   IonPage,
-//   IonTitle,
-//   IonToolbar,
-//   IonList, 
-// } from "@ionic/react";
-// import { useState } from "react";
-// import { useParams } from "react-router";
-// import "./Profile.css";
-// import UserCard from "../components/UserCard";
-// import userService from "../services/userService";
-
-// export default function UserPage() {
-//   const [user, setUser] = useState({});
-//   const params = useParams();
-//   const userId = parseInt(params.id);
-
-//   async function loadData() {
-//       const userData = await userService.getUser(userId);
-//       setUser(userData);
-//   }
-
-//   // useIonViewWillEnter(() => {
-//   //     loadData();
-//   // });
-
-//   return (
-//     <IonPage id="profile">
-//     <IonHeader>
-//       <IonToolbar>
-//         <IonTitle>Profile</IonTitle>
-//       </IonToolbar>
-//     </IonHeader>
-//     <IonContent fullscreen>
-//       <IonHeader collapse="condense">
-//         <IonToolbar>
-//           <IonTitle size="large">Profile</IonTitle>
-//         </IonToolbar>
-//       </IonHeader>
-//       <UserCard user={user} />
-//     </IonContent>
-//   </IonPage>
-//   );
-// }
-
 import {
   IonContent,
   IonHeader,
@@ -65,8 +18,6 @@ import { getUserRef } from "../firebase/firebaseInit";
 import { get, update } from "@firebase/database";
 import { brushOutline, businessOutline, cameraOutline, hammerOutline } from "ionicons/icons";
 import "./Profile.css";
-// import { storage } from "../firebase-config";
-// import { Toast } from "@capacitor/toast";
 
 export default function ProfilePage() {
   const auth = getAuth();
@@ -165,15 +116,6 @@ export default function ProfilePage() {
                           onIonChange={e => setPassword(e.target.value)}
                       />
                   </IonItem>
-                  {/* <IonItem>
-                      <IonLabel position="stacked">Title</IonLabel>
-                      <IonInput
-                          value={title}
-                          type="text"
-                          placeholder="Type your title"
-                          onIonChange={e => setTitle(e.target.value)}
-                      />
-                  </IonItem> */}
                   <div className="ion-padding">
                       <IonButton type="submit" expand="block">
                           Save
