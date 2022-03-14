@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseInit";
-import { hideTabs } from "../App";
+import { hideTabs } from "../components/utilities";
 
 const LandingPage = () => {
   const [mail, setMail] = useState("");

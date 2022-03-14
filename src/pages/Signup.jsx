@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
 import { auth, app } from "../firebase/firebaseInit";
-import { hideTabs } from "../App";
+import { hideTabs } from "../components/utilities";
 import "./Signup.css";
 
 export default function SignUpPage() {
