@@ -37,6 +37,7 @@ import "./theme/variables.css";
 import Collection from "./pages/Collection";
 import SignUpPage from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
+import Preferences from "./pages/Preferences";
 
 setupIonicReact();
 
@@ -47,6 +48,9 @@ const App: React.FC = () => (
         <IonRouterOutlet>
           <Route exact path="/daily">
             <Daily />
+          </Route>
+          <Route exact path="/preferences">
+            <Preferences />
           </Route>
           <Route exact path="/collections">
             <Collections />

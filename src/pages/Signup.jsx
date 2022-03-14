@@ -2,26 +2,31 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonItem,
-  IonLabel,
   IonInput,
   IonButton,
   IonImg,
   IonCard,
+  IonCheckbox,
+  IonToast,
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
 import { auth, app } from "../firebase/firebaseInit";
 import { hideTabs, showTabs } from "../components/utilities";
+import { addDoc, getDocs, setDoc } from "firebase/firestore";
+import { usersRef } from "../firebase/firebaseInit";
 import "./Signup.css";
 
 export default function SignUpPage() {
   const [mail, setMail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [checkbox, setCheckbox] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [idiotCounter, setIdiotCounter] = useState(0);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -30,18 +35,38 @@ export default function SignUpPage() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    createUserWithEmailAndPassword(auth, mail, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        user.auth.currentUser.displayName = name;
-        console.log(user);
-        showTabs();
-        history.replace("/daily");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (checkbox === true) {
+      createUserWithEmailAndPassword(auth, mail, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          user.auth.currentUser.displayName = name;
+          console.log(user);
+          try {
+            const docRef = addDoc(usersRef, {
+              uid: user.uid,
+              createdAt: user.metadata.createdAt,
+              creationTime: user.metadata.creationTime,
+              email: mail,
+              name: name,
+            });
+            console.log("Document written with ID: ", docRef.id);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+          showTabs();
+          history.replace("/preferences");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setIdiotCounter(idiotCounter + 1);
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+      }, 1000);
+    }
   }
   return (
     <IonPage className="posts-page">
@@ -75,6 +100,14 @@ export default function SignUpPage() {
                 onIonChange={(e) => setPassword(e.target.value)}
               />
             </IonItem>
+            <p className="signup-checkbox-wrapper">
+              <IonCheckbox
+                className="signup-checkbox"
+                color="light"
+                onIonChange={(e) => setCheckbox(e.detail.checked)}
+              />
+              I accept Terms & Conditions
+            </p>
             <div className="ion-padding">
               <IonButton color="custom-orange" className="signup-button" type="submit" expand="block">
                 Sign up
@@ -87,6 +120,7 @@ export default function SignUpPage() {
             </div>
           </form>
         </IonCard>
+        <IonToast isOpen={showToast} message="You need to agree to the Terms & Conditions" duration={1000} />
       </IonContent>
     </IonPage>
   );

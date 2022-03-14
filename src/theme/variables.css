@@ -77,7 +77,7 @@ http://ionicframework.com/docs/theming/ */
   /** custom colors **/
   --ion-color-custom-dark: #313131;
   --ion-color-custom-orange: #af4927;
-  --ion-color-custom-black: #000000;
+  --ion-color-custom-black: #1d1d1d;
 }
 .ion-color-custom-dark {
   --ion-color-base: var(--ion-color-custom-dark);
