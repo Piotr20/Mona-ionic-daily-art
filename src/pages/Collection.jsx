@@ -14,18 +14,19 @@ import {
   IonTitle,
 } from "@ionic/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./Collections.css";
 import { ellipsisHorizontalOutline } from "ionicons/icons";
 
 const Collection = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
+  const { collectionId } = useParams();
 
   return (
     <IonPage>
       <IonHeader>
         <IonItem>
-          <IonTitle>Medieval cats</IonTitle>
+          <IonTitle>{collectionId}</IonTitle>
           <IonButton onClick={() => setShowActionSheet(true)} fill="clear">
             <IonIcon icon={ellipsisHorizontalOutline} />
           </IonButton>
