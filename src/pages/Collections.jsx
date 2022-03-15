@@ -1,23 +1,19 @@
+import { getAuth } from "@firebase/auth";
 import {
   IonButton,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
   IonImg,
   IonInput,
   IonItem,
   IonLabel,
-  IonList,
   IonModal,
   IonPage,
-  IonRow,
-  IonThumbnail,
   IonTitle,
   useIonViewWillEnter,
 } from "@ionic/react";
-import { addDoc, getDocs, setDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { addDoc, getDocs } from "firebase/firestore";
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { collectionsRef } from "../firebase/firebaseInit";
 import "./Collections.css";
@@ -27,6 +23,7 @@ const Collections = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState("");
   const [collections, setCollections] = useState();
+  const auth = getAuth();
 
   useIonViewWillEnter(() => {
     getCollections();
@@ -40,10 +37,12 @@ const Collections = () => {
         id: doc.id,
         data: doc.data(),
       };
-      if (collection.data.name === "Favorites") {
-        collectionsArray.unshift(collection);
-      } else {
-        collectionsArray.push(collection);
+      if (auth.currentUser.uid === collection.data.uid) {
+        if (collection.data.name === "Favorites") {
+          collectionsArray.unshift(collection);
+        } else {
+          collectionsArray.push(collection);
+        }
       }
     });
     setCollections(collectionsArray);
@@ -53,7 +52,7 @@ const Collections = () => {
     const newDoc = await addDoc(collectionsRef, {
       name: newCollectionName,
       cover_img: null,
-      uid: 1,
+      uid: auth.currentUser.uid,
     });
     history.push(`/collections/${newDoc.id}`);
     setIsOpen(false);
@@ -103,3 +102,12 @@ const Collections = () => {
 };
 
 export default Collections;
+
+// add a Favorites collection after signup
+export const addFavorites = async (uid) => {
+  await addDoc(collectionsRef, {
+    name: "Favorites",
+    cover_img: null,
+    uid: uid,
+  });
+};

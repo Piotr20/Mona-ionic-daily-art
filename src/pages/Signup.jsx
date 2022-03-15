@@ -13,10 +13,15 @@ import {
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  updateProfile,
+} from "firebase/auth";
 import { auth, app } from "../firebase/firebaseInit";
 import { hideTabs, showTabs } from "../components/utilities";
 import "./Signup.css";
+import { addFavorites } from "./Collections";
 
 export default function SignUpPage() {
   const [mail, setMail] = useState("");
@@ -37,6 +42,7 @@ export default function SignUpPage() {
         user.auth.currentUser.displayName = name;
         console.log(user);
         showTabs();
+        addFavorites(user.uid);
         history.replace("/daily");
       })
       .catch((error) => {
@@ -76,12 +82,21 @@ export default function SignUpPage() {
               />
             </IonItem>
             <div className="ion-padding">
-              <IonButton color="custom-orange" className="signup-button" type="submit" expand="block">
+              <IonButton
+                color="custom-orange"
+                className="signup-button"
+                type="submit"
+                expand="block"
+              >
                 Sign up
               </IonButton>
             </div>
             <div className="ion-text-center">
-              <IonButton size="small" fill="clear" onClick={() => history.replace("/login")}>
+              <IonButton
+                size="small"
+                fill="clear"
+                onClick={() => history.replace("/login")}
+              >
                 Go back to sign in
               </IonButton>
             </div>

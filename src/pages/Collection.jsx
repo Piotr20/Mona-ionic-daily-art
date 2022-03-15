@@ -1,24 +1,18 @@
 import {
   IonActionSheet,
   IonButton,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
   IonIcon,
-  IonImg,
   IonInput,
   IonItem,
   IonList,
   IonModal,
   IonPage,
-  IonRow,
   IonTitle,
-  useIonViewDidEnter,
   useIonViewWillEnter,
-  useIonViewWillLeave,
 } from "@ionic/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import "./Collections.css";
 import { ellipsisHorizontalOutline } from "ionicons/icons";
