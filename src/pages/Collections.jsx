@@ -29,26 +29,31 @@ const Collections = () => {
   const [collections, setCollections] = useState();
 
   useIonViewWillEnter(() => {
-    getData();
+    getCollections();
   });
 
-  const getData = async () => {
+  const getCollections = async () => {
     const querySnapshot = await getDocs(collectionsRef);
     const collectionsArray = [];
     querySnapshot.forEach((doc) => {
-      const col = {
+      const collection = {
         id: doc.id,
         data: doc.data(),
       };
-      collectionsArray.push(col);
+      if (collection.data.name === "Favorites") {
+        collectionsArray.unshift(collection);
+      } else {
+        collectionsArray.push(collection);
+      }
     });
     setCollections(collectionsArray);
-    console.log(collectionsArray);
   };
 
   const addNewCollection = async () => {
     const newDoc = await addDoc(collectionsRef, {
       name: newCollectionName,
+      cover_img: null,
+      uid: 1,
     });
     history.push(`/collections/${newDoc.id}`);
     setIsOpen(false);
