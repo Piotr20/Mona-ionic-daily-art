@@ -19,6 +19,7 @@ import { get, update } from "@firebase/database";
 import { brushOutline, businessOutline, cameraOutline, hammerOutline } from "ionicons/icons";
 // import { Toast } from "@capacitor/toast";
 import "./Profile.css";
+import "../theme/global.css";
 
 export default function ProfilePage() {
   const auth = getAuth();
@@ -85,7 +86,7 @@ export default function ProfilePage() {
             </IonHeader>
 
             <IonHeader className="header">Edit</IonHeader>
-            <p>{user?.email}</p>
+            {/* <p>{user?.email}</p>
             <p>{user?.name}</p>
 
               <IonItem>
@@ -102,10 +103,10 @@ export default function ProfilePage() {
               </IonItem>
 
               <div className="ion-padding">
-                      <IonButton type="submit" expand="block">
+                      <IonButton color="custom-orange" className="signup-button" type="submit" expand="block">
                           Save
                       </IonButton>
-                  </div>
+                  </div> */}
 
               <form onSubmit={handleSubmit} className="profile-form">
                   <IonItem>
@@ -134,14 +135,15 @@ export default function ProfilePage() {
                       />
                   </IonItem>
                   <div className="ion-padding">
-                      <IonButton type="submit" expand="block">
+                      <IonButton color="custom-orange" className="signup-button" type="submit" expand="block">
                           Save
                       </IonButton>
                   </div>
               </form>
 
               <IonHeader className="header">Preferences</IonHeader>
-
+              
+            <div className="profile-form">
                 <IonItem className="preferences-profile">
                     <IonIcon icon={brushOutline} slot="start" />
                     <IonLabel>Paintings</IonLabel>
@@ -167,9 +169,10 @@ export default function ProfilePage() {
                 </IonItem>
 
                 <div className="ion-padding">
-                    <IonButton onClick={handleSignOut} expand="block">Log out
+                    <IonButton color="custom-orange" className="signup-button" onClick={handleSignOut} expand="block">Log out
                     </IonButton>
-                </div>  
+                </div> 
+            </div>
           </IonContent>
                      
       </IonPage>

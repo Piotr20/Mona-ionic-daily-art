@@ -3,16 +3,11 @@
 }
 
 .page-title {
-    margin-bottom: 40px;
+    margin-bottom: 16px;
 }
 
 .profile-card {
     box-shadow: none;
-}
-
-.profile-form {
-    margin-bottom: 24px;
-    /* background-color: var(--ion-color-custom-dark); */
 }
 
 .input {
@@ -23,10 +18,17 @@
 
 .header {
     font-size: 24px;
-    padding-bottom: 24px;
-    padding-left: 16px;
+    padding: 24px 0 16px 16px;
 }
 
 .preferences-profile {
     padding-bottom: 16px;
 }
+
+.profile-form .ion-padding {
+    width: 150px;
+    align-self: center;
+    margin: 0 auto;
+    padding: 0;
+    margin-top: 40px;
+  }

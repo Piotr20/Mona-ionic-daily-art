@@ -88,7 +88,7 @@ http://ionicframework.com/docs/theming/ */
 .ion-color-custom-black {
   --ion-color-base: var(--ion-color-custom-black);
 }
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
    * -------------------------------------------

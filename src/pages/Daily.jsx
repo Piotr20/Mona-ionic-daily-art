@@ -6,6 +6,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import "./Daily.css";
+import "../theme/global.css";
 
 const Daily = () => {
   return (

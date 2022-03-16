@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./Collections.css";
+import "../theme/global.css";
 
 const Collections = () => {
   const history = useHistory();
