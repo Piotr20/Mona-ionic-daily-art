@@ -10,12 +10,11 @@ import {
   IonCheckbox,
   IonToast,
 } from "@ionic/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
 import { auth, app } from "../firebase/firebaseInit";
-import { hideTabs, showTabs } from "../components/utilities";
-import { addDoc, getDocs, setDoc } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
 import { usersRef } from "../firebase/firebaseInit";
 import "./Signup.css";
 
@@ -28,10 +27,6 @@ export default function SignUpPage() {
   const [idiotCounter, setIdiotCounter] = useState(0);
 
   const history = useHistory();
-
-  useEffect(() => {
-    hideTabs();
-  }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -54,7 +49,7 @@ export default function SignUpPage() {
           } catch (e) {
             console.error("Error adding document: ", e);
           }
-          showTabs();
+
           history.replace("/preferences");
         })
         .catch((error) => {

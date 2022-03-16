@@ -37,28 +37,32 @@
 }
 .preferences-wrapper {
   padding: 0 32px;
-  padding-top: 16px;
+  padding-top: 32px;
   display: grid;
   width: 100%;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 32px;
+  gap: 48px 32px;
 }
 .preference-box h4 {
   text-align: center;
   margin: 0;
   margin-top: 8px;
 }
+
 .preference-card {
-  padding: 0 12px;
   background-color: var(--ion-color-custom-black);
-  height: 140px;
+  height: 100px;
+  position: relative;
 }
 .preference-card .card-image {
-  position: relative;
-  bottom: 12px;
-  height: 100%;
-  filter: grayscale(80%);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  height: 140px;
+  width: calc(100% - 12px);
+  filter: grayscale(100%);
   transition: all 0.3s ease;
 }
 .preference-card .card-image.activated {
