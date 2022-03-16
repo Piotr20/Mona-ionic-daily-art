@@ -17,60 +17,73 @@ import { getAuth, signOut } from "firebase/auth";
 import { getUserRef } from "../firebase/firebaseInit";
 import { get, update } from "@firebase/database";
 import { brushOutline, businessOutline, cameraOutline, hammerOutline } from "ionicons/icons";
+import { doc, getDoc } from "firebase/firestore";
 // import { Toast } from "@capacitor/toast";
 import "./Profile.css";
 import "../theme/global.css";
 
+useEffect(async() => {
+    const docRef = doc(usersRef);
+    const docSnap = await getDoc(docRef);
+
+if (docSnap.exists()) {
+  console.log("Document data:", docSnap.data());
+} else {
+  // doc.data() will be undefined in this case
+  console.log("No such document!");
+}
+}, []);
+
 export default function ProfilePage() {
-  const auth = getAuth();
-// const user = auth.currentUser;
+//   const auth = getAuth();
+// // const user = auth.currentUser;
 
-  const [user, setUser] = useState({});
-  const [name, setName] = useState("");
-//   const displayName = user.name;
-  const [email, setMail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showLoader, dismissLoader] = useIonLoading();
+//   const [user, setUser] = useState({});
+//   const [name, setName] = useState("");
+// //   const displayName = user.name;
+//   const [email, setMail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [showLoader, dismissLoader] = useIonLoading();
 
-  useEffect(() => {
-      setUser(auth.currentUser);
+//   useEffect(() => {
+//       setUser(auth.currentUser);
 
-      async function getUserDataFromDB() {
-          const snapshot = await get(getUserRef(user.uid));
-          const userData = snapshot.val();
-        //   console.log(user);
-          if (userData) {
-              setName(userData.name);
-              setMail(userData.email);
-              setPassword(userData.password);
-          }
-          console.log(user.email);
-      }
+//       async function getUserDataFromDB() {
+//           const snapshot = await get(getUserRef(user.uid));
+//           const userData = snapshot.val();
+//         //   console.log(user);
+//           if (userData) {
+//               setName(userData.name);
+//               setMail(userData.email);
+//               setPassword(userData.password);
+//           }
+//           console.log(user.email);
+//       }
 
-      if (user) getUserDataFromDB();
-  }, [auth.currentUser, user]);
+//       if (user) getUserDataFromDB();
+//   }, [auth.currentUser, user]);
 
-  function handleSignOut() {
-      signOut(auth);
-  }
+//   function handleSignOut() {
+//       signOut(auth);
+//   }
 
-  async function handleSubmit(event) {
-      event.preventDefault();
-      showLoader();
+//   async function handleSubmit(event) {
+//       event.preventDefault();
+//       showLoader();
 
-      const userToUpdate = {
-          name: name,
-          email: email,
-          password: password
-      };
+//       const userToUpdate = {
+//           name: name,
+//           email: email,
+//           password: password
+//       };
 
-      await update(getUserRef(user.uid), userToUpdate);
-      dismissLoader();
-    //   await Toast.show({
-    //       text: "User Profile saved!",
-    //       position: "top"
-    //   });
-  }
+//       await update(getUserRef(user.uid), userToUpdate);
+//       dismissLoader();
+//     //   await Toast.show({
+//     //       text: "User Profile saved!",
+//     //       position: "top"
+//     //   });
+//   }
   return (
       <IonPage className="profile-page">
           <IonHeader>
@@ -86,28 +99,7 @@ export default function ProfilePage() {
             </IonHeader>
 
             <IonHeader className="header">Edit</IonHeader>
-            {/* <p>{user?.email}</p>
-            <p>{user?.name}</p>
-
-              <IonItem>
-                  <IonLabel>Email</IonLabel>
-                  <IonInput value={user?.email} placeholder={user?.email}></IonInput>
-              </IonItem>
-              <IonItem>
-                  <IonLabel>Name</IonLabel>
-                  <IonInput value={user?.name} placeholder={user?.name}></IonInput>
-              </IonItem>
-              <IonItem>
-                  <IonLabel>Password</IonLabel>
-                  <IonInput value={user?.password} placeholder={user?.password} type="password"></IonInput>
-              </IonItem>
-
-              <div className="ion-padding">
-                      <IonButton color="custom-orange" className="signup-button" type="submit" expand="block">
-                          Save
-                      </IonButton>
-                  </div> */}
-
+            
               <form onSubmit={handleSubmit} className="profile-form">
                   <IonItem>
                   <IonLabel position="stacked">Email</IonLabel>
