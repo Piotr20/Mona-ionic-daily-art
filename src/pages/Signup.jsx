@@ -36,7 +36,6 @@ export default function SignUpPage() {
           // Signed in
           const user = userCredential.user;
           user.auth.currentUser.displayName = name;
-          console.log(user);
           try {
             const docRef = addDoc(usersRef, {
               uid: user.uid,
@@ -45,7 +44,6 @@ export default function SignUpPage() {
               email: mail,
               name: name,
             });
-            console.log("Document written with ID: ", docRef.id);
           } catch (e) {
             console.error("Error adding document: ", e);
           }

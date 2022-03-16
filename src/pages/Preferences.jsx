@@ -2,11 +2,9 @@ import { IonContent, IonHeader, IonPage, IonButton, IonImg, IonCard } from "@ion
 import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
 import { hideTabs, showTabs } from "../components/utilities";
 import { addDoc, getDocs, doc, updateDoc } from "firebase/firestore";
 import { usersRef } from "../firebase/firebaseInit";
-
 import "./Preferences.css";
 
 export default function Preferences() {
@@ -34,7 +32,8 @@ export default function Preferences() {
       if (user) {
         //when user signed in
         setUser(user);
-        console.log(user);
+        //current user
+        // console.log(user);
       } else {
         // when user signed out
         history.replace("/login");
@@ -50,12 +49,13 @@ export default function Preferences() {
 
       usersArray.push(docData);
     });
-    console.log(usersArray);
+    //all docs in users collection
+    // console.log(usersArray);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(user);
+
     for (const userDoc of usersArray) {
       if (userDoc.data.uid == user.uid) {
         const userToUpdate = doc(usersRef, userDoc.docId);
@@ -72,7 +72,7 @@ export default function Preferences() {
       }
     }
     showTabs();
-    history.replace("/preferences");
+    history.replace("/daily");
   }
 
   return (
