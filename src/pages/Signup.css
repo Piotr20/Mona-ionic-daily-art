@@ -45,3 +45,14 @@
 .button-native {
   padding: 10px 40px;
 }
+.signup-checkbox {
+  --background: white;
+  --background-checked: var(--ion-color-custom-orange);
+  --border-radius: 0;
+  --size: 18px;
+  margin-right: 8px;
+}
+.signup-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+}
