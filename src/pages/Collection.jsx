@@ -28,44 +28,38 @@ import {
   where,
 } from "firebase/firestore";
 import { collectionsRef } from "../firebase/firebaseInit";
+import SheetModal from "../components/SheetModal";
 
 const Collection = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
   const { collectionId } = useParams();
-  const [currentCollection, setCurrentCollection] = useState();
-  const [newCollectionName, setNewCollectionName] = useState();
+  const [currentCollection, setCurrentCollection] = useState(null);
+  const [newCollectionName, setNewCollectionName] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
 
-  // const getCollection = async () => {
-  //   const q = query(collectionsRef, where(documentId(), "==", collectionId));
-  //   const querySnapshot = await getDocs(q);
-  //   querySnapshot.forEach((snap) => {
-  //     setCurrentCollection(snap.data());
-  //     console.log(snap.data());
-  //   });
-  //   // const unsub = onSnapshot(doc(collectionsRef, collectionId), (doc) => {
-  //   //   // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-  //   //   console.log(doc.data());
-  //   //   setCurrentCollection(doc.data());
-  //   // });
-  // };
-
   const getCollection = async () => {
-    const querySnapshot = await getDocs(collectionsRef);
-    const collectionsArray = [];
-    querySnapshot.forEach((doc) => {
-      const col = {
-        id: doc.id,
-        data: doc.data(),
-      };
-      collectionsArray.push(col);
-    });
-
-    const current = collectionsArray.find((col) => col.id === collectionId);
-    setCurrentCollection(current);
-    console.log(current);
+    const docRef = doc(collectionsRef, collectionId);
+    const docSnap = await getDoc(docRef);
+    console.log(docSnap.data());
+    setCurrentCollection(docSnap.data());
   };
+
+  // const getCollection = async () => {
+  //   const querySnapshot = await getDocs(collectionsRef);
+  //   const collectionsArray = [];
+  //   querySnapshot.forEach((doc) => {
+  //     const col = {
+  //       id: doc.id,
+  //       data: doc.data(),
+  //     };
+  //     collectionsArray.push(col);
+  //   });
+
+  //   const current = collectionsArray.find((col) => col.id === collectionId);
+  //   setCurrentCollection(current);
+  //   console.log(current);
+  // };
 
   useIonViewWillEnter(() => {
     getCollection();
@@ -96,11 +90,13 @@ const Collection = () => {
     <IonPage>
       <IonHeader>
         <IonItem>
-          <IonTitle>
-            {currentCollection && currentCollection.data.name}
-          </IonTitle>
-          {currentCollection && currentCollection.data.name !== "Favorites" ? (
-            <IonButton onClick={() => setShowActionSheet(true)} fill="clear">
+          <IonTitle>{currentCollection && currentCollection.name}</IonTitle>
+          {currentCollection && currentCollection.name !== "Favorites" ? (
+            <IonButton
+              onClick={() => setShowActionSheet(true)}
+              fill="clear"
+              color="custom-black"
+            >
               <IonIcon icon={ellipsisHorizontalOutline} />
             </IonButton>
           ) : null}
@@ -130,23 +126,14 @@ const Collection = () => {
             ]}
           ></IonActionSheet>
           {currentCollection && (
-            <IonModal
+            <SheetModal
+              title="Edit collection name"
               isOpen={isOpen}
-              breakpoints={[0, 0.5, 1]}
-              initialBreakpoint={0.5}
-              onDidDismiss={() => setIsOpen(false)}
-            >
-              <IonContent>
-                <IonTitle>Edit collection name</IonTitle>
-                <IonItem>
-                  <IonInput
-                    value={newCollectionName}
-                    onIonChange={(e) => setNewCollectionName(e.detail.value)}
-                  ></IonInput>
-                </IonItem>
-                <IonButton onClick={updateCollection}>Save</IonButton>
-              </IonContent>
-            </IonModal>
+              setIsOpen={setIsOpen}
+              inputValue={newCollectionName}
+              setInputValue={setNewCollectionName}
+              action={updateCollection}
+            />
           )}
         </IonItem>
         <IonItem>
