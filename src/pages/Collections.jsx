@@ -10,6 +10,7 @@ import {
   IonModal,
   IonPage,
   IonTitle,
+  IonToolbar,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { addDoc, getDocs } from "firebase/firestore";
@@ -17,6 +18,8 @@ import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { collectionsRef } from "../firebase/firebaseInit";
 import "./Collections.css";
+import SheetModal from "../components/SheetModal";
+import placeholder from "../assets/img-placeholder.png";
 
 const Collections = () => {
   const history = useHistory();
@@ -59,29 +62,26 @@ const Collections = () => {
   };
 
   return (
-    <IonPage>
+    <IonPage className="collections">
       <IonHeader>
         <IonItem>
           <IonTitle>Collections</IonTitle>
-          <IonButton onClick={() => setIsOpen(true)}>+</IonButton>
-          <IonModal
-            isOpen={isOpen}
-            breakpoints={[0, 0.5, 1]}
-            initialBreakpoint={0.5}
-            onDidDismiss={() => setIsOpen(false)}
+          <IonButton
+            onClick={() => setIsOpen(true)}
+            className="add-btn"
+            color="custom-orange"
           >
-            <IonContent>
-              <IonTitle>Add a new collection</IonTitle>
-              <IonItem>
-                <IonInput
-                  value={newCollectionName}
-                  placeholder="Enter new collection name"
-                  onIonChange={(e) => setNewCollectionName(e.detail.value)}
-                ></IonInput>
-              </IonItem>
-              <IonButton onClick={addNewCollection}>Save</IonButton>
-            </IonContent>
-          </IonModal>
+            +
+          </IonButton>
+          {/* Add a new collection - modal */}
+          <SheetModal
+            title="Add a new collection"
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            inputValue={newCollectionName}
+            setInputValue={setNewCollectionName}
+            action={addNewCollection}
+          />
         </IonItem>
       </IonHeader>
       <IonContent>
@@ -90,7 +90,11 @@ const Collections = () => {
             collections.map((collection) => {
               return (
                 <Link to={`/collections/${collection.id}`} key={collection.id}>
-                  <IonImg src="https://cdn.shopify.com/s/files/1/0344/6469/files/Screen_Shot_2018-07-10_at_12.24.43_PM.png?v=1531239937" />
+                  <IonImg
+                    className="collection-img"
+                    alt="coverimage"
+                    src={placeholder}
+                  />
                   <IonLabel>{collection.data.name}</IonLabel>
                 </Link>
               );
