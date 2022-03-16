@@ -34,7 +34,7 @@ export default function SignUpPage() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        user.auth.currentUser.displayName = name;
+        // user.auth.currentUser.displayName = name;
         console.log(user);
         history.replace("/daily");
       })

@@ -17,12 +17,16 @@ import { getAuth, signOut } from "firebase/auth";
 import { getUserRef } from "../firebase/firebaseInit";
 import { get, update } from "@firebase/database";
 import { brushOutline, businessOutline, cameraOutline, hammerOutline } from "ionicons/icons";
+// import { Toast } from "@capacitor/toast";
 import "./Profile.css";
 
 export default function ProfilePage() {
   const auth = getAuth();
+// const user = auth.currentUser;
+
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
+//   const displayName = user.name;
   const [email, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [showLoader, dismissLoader] = useIonLoading();
@@ -33,9 +37,13 @@ export default function ProfilePage() {
       async function getUserDataFromDB() {
           const snapshot = await get(getUserRef(user.uid));
           const userData = snapshot.val();
+        //   console.log(user);
           if (userData) {
               setName(userData.name);
+              setMail(userData.email);
+              setPassword(userData.password);
           }
+          console.log(user.email);
       }
 
       if (user) getUserDataFromDB();
@@ -57,10 +65,10 @@ export default function ProfilePage() {
 
       await update(getUserRef(user.uid), userToUpdate);
       dismissLoader();
-      // await Toast.show({
-      //     text: "User Profile saved!",
-      //     position: "top"
-      // });
+    //   await Toast.show({
+    //       text: "User Profile saved!",
+    //       position: "top"
+    //   });
   }
   return (
       <IonPage className="profile-page">
@@ -77,34 +85,43 @@ export default function ProfilePage() {
             </IonHeader>
 
             <IonHeader className="header">Edit</IonHeader>
+            <p>{user?.email}</p>
+            <p>{user?.name}</p>
 
-              {/* <IonItem>
-                  <IonLabel>Email:</IonLabel>
-                  <IonInput value={user?.email} placeholder="Email"></IonInput>
+              <IonItem>
+                  <IonLabel>Email</IonLabel>
+                  <IonInput value={user?.email} placeholder={user?.email}></IonInput>
               </IonItem>
               <IonItem>
                   <IonLabel>Name</IonLabel>
-                  <IonInput value={user?.name} placeholder="Name"></IonInput>
+                  <IonInput value={user?.name} placeholder={user?.name}></IonInput>
               </IonItem>
               <IonItem>
-                  <IonLabel>Name</IonLabel>
-                  <IonInput value={user?.password} placeholder="Password" type="password"></IonInput>
-              </IonItem> */}
+                  <IonLabel>Password</IonLabel>
+                  <IonInput value={user?.password} placeholder={user?.password} type="password"></IonInput>
+              </IonItem>
+
+              <div className="ion-padding">
+                      <IonButton type="submit" expand="block">
+                          Save
+                      </IonButton>
+                  </div>
+
               <form onSubmit={handleSubmit} className="profile-form">
                   <IonItem>
                   <IonLabel position="stacked">Email</IonLabel>
                       <IonInput
-                          value={user?.email}
+                          value={email}
                           type="text"
-                          placeholder="Type your email"
+                          placeholder={user?.email}
                           onIonChange={e => setMail(e.target.value)}
                       />
                      
                       <IonLabel position="stacked">Name</IonLabel>
                       <IonInput
-                          value={user?.name}
+                          value={name}
                           type="text"
-                          placeholder="Type your name"
+                          placeholder={user?.name}
                           onIonChange={e => setName(e.target.value)}
                       />
                     
