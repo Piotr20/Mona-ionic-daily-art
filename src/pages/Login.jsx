@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseInit";
-import { hideTabs } from "../App";
+import { hideTabs, showTabs } from "../components/utilities";
 
 const Login = () => {
   const [mail, setMail] = useState("");
@@ -32,6 +32,7 @@ const Login = () => {
         // Signed in
         const user = userCredential.user;
         console.log(user);
+        showTabs();
         history.replace("/daily");
       })
       .catch((error) => {

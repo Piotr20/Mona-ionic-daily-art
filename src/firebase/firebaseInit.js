@@ -1,7 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref } from "firebase/database";
 import { getStorage } from "firebase/storage";
+import "firebase/firestore";
 import { initializeAuth, indexedDBLocalPersistence, getAuth } from "firebase/auth";
+import { getFirestore, collection } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -20,7 +22,6 @@ export const auth = getAuth(app);
 // Create database reference
 export const database = getDatabase(app);
 // Reference to posts in Realtime DB
-
 // Get reference to specific user using user id
 export function getUserRef(userId) {
   return ref(database, "users/" + userId);
@@ -28,3 +29,7 @@ export function getUserRef(userId) {
 
 // Reference to the storage service
 export const storage = getStorage(app);
+
+const db = getFirestore(app);
+export const collectionsRef = collection(db, "collections");
+export const usersRef = collection(db, "users");

@@ -1,39 +1,121 @@
 import {
   IonActionSheet,
   IonButton,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
   IonIcon,
-  IonImg,
+  IonInput,
   IonItem,
   IonList,
+  IonModal,
   IonPage,
-  IonRow,
   IonTitle,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import "./Collections.css";
 import { ellipsisHorizontalOutline } from "ionicons/icons";
+import {
+  deleteDoc,
+  doc,
+  documentId,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { collectionsRef } from "../firebase/firebaseInit";
 
 const Collection = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
+  const { collectionId } = useParams();
+  const [currentCollection, setCurrentCollection] = useState();
+  const [newCollectionName, setNewCollectionName] = useState();
+  const [isOpen, setIsOpen] = useState(false);
+  const history = useHistory();
+
+  // const getCollection = async () => {
+  //   const q = query(collectionsRef, where(documentId(), "==", collectionId));
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.forEach((snap) => {
+  //     setCurrentCollection(snap.data());
+  //     console.log(snap.data());
+  //   });
+  //   // const unsub = onSnapshot(doc(collectionsRef, collectionId), (doc) => {
+  //   //   // const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+  //   //   console.log(doc.data());
+  //   //   setCurrentCollection(doc.data());
+  //   // });
+  // };
+
+  const getCollection = async () => {
+    const querySnapshot = await getDocs(collectionsRef);
+    const collectionsArray = [];
+    querySnapshot.forEach((doc) => {
+      const col = {
+        id: doc.id,
+        data: doc.data(),
+      };
+      collectionsArray.push(col);
+    });
+
+    const current = collectionsArray.find((col) => col.id === collectionId);
+    setCurrentCollection(current);
+    console.log(current);
+  };
+
+  useIonViewWillEnter(() => {
+    getCollection();
+  });
+
+  const updateCollection = async () => {
+    const newDoc = {
+      name: newCollectionName,
+    };
+
+    const collectionDoc = doc(collectionsRef, collectionId);
+    await updateDoc(collectionDoc, newDoc);
+    setIsOpen(false);
+    window.location.reload();
+  };
+
+  const deleteCollection = async () => {
+    const collectionDoc = doc(collectionsRef, collectionId);
+    await deleteDoc(collectionDoc);
+    history.push("/collections");
+  };
+
+  // const goBack = () => {
+  //   history.push("/collections");
+  // };
 
   return (
     <IonPage>
       <IonHeader>
         <IonItem>
-          <IonTitle>Medieval cats</IonTitle>
-          <IonButton onClick={() => setShowActionSheet(true)} fill="clear">
-            <IonIcon icon={ellipsisHorizontalOutline} />
-          </IonButton>
+          <IonTitle>
+            {currentCollection && currentCollection.data.name}
+          </IonTitle>
+          {currentCollection && currentCollection.data.name !== "Favorites" ? (
+            <IonButton onClick={() => setShowActionSheet(true)} fill="clear">
+              <IonIcon icon={ellipsisHorizontalOutline} />
+            </IonButton>
+          ) : null}
           <IonActionSheet
             isOpen={showActionSheet}
             onDidDismiss={() => setShowActionSheet(false)}
             cssClass="my-custom-class"
             buttons={[
+              {
+                text: "Edit",
+                data: 10,
+                handler: () => {
+                  setIsOpen(true);
+                },
+              },
               {
                 text: "Delete",
                 role: "destructive",
@@ -42,54 +124,39 @@ const Collection = () => {
                   type: "delete",
                 },
                 handler: () => {
-                  console.log("Delete clicked");
-                },
-              },
-              {
-                text: "Edit",
-                data: 10,
-                handler: () => {
-                  console.log("Share clicked");
+                  deleteCollection();
                 },
               },
             ]}
           ></IonActionSheet>
+          {currentCollection && (
+            <IonModal
+              isOpen={isOpen}
+              breakpoints={[0, 0.5, 1]}
+              initialBreakpoint={0.5}
+              onDidDismiss={() => setIsOpen(false)}
+            >
+              <IonContent>
+                <IonTitle>Edit collection name</IonTitle>
+                <IonItem>
+                  <IonInput
+                    value={newCollectionName}
+                    onIonChange={(e) => setNewCollectionName(e.detail.value)}
+                  ></IonInput>
+                </IonItem>
+                <IonButton onClick={updateCollection}>Save</IonButton>
+              </IonContent>
+            </IonModal>
+          )}
         </IonItem>
         <IonItem>
-          <Link to="/collections">Back to collections</Link>
+          {/* how to rerender the component after "back" */}
+          {/* <IonButton onClick={goBack} fill="clear">Back to collections</IonButton> */}
+          {/* <Link to={goBack}>Back to collections</Link> */}
         </IonItem>
       </IonHeader>
       <IonContent>
-        <IonList>
-          <IonGrid>
-            <IonRow>
-              <IonCol>
-                <Link to="/collections/2/artwork">
-                  <IonImg src="https://cdn.shopify.com/s/files/1/0344/6469/files/Screen_Shot_2018-07-10_at_12.24.43_PM.png?v=1531239937"></IonImg>
-                </Link>
-              </IonCol>
-              <IonCol>
-                <IonImg src="https://cdn-images.threadless.com/threadless-media/artist_shops/shops/artbites/products/604372/shirt-1528657779-5406b7bbcc3112ba9515d8ba816befba.png?v=3&d=eyJvbmx5X21ldGEiOiBmYWxzZSwgImZvcmNlIjogZmFsc2UsICJvcHMiOiBbWyJ0cmltIiwgW2ZhbHNlLCBmYWxzZV0sIHt9XSwgWyJyZXNpemUiLCBbXSwgeyJ3aWR0aCI6IDk5Ni4wLCAiYWxsb3dfdXAiOiBmYWxzZSwgImhlaWdodCI6IDk5Ni4wfV0sIFsiY2FudmFzX2NlbnRlcmVkIiwgWzEyMDAsIDEyMDBdLCB7ImJhY2tncm91bmQiOiAiZTVkNWJiIn1dXX0="></IonImg>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonImg src="https://pictures-of-cats.org/wp-content/uploads/2021/11/Medieval-cat-painting-from-ChinaX.jpg"></IonImg>
-              </IonCol>
-              <IonCol>
-                <IonImg src="https://i.redd.it/v7rx3myrvbc61.jpg"></IonImg>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
-                <IonImg src="https://miro.medium.com/max/1400/0*uFu5uij7bvI54j2D.jpg"></IonImg>
-              </IonCol>
-              <IonCol>
-                <IonImg src="https://cdn-images.threadless.com/threadless-media/artist_shops/shops/artbites/products/604372/shirt-1528657779-5406b7bbcc3112ba9515d8ba816befba.png?v=3&d=eyJvbmx5X21ldGEiOiBmYWxzZSwgImZvcmNlIjogZmFsc2UsICJvcHMiOiBbWyJ0cmltIiwgW2ZhbHNlLCBmYWxzZV0sIHt9XSwgWyJyZXNpemUiLCBbXSwgeyJ3aWR0aCI6IDk5Ni4wLCAiYWxsb3dfdXAiOiBmYWxzZSwgImhlaWdodCI6IDk5Ni4wfV0sIFsiY2FudmFzX2NlbnRlcmVkIiwgWzEyMDAsIDEyMDBdLCB7ImJhY2tncm91bmQiOiAiZTVkNWJiIn1dXX0="></IonImg>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </IonList>
+        <IonList></IonList>
       </IonContent>
     </IonPage>
   );
