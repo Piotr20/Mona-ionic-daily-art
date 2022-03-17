@@ -33,7 +33,6 @@ export default function Preferences() {
         //when user signed in
         setUser(user);
         //current user
-        // console.log(user);
       } else {
         // when user signed out
         history.replace("/login");
@@ -60,7 +59,7 @@ export default function Preferences() {
       if (userDoc.data.uid == user.uid) {
         const userToUpdate = doc(usersRef, userDoc.docId);
 
-        // Set the "capital" field of the city 'DC'
+        // Set the "preferences" objec of the current user
         await updateDoc(userToUpdate, {
           Preferences: {
             paintings: paintings,
