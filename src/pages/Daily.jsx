@@ -1,4 +1,10 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
@@ -12,15 +18,17 @@ const Daily = () => {
   const [usersArray, setUsersArray] = useState([]);
   const [artpiecesArray, setArtpiecesArray] = useState([]);
   const [recomendations, setRecomendations] = useState([]);
+  const [recomended, setRecomended] = useState({});
+
   const [dailyArt, setDailyArt] = useState([]);
+  const auth = getAuth();
 
   useEffect(() => {
     verifyUserPreferences();
-  }, []);
+  }, [auth]);
 
   async function verifyUserPreferences() {
-    const auth = getAuth();
-
+    console.log(auth.currentUser);
     const querySnapshot = await getDocs(usersRef);
     querySnapshot.forEach(async (doc) => {
       const docData = {
@@ -50,21 +58,39 @@ const Daily = () => {
     }
   }
   async function getArtpiece(userDoc, artpiecesArray) {
+    const artArray = [];
+
     console.log(userDoc);
     for (const artwork of artpiecesArray) {
-      if (userDoc.data.Preferences.paintings === true && artwork.data.category === "painting") {
-        recomendations.push(artwork);
+      if (
+        userDoc.data.Preferences.paintings === true &&
+        artwork.data.category === "painting"
+      ) {
+        artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.sculptures === true && artwork.data.category === "sculpture") {
-        recomendations.push(artwork);
+      if (
+        userDoc.data.Preferences.sculptures === true &&
+        artwork.data.category === "sculpture"
+      ) {
+        artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.photography === true && artwork.data.category === "photography") {
-        recomendations.push(artwork);
+      if (
+        userDoc.data.Preferences.photography === true &&
+        artwork.data.category === "photography"
+      ) {
+        artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.architecture === true && artwork.data.category === "architecture") {
-        recomendations.push(artwork);
+      if (
+        userDoc.data.Preferences.architecture === true &&
+        artwork.data.category === "architecture"
+      ) {
+        artArray.push(artwork);
       }
     }
+
+    console.log(artArray);
+    setRecomendations(artArray);
+    setRecomended(artArray[0]);
   }
 
   return (
@@ -80,6 +106,7 @@ const Daily = () => {
             <IonTitle size="large">Daily</IonTitle>
           </IonToolbar>
         </IonHeader>
+        {recomended?.data?.name}
       </IonContent>
     </IonPage>
   );

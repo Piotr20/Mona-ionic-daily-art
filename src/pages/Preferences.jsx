@@ -1,4 +1,11 @@
-import { IonContent, IonHeader, IonPage, IonButton, IonImg, IonCard } from "@ionic/react";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonButton,
+  IonImg,
+  IonCard,
+} from "@ionic/react";
 import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -20,19 +27,21 @@ export default function Preferences() {
   const sculpturesRef = useRef(null);
   const photographyRef = useRef(null);
   const architectureRef = useRef(null);
-
+  const auth = getAuth();
   useEffect(() => {
     hideTabs();
     fetchUserData();
+    setUser(auth.currentUser);
   }, []);
 
   async function fetchUserData() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        //when user signed in
-        setUser(user);
+    onAuthStateChanged(auth, (userA) => {
+      if (userA) {
+        //when user signed ins
+        setUser(userA);
+        console.log("variable", userA);
         //current user
+        console.log("State log", user);
       } else {
         // when user signed out
         history.replace("/login");
@@ -79,7 +88,9 @@ export default function Preferences() {
       <IonContent fullscreen>
         <IonImg className="login-bg-img" src="assets/Images/Mona-lisa.jpg" />
         <IonCard className="signup-card" color="custom-dark">
-          <IonHeader className="preferences-header">Choose your preferences</IonHeader>
+          <IonHeader className="preferences-header">
+            Choose your preferences
+          </IonHeader>
           <form className="preferences-form" onSubmit={handleSubmit}>
             <div className="preferences-wrapper">
               <div
@@ -149,7 +160,12 @@ export default function Preferences() {
               </div>
             </div>
             <div className="ion-padding">
-              <IonButton color="custom-orange" className="preferences-button" type="submit" expand="block">
+              <IonButton
+                color="custom-orange"
+                className="preferences-button"
+                type="submit"
+                expand="block"
+              >
                 Confirm
               </IonButton>
             </div>
