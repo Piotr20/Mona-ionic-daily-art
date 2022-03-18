@@ -1,10 +1,4 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonContent, IonHeader, IonImg, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
@@ -62,51 +56,61 @@ const Daily = () => {
 
     console.log(userDoc);
     for (const artwork of artpiecesArray) {
-      if (
-        userDoc.data.Preferences.paintings === true &&
-        artwork.data.category === "painting"
-      ) {
+      if (userDoc.data.Preferences.paintings === true && artwork.data.category === "painting") {
         artArray.push(artwork);
       }
-      if (
-        userDoc.data.Preferences.sculptures === true &&
-        artwork.data.category === "sculpture"
-      ) {
+      if (userDoc.data.Preferences.sculptures === true && artwork.data.category === "sculpture") {
         artArray.push(artwork);
       }
-      if (
-        userDoc.data.Preferences.photography === true &&
-        artwork.data.category === "photography"
-      ) {
+      if (userDoc.data.Preferences.photography === true && artwork.data.category === "photography") {
         artArray.push(artwork);
       }
-      if (
-        userDoc.data.Preferences.architecture === true &&
-        artwork.data.category === "architecture"
-      ) {
+      if (userDoc.data.Preferences.architecture === true && artwork.data.category === "architecture") {
         artArray.push(artwork);
       }
     }
 
     console.log(artArray);
     setRecomendations(artArray);
-    setRecomended(artArray[0]);
+
+    function rand_from_seed(x, iterations) {
+      iterations = iterations || 100;
+      for (var i = 0; i < iterations; i++) x = (x ^ (x << 1) ^ (x >> 1)) % artArray.length;
+      console.log("number", x);
+      return x;
+    }
+
+    let random = rand_from_seed(~~(new Date() / 86400000)); // Seed with the epoch day.
+
+    setRecomended(artArray[random]);
   }
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Daily</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Daily</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        {recomended?.data?.name}
+      <IonContent color="custom-black" fullscreen>
+        <div className="daily-img-wrapper">
+          <div className="daily-overlay">
+            <h2>{recomended?.data?.name}</h2>
+            <h4>{recomended?.data?.author}</h4>
+            <span>{recomended?.data?.year}</span>
+          </div>
+          <IonImg className="daily-img" src={recomended?.data?.imgUrl}></IonImg>
+        </div>
+        <div className="daily-labels-wrapper">
+          <span className="period label">{recomended?.data?.period}</span>
+          <span className="category label">{recomended?.data?.category}</span>
+          <span className="like icon">
+            <IonImg className="icon-self" src="assets/icon/custom-icons/heart.svg"></IonImg>
+          </span>
+          <span className="add-collection icon">
+            <IonImg className="icon-self" src="assets/icon/custom-icons/folder.svg"></IonImg>
+          </span>
+        </div>
+        <div className="daily-page-content">
+          <div className="art-bio">
+            <p dangerouslySetInnerHTML={{ __html: recomended?.data?.embededText }}></p>
+          </div>
+        </div>
       </IonContent>
     </IonPage>
   );
