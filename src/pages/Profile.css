@@ -32,3 +32,9 @@
     padding: 0;
     margin-top: 40px;
   }
+
+  .logout-button {
+      margin-top: 40px;
+      color: white;
+      background-color: none;
+  }

@@ -23,84 +23,53 @@ import "./Profile.css";
 import "../theme/global.css";
 
 export default function ProfilePage() {
-  useEffect(async () => {
-    const q = query(usersRef);
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      usersArray.push({ data: doc.data(), docId: doc.id });
-    });
-    console.log(usersArray);
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        //when user signed in
-        setUser(user);
+    // const user = auth.currentUser;
+  
+    const [user, setUser] = useState({});
+    const [usersArray, setUsersArray] = useState([]);
+  
+    const [name, setName] = useState("");
+    //   const displayName = user.name;
+    const [email, setMail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showLoader, dismissLoader] = useIonLoading();
 
-        console.log(user);
-      } else {
-        // when user signed out
-      }
-    });
-    // current user from users collection
-    // for (const cokolwiek of usersArray) {
-    //   if (cokolwiek.uid == user.uid) {
-    //     setCurrentUser(cokolwiek);
-    //   }
-    // }
-  }, []);
-  const auth = getAuth();
-  // const user = auth.currentUser;
+    async function getUserDataFromDB() {
+        useEffect(() => {
+            const q = query(usersRef);
 
-  const [user, setUser] = useState({});
-  const [usersArray, setUsersArray] = useState([]);
-
-  const [name, setName] = useState("");
-  //   const displayName = user.name;
-  const [email, setMail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showLoader, dismissLoader] = useIonLoading();
-
-  //   useEffect(() => {
-  //       setUser(auth.currentUser);
-
-  //       async function getUserDataFromDB() {
-  //           const snapshot = await get(getUserRef(user.uid));
-  //           const userData = snapshot.val();
-  //         //   console.log(user);
-  //           if (userData) {
-  //               setName(userData.name);
-  //               setMail(userData.email);
-  //               setPassword(userData.password);
-  //           }
-  //           console.log(user.email);
-  //       }
-
-  //       if (user) getUserDataFromDB();
-  //   }, [auth.currentUser, user]);
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            usersArray.push({ data: doc.data(), docId: doc.id });
+            });
+            console.log(usersArray);
+            const auth = getAuth();
+            onAuthStateChanged(auth, (user) => {
+            if (user) {
+                //when user signed in
+                setUser(user);
+                console.log(user);
+            } else {
+                // when user signed out
+            }
+            });
+            // current user from users collection
+            // for (const cokolwiek of usersArray) {
+            //   if (cokolwiek.uid == user.uid) {
+            //     setCurrentUser(cokolwiek);
+            //   }
+            // }
+        }, []);
+    }
 
   function handleSignOut() {
     signOut(auth);
   }
 
   async function handleSubmit(event) {}
-  //       event.preventDefault();
-  //       showLoader();
-
-  //       const userToUpdate = {
-  //           name: name,
-  //           email: email,
-  //           password: password
-  //       };
-
-  //       await update(getUserRef(user.uid), userToUpdate);
-  //       dismissLoader();
-  //     //   await Toast.show({
-  //     //       text: "User Profile saved!",
-  //     //       position: "top"
-  //     //   });
-  //   }
+ 
   return (
     <IonPage className="profile-page">
       <IonHeader>
@@ -152,7 +121,7 @@ export default function ProfilePage() {
 
         <IonHeader className="header">Preferences</IonHeader>
 
-        <div className="profile-form">
+        <form onSubmit={handleSubmit} className="profile-form">
           <IonItem className="preferences-profile">
             <IonIcon icon={brushOutline} slot="start" />
             <IonLabel>Paintings</IonLabel>
@@ -171,18 +140,24 @@ export default function ProfilePage() {
             <IonToggle checked />
           </IonItem>
 
-          <IonItem className="preferences-profile">
+          <IonItem>
             <IonIcon icon={businessOutline} slot="start" />
             <IonLabel>Architecture</IonLabel>
             <IonToggle checked />
           </IonItem>
-
           <div className="ion-padding">
-            <IonButton color="custom-orange" className="signup-button" onClick={handleSignOut} expand="block">
-              Log out
+            <IonButton color="custom-orange" className="signup-button" type="submit" expand="block">
+              Save
             </IonButton>
           </div>
-        </div>
+        </form>
+
+        <div className="ion-padding">
+            <IonButton className="logout-button" onClick={handleSignOut} expand="block">
+              <h3>Log out</h3>
+            </IonButton>
+          </div>
+
       </IonContent>
     </IonPage>
   );
