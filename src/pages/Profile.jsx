@@ -16,60 +16,67 @@ import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { usersRef } from "../firebase/firebaseInit";
 import { get, update } from "@firebase/database";
-import { brushOutline, businessOutline, cameraOutline, hammerOutline } from "ionicons/icons";
+import {
+  brushOutline,
+  businessOutline,
+  cameraOutline,
+  hammerOutline,
+} from "ionicons/icons";
 import { collection, query, where, getDocs } from "firebase/firestore";
 // import { Toast } from "@capacitor/toast";
 import "./Profile.css";
 import "../theme/global.css";
 
 export default function ProfilePage() {
+  const auth = getAuth();
+  // const user = auth.currentUser;
+
+  const [user, setUser] = useState({});
+  const [usersArray, setUsersArray] = useState([]);
+
+  const [name, setName] = useState("");
+  //   const displayName = user.name;
+  const [email, setMail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showLoader, dismissLoader] = useIonLoading();
+
+  async function getUserDataFromDB() {
+    const q = query(usersRef);
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      usersArray.push({ data: doc.data(), docId: doc.id });
+    });
+    console.log(usersArray);
     const auth = getAuth();
-    // const user = auth.currentUser;
-  
-    const [user, setUser] = useState({});
-    const [usersArray, setUsersArray] = useState([]);
-  
-    const [name, setName] = useState("");
-    //   const displayName = user.name;
-    const [email, setMail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showLoader, dismissLoader] = useIonLoading();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        //when user signed in
+        setUser(user);
+        console.log(user);
+      } else {
+        // when user signed out
+      }
+    });
+    // current user from users collection
+    // for (const cokolwiek of usersArray) {
+    //   if (cokolwiek.uid == user.uid) {
+    //     setCurrentUser(cokolwiek);
+    //   }
+    // }
+  }
 
-    async function getUserDataFromDB() {
-        useEffect(() => {
-            const q = query(usersRef);
-
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            usersArray.push({ data: doc.data(), docId: doc.id });
-            });
-            console.log(usersArray);
-            const auth = getAuth();
-            onAuthStateChanged(auth, (user) => {
-            if (user) {
-                //when user signed in
-                setUser(user);
-                console.log(user);
-            } else {
-                // when user signed out
-            }
-            });
-            // current user from users collection
-            // for (const cokolwiek of usersArray) {
-            //   if (cokolwiek.uid == user.uid) {
-            //     setCurrentUser(cokolwiek);
-            //   }
-            // }
-        }, []);
-    }
+  useEffect(() => {
+    getUserDataFromDB();
+  });
 
   function handleSignOut() {
     signOut(auth);
   }
 
   async function handleSubmit(event) {}
- 
+
   return (
     <IonPage className="profile-page">
       <IonHeader>
@@ -113,7 +120,12 @@ export default function ProfilePage() {
             />
           </IonItem>
           <div className="ion-padding">
-            <IonButton color="custom-orange" className="signup-button" type="submit" expand="block">
+            <IonButton
+              color="custom-orange"
+              className="signup-button"
+              type="submit"
+              expand="block"
+            >
               Save
             </IonButton>
           </div>
@@ -146,18 +158,26 @@ export default function ProfilePage() {
             <IonToggle checked />
           </IonItem>
           <div className="ion-padding">
-            <IonButton color="custom-orange" className="signup-button" type="submit" expand="block">
+            <IonButton
+              color="custom-orange"
+              className="signup-button"
+              type="submit"
+              expand="block"
+            >
               Save
             </IonButton>
           </div>
         </form>
 
         <div className="ion-padding">
-            <IonButton className="logout-button" onClick={handleSignOut} expand="block">
-              <h3>Log out</h3>
-            </IonButton>
-          </div>
-
+          <IonButton
+            className="logout-button"
+            onClick={handleSignOut}
+            expand="block"
+          >
+            <h3>Log out</h3>
+          </IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );
