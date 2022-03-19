@@ -1,14 +1,14 @@
 /* COLLECTIONS */
-ion-title {
+/* ion-title {
   padding-left: 0 !important;
+} */
+.page-title {
+  margin-bottom: 16px;
 }
 
 .add-btn {
-  border-radius: 20px !important;
-}
-
-.collections ion-header {
-  border-bottom: 1px solid white !important;
+  --border-radius: 50% !important;
+  margin-right: 16px;
 }
 
 .collections ion-header::after {
@@ -21,6 +21,13 @@ ion-title {
   column-gap: 12px;
   row-gap: 16px;
   margin: 16px 20px;
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.collections-grid a {
+  color: white;
 }
 
 .collection-img {

@@ -63,12 +63,12 @@ const Login = () => {
               />
             </IonItem>
             <div className="ion-padding">
-              <IonButton color="custom-orange" expand="block" className="login-button" type="submit">
+              <IonButton color="custom-orange" expand="block" className="login-button orange-button" type="submit">
                 Login
               </IonButton>
             </div>
             <div className="ion-text-center">
-              <IonButton size="small" fill="clear" onClick={() => history.replace("/signup")}>
+              <IonButton size="small" fill="clear" color="custom-light" onClick={() => history.replace("/signup")}>
                 Not a member?&nbsp;<span className="create-account-text">Create an account</span>
               </IonButton>
             </div>
