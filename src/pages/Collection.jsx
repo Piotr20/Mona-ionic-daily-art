@@ -65,21 +65,21 @@ const Collection = () => {
       }
     });
 
-    const querySnapshotData = await getDocs(artpiecesRef);
-    // const artPiecesArray = [];
-    querySnapshotData.forEach((doc) => {
-      console.log(doc.data());
-      // const artpiece = {
-      //   id: doc.id,
-      //   data: doc.data(),
-      // };
-      // if (artpiece.data.collection_id === collectionId) {
-      //   artPiecesArray.push(artpiece);
-      // }
-    });
+    // const querySnapshotData = await getDocs(artpiecesRef);
+    // // const artPiecesArray = [];
+    // querySnapshotData.forEach((doc) => {
+    //   console.log(doc.data());
+    //   // const artpiece = {
+    //   //   id: doc.id,
+    //   //   data: doc.data(),
+    //   // };
+    //   // if (artpiece.data.collection_id === collectionId) {
+    //   //   artPiecesArray.push(artpiece);
+    //   // }
+    // });
 
     setArtPieces(artPiecesArray);
-    // console.log(artPiecesArray);
+    console.log(artPiecesArray);
   };
 
   useIonViewWillEnter(() => {
@@ -184,7 +184,11 @@ const Collection = () => {
       <IonContent>
         <IonList>
           {artPieces.map((piece) => {
-            return <p key={piece.id}>{piece.data.artpiece_id}</p>;
+            return (
+              <div key={piece.id}>
+                {piece.data.img && <img src={piece.data.img} alt="artpiece" />}
+              </div>
+            );
           })}
         </IonList>
       </IonContent>
