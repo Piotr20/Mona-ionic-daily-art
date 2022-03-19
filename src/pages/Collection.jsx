@@ -28,14 +28,17 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { artInCollectionsRef, collectionsRef } from "../firebase/firebaseInit";
+import {
+  artInCollectionsRef,
+  artpiecesRef,
+  collectionsRef,
+} from "../firebase/firebaseInit";
 import SheetModal from "../components/SheetModal";
 
 const Collection = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
   const { collectionId } = useParams();
   const [currentCollection, setCurrentCollection] = useState(null);
-  const [currentCollectionId, setCurrentCollectionId] = useState(null);
   const [newCollectionName, setNewCollectionName] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [showUpdateToast, setShowUpdateToast] = useState(false);
@@ -47,42 +50,37 @@ const Collection = () => {
     const docRef = doc(collectionsRef, collectionId);
     const docSnap = await getDoc(docRef);
     setCurrentCollection(docSnap.data());
-    setCurrentCollectionId(docSnap.id);
-    console.log(docSnap.id);
   };
 
   const getArtPieces = async () => {
-    const querySnapshot = await getDocs(artInCollectionsRef);
+    const querySnapshotId = await getDocs(artInCollectionsRef);
     const artPiecesArray = [];
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
+    querySnapshotId.forEach((doc) => {
       const artpiece = {
         id: doc.id,
         data: doc.data(),
       };
-      if (artpiece.data.collection_id === currentCollectionId) {
+      if (artpiece.data.collection_id === collectionId) {
         artPiecesArray.push(artpiece);
       }
     });
+
+    const querySnapshotData = await getDocs(artpiecesRef);
+    // const artPiecesArray = [];
+    querySnapshotData.forEach((doc) => {
+      console.log(doc.data());
+      // const artpiece = {
+      //   id: doc.id,
+      //   data: doc.data(),
+      // };
+      // if (artpiece.data.collection_id === collectionId) {
+      //   artPiecesArray.push(artpiece);
+      // }
+    });
+
     setArtPieces(artPiecesArray);
-    console.log(artPiecesArray);
+    // console.log(artPiecesArray);
   };
-
-  // const getCollection = async () => {
-  //   const querySnapshot = await getDocs(collectionsRef);
-  //   const collectionsArray = [];
-  //   querySnapshot.forEach((doc) => {
-  //     const col = {
-  //       id: doc.id,
-  //       data: doc.data(),
-  //     };
-  //     collectionsArray.push(col);
-  //   });
-
-  //   const current = collectionsArray.find((col) => col.id === collectionId);
-  //   setCurrentCollection(current);
-  //   console.log(current);
-  // };
 
   useIonViewWillEnter(() => {
     getCollection();
@@ -184,7 +182,11 @@ const Collection = () => {
         </IonItem>
       </IonHeader>
       <IonContent>
-        <IonList></IonList>
+        <IonList>
+          {artPieces.map((piece) => {
+            return <p key={piece.id}>{piece.data.artpiece_id}</p>;
+          })}
+        </IonList>
       </IonContent>
     </IonPage>
   );
