@@ -24,8 +24,8 @@ import {
 } from "ionicons/icons";
 import { collection, query, where, getDocs } from "firebase/firestore";
 // import { Toast } from "@capacitor/toast";
-import "./Profile.css";
 import "../theme/global.css";
+import "./Profile.css";
 
 export default function ProfilePage() {
   const auth = getAuth();
@@ -122,7 +122,7 @@ export default function ProfilePage() {
           <div className="ion-padding">
             <IonButton
               color="custom-orange"
-              className="signup-button"
+              className="signup-button orange-button"
               type="submit"
               expand="block"
             >
@@ -160,7 +160,7 @@ export default function ProfilePage() {
           <div className="ion-padding">
             <IonButton
               color="custom-orange"
-              className="signup-button"
+              className="signup-button orange-button"
               type="submit"
               expand="block"
             >

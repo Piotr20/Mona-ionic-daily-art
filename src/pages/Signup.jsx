@@ -109,7 +109,7 @@ export default function SignUpPage() {
             <div className="ion-padding">
               <IonButton
                 color="custom-orange"
-                className="signup-button"
+                className="signup-button orange-button"
                 type="submit"
                 expand="block"
               >
