@@ -146,6 +146,7 @@ const Daily = () => {
     const newDoc = await addDoc(artInCollectionsRef, {
       artpiece_id: recomended.docId,
       collection_id: collectionId,
+      img: recomended.imgUrl,
     });
   }
 
