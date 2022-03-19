@@ -24,7 +24,6 @@ const Daily = () => {
   }, [auth]);
 
   async function verifyUserPreferences() {
-    console.log(auth.currentUser);
     const querySnapshot = await getDocs(usersRef);
     querySnapshot.forEach(async (doc) => {
       const docData = {
@@ -72,7 +71,6 @@ const Daily = () => {
       }
     }
 
-    console.log(artArray);
     setRecomendations(artArray);
 
     function rand_from_seed(x, iterations) {
@@ -88,7 +86,6 @@ const Daily = () => {
   }
 
   function handleLike(e) {
-    console.log("favourite", favorited);
     setFavorited(!favorited);
 
     if (favorited == true) {
@@ -97,13 +94,9 @@ const Daily = () => {
     } else {
       followIcon.current.classList.remove("active");
     }
-
-    console.log(favorited);
   }
 
   async function addArtPieceToFavorites() {
-    console.log(recomended.docId);
-
     // get doc with the name "Favorites" and current uid
     const q = query(
       collectionsRef,
