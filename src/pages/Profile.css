@@ -6,6 +6,10 @@
     margin-bottom: 16px;
 }
 
+.profile-form ion-label {
+    font-family: 'Noto-Sans', sans-serif;
+}
+
 .profile-card {
     box-shadow: none;
 }
@@ -19,6 +23,7 @@
 .header {
     font-size: 24px;
     padding: 24px 0 16px 16px;
+    font-family: 'Noto-Sans', sans-serif;
 }
 
 .preferences-profile {
@@ -37,4 +42,16 @@
       margin-top: 40px;
       color: white;
       background-color: none;
+  }
+
+  ion-item {
+    font-family: 'Oranienbaum', serif;
+  }
+
+  ion-input {
+    font-family: 'Noto Sans', sans-serif;
+  }
+
+  .orange-button {
+    font-family: 'Oranienbaum', serif;
   }

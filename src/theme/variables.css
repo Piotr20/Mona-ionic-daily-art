@@ -78,6 +78,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-custom-dark: #313131;
   --ion-color-custom-orange: #af4927;
   --ion-color-custom-black: #1d1d1d;
+  --ion-color-custom-light: #ffffff;
 }
 .ion-color-custom-dark {
   --ion-color-base: var(--ion-color-custom-dark);
@@ -87,6 +88,9 @@ http://ionicframework.com/docs/theming/ */
 }
 .ion-color-custom-black {
   --ion-color-base: var(--ion-color-custom-black);
+}
+.ion-color-custom-light {
+  --ion-color-base: var(--ion-color-custom-light);
 }
 @media (prefers-color-scheme: dark) {
   /*

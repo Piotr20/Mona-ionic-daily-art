@@ -51,14 +51,14 @@ const LandingPage = () => {
             <IonButton
               color="custom-orange"
               expand="block"
-              className="landingpage-button"
+              className="landingpage-button orange-button"
               onClick={() => history.replace("/login")}
             >
               Login
             </IonButton>
           </div>
           <div className="ion-text-center">
-            <IonButton size="small" fill="clear" onClick={() => history.replace("/signup")}>
+            <IonButton size="small" fill="clear" color="custom-light" onClick={() => history.replace("/signup")}>
               Create an account
             </IonButton>
           </div>

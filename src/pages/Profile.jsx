@@ -24,8 +24,8 @@ import {
 } from "ionicons/icons";
 import { collection, query, where, getDocs } from "firebase/firestore";
 // import { Toast } from "@capacitor/toast";
-import "../theme/global.css";
 import "./Profile.css";
+import "../theme/global.css";
 
 export default function ProfilePage() {
   const auth = getAuth();
@@ -174,6 +174,7 @@ export default function ProfilePage() {
             className="logout-button"
             onClick={handleSignOut}
             expand="block"
+            color="custom-black"
           >
             <h3>Log out</h3>
           </IonButton>

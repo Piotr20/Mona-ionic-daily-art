@@ -1,3 +1,7 @@
+body {
+    font-family: 'Noto Sans', sans-serif;
+}
+
 .bottom-nav {
     width: 248px;
     margin: 0 auto;
@@ -12,7 +16,35 @@ ion-header, ion-title {
     font-size: 32px;
   }
   
-ion-button .orange-button { 
+.orange-button { 
     font-family: 'Oranienbaum', serif;
     font-size: 16px;
+}
+
+.native-input.sc-ion-input-ios {
+    font-family: 'Noto Sans', sans-serif;
+  }
+
+.button-small {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+ion-button {
+    --border-radius: 0px;
+}
+
+.label-stacked.sc-ion-label-ios-h, .label-floating.sc-ion-label-ios-h {
+    --ion-font-family: 'Noto Sans', sans-serif;
+}
+
+.item.sc-ion-label-ios-h, .item .sc-ion-label-ios-h {
+    --ion-font-family: 'Noto Sans', sans-serif;
+}
+
+a {
+    color: white;
+}
+
+p {
+    font-family: 'Noto Sans', sans-serif;
 }

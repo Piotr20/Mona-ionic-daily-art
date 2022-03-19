@@ -40,7 +40,6 @@
   font-family: 'Noto Sans', sans-serif;
   font-weight: bold;
   font-size: 16px;
-  text-transform: capitalize;
 }
 .daily-labels-wrapper {
   width: 100%;
@@ -52,6 +51,7 @@
   justify-content: center;
   align-items: center;
   font-family: 'Oranienbaum', serif;
+  text-transform: capitalize;
 }
 .daily-labels-wrapper .label {
   padding: 10px 16px;
@@ -59,6 +59,7 @@
   font-size: 16px;
   border-radius: 32px;
   background-color: var(--ion-color-custom-dark);
+  text-transform: capitalize;
 }
 .daily-labels-wrapper .icon {
   background-color: var(--ion-color-custom-dark);

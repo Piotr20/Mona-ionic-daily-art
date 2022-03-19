@@ -21,6 +21,7 @@ import { auth, app } from "../firebase/firebaseInit";
 import { addDoc } from "firebase/firestore";
 import { usersRef } from "../firebase/firebaseInit";
 import "./Signup.css";
+import "../theme/global.css";
 import { addFavorites } from "./Collections";
 
 export default function SignUpPage() {
@@ -119,6 +120,7 @@ export default function SignUpPage() {
             <div className="ion-text-center">
               <IonButton
                 size="small"
+                color="custom-light"
                 fill="clear"
                 onClick={() => history.replace("/login")}
               >
