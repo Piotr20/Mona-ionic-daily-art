@@ -28,23 +28,44 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { collectionsRef } from "../firebase/firebaseInit";
+import { artInCollectionsRef, collectionsRef } from "../firebase/firebaseInit";
 import SheetModal from "../components/SheetModal";
 
 const Collection = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
   const { collectionId } = useParams();
   const [currentCollection, setCurrentCollection] = useState(null);
+  const [currentCollectionId, setCurrentCollectionId] = useState(null);
   const [newCollectionName, setNewCollectionName] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [showUpdateToast, setShowUpdateToast] = useState(false);
   const [showDeleteToast, setShowDeleteToast] = useState(false);
+  const [artPieces, setArtPieces] = useState([]);
   const history = useHistory();
 
   const getCollection = async () => {
     const docRef = doc(collectionsRef, collectionId);
     const docSnap = await getDoc(docRef);
     setCurrentCollection(docSnap.data());
+    setCurrentCollectionId(docSnap.id);
+    console.log(docSnap.id);
+  };
+
+  const getArtPieces = async () => {
+    const querySnapshot = await getDocs(artInCollectionsRef);
+    const artPiecesArray = [];
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      const artpiece = {
+        id: doc.id,
+        data: doc.data(),
+      };
+      if (artpiece.data.collection_id === currentCollectionId) {
+        artPiecesArray.push(artpiece);
+      }
+    });
+    setArtPieces(artPiecesArray);
+    console.log(artPiecesArray);
   };
 
   // const getCollection = async () => {
@@ -65,6 +86,7 @@ const Collection = () => {
 
   useIonViewWillEnter(() => {
     getCollection();
+    getArtPieces();
   });
 
   const updateCollection = async () => {
