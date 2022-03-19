@@ -55,6 +55,7 @@
   margin: 0 6px;
   border-radius: 100%;
   padding: 9px;
+  transition: all 0.3s ease;
 }
 .daily-labels-wrapper .icon .icon-self {
   width: 20px;
@@ -65,4 +66,26 @@
 }
 .daily-page-content .art-bio p {
   line-height: 130%;
+}
+.details {
+  text-align: center;
+  border-bottom: 1px solid #565656;
+}
+
+.details h5 {
+  font-size: 12px;
+  margin-top: 24px;
+
+  margin-bottom: 0;
+  color: #f4f4f4;
+  font-weight: 300;
+}
+.details p {
+  font-size: 16px;
+  margin-bottom: 16px;
+  margin-top: 6px;
+  color: #f4f4f4;
+}
+.like.active {
+  background-color: #cf3540;
 }

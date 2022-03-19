@@ -1,5 +1,5 @@
 import { IonContent, IonHeader, IonImg, IonPage, IonTitle, IonToolbar } from "@ionic/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
 import { getDocs } from "firebase/firestore";
@@ -13,8 +13,8 @@ const Daily = () => {
   const [artpiecesArray, setArtpiecesArray] = useState([]);
   const [recomendations, setRecomendations] = useState([]);
   const [recomended, setRecomended] = useState({});
-
   const [dailyArt, setDailyArt] = useState([]);
+  const followIcon = useRef(null);
   const auth = getAuth();
 
   useEffect(() => {
@@ -84,6 +84,9 @@ const Daily = () => {
 
     setRecomended(artArray[random]);
   }
+  function handleLike(e) {
+    followIcon.current.classList.toggle("active");
+  }
 
   return (
     <IonPage>
@@ -97,9 +100,9 @@ const Daily = () => {
           <IonImg className="daily-img" src={recomended?.data?.imgUrl}></IonImg>
         </div>
         <div className="daily-labels-wrapper">
-          <span className="period label">{recomended?.data?.period}</span>
+          <span className="category label">{recomended?.data?.period}</span>
           <span className="category label">{recomended?.data?.category}</span>
-          <span className="like icon">
+          <span ref={followIcon} className="like icon" onClick={handleLike}>
             <IonImg className="icon-self" src="assets/icon/custom-icons/heart.svg"></IonImg>
           </span>
           <span className="add-collection icon">
@@ -108,7 +111,23 @@ const Daily = () => {
         </div>
         <div className="daily-page-content">
           <div className="art-bio">
-            <p dangerouslySetInnerHTML={{ __html: recomended?.data?.embededText }}></p>
+            <p dangerouslySetInnerHTML={{ __html: recomended?.data?.embededText }} />
+          </div>
+          <div className="period details">
+            <h5>Period</h5>
+            <p>{recomended?.data?.period}</p>
+          </div>
+          <div className="location details">
+            <h5>Location</h5>
+            <p>{recomended?.data?.location}</p>
+          </div>
+          <div className="size details">
+            <h5>Size</h5>
+            <p>{recomended?.data?.size}</p>
+          </div>
+          <div className="medium details">
+            <h5>Medium</h5>
+            <p>{recomended?.data?.medium}</p>
           </div>
         </div>
       </IonContent>
