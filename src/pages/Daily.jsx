@@ -1,9 +1,21 @@
-import { IonContent, IonHeader, IonImg, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import {
+  IonContent,
+  IonHeader,
+  IonImg,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
-import { getDocs } from "firebase/firestore";
-import { artpiecesRef, usersRef } from "../firebase/firebaseInit";
+import { addDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  artInCollectionsRef,
+  artpiecesRef,
+  collectionsRef,
+  usersRef,
+} from "../firebase/firebaseInit";
 import "./Daily.css";
 
 const Daily = () => {
@@ -15,6 +27,7 @@ const Daily = () => {
   const [recomended, setRecomended] = useState({});
   const [dailyArt, setDailyArt] = useState([]);
   const followIcon = useRef(null);
+  const [favorited, setFavorited] = useState(false);
   const auth = getAuth();
 
   useEffect(() => {
@@ -56,16 +69,28 @@ const Daily = () => {
 
     console.log(userDoc);
     for (const artwork of artpiecesArray) {
-      if (userDoc.data.Preferences.paintings === true && artwork.data.category === "painting") {
+      if (
+        userDoc.data.Preferences.paintings === true &&
+        artwork.data.category === "painting"
+      ) {
         artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.sculptures === true && artwork.data.category === "sculpture") {
+      if (
+        userDoc.data.Preferences.sculptures === true &&
+        artwork.data.category === "sculpture"
+      ) {
         artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.photography === true && artwork.data.category === "photography") {
+      if (
+        userDoc.data.Preferences.photography === true &&
+        artwork.data.category === "photography"
+      ) {
         artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.architecture === true && artwork.data.category === "architecture") {
+      if (
+        userDoc.data.Preferences.architecture === true &&
+        artwork.data.category === "architecture"
+      ) {
         artArray.push(artwork);
       }
     }
@@ -75,7 +100,8 @@ const Daily = () => {
 
     function rand_from_seed(x, iterations) {
       iterations = iterations || 100;
-      for (var i = 0; i < iterations; i++) x = (x ^ (x << 1) ^ (x >> 1)) % artArray.length;
+      for (var i = 0; i < iterations; i++)
+        x = (x ^ (x << 1) ^ (x >> 1)) % artArray.length;
       console.log("number", x);
       return x;
     }
@@ -84,8 +110,43 @@ const Daily = () => {
 
     setRecomended(artArray[random]);
   }
+
   function handleLike(e) {
-    followIcon.current.classList.toggle("active");
+    setFavorited((prevCheck) => !prevCheck);
+
+    if (favorited) {
+      followIcon.current.classList.add("active");
+      addArtPieceToFavorites();
+    } else {
+      followIcon.current.classList.remove("active");
+    }
+
+    console.log(favorited);
+  }
+
+  async function addArtPieceToFavorites() {
+    console.log(recomended.docId);
+
+    // get doc with the name "Favorites" and current uid
+    const q = query(
+      collectionsRef,
+      where("uid", "==", auth.currentUser.uid),
+      where("name", "==", "Favorites")
+    );
+
+    let collectionId = "";
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, " => ", doc.data());
+      collectionId = doc.id;
+    });
+
+    // add new doc to artpieces in collections
+    const newDoc = await addDoc(artInCollectionsRef, {
+      artpiece_id: recomended.docId,
+      collection_id: collectionId,
+    });
   }
 
   return (
@@ -103,15 +164,25 @@ const Daily = () => {
           <span className="category label">{recomended?.data?.period}</span>
           <span className="category label">{recomended?.data?.category}</span>
           <span ref={followIcon} className="like icon" onClick={handleLike}>
-            <IonImg className="icon-self" src="assets/icon/custom-icons/heart.svg"></IonImg>
+            <IonImg
+              className="icon-self"
+              src="assets/icon/custom-icons/heart.svg"
+            ></IonImg>
           </span>
           <span className="add-collection icon">
-            <IonImg className="icon-self" src="assets/icon/custom-icons/folder.svg"></IonImg>
+            <IonImg
+              className="icon-self"
+              src="assets/icon/custom-icons/folder.svg"
+            ></IonImg>
           </span>
         </div>
         <div className="daily-page-content">
           <div className="art-bio">
-            <p dangerouslySetInnerHTML={{ __html: recomended?.data?.embededText }} />
+            <p
+              dangerouslySetInnerHTML={{
+                __html: recomended?.data?.embededText,
+              }}
+            />
           </div>
           <div className="period details">
             <h5>Period</h5>

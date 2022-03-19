@@ -2,7 +2,11 @@ import { initializeApp } from "firebase/app";
 import { getDatabase, ref } from "firebase/database";
 import { getStorage } from "firebase/storage";
 import "firebase/firestore";
-import { initializeAuth, indexedDBLocalPersistence, getAuth } from "firebase/auth";
+import {
+  initializeAuth,
+  indexedDBLocalPersistence,
+  getAuth,
+} from "firebase/auth";
 import { getFirestore, collection } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -34,3 +38,4 @@ const db = getFirestore(app);
 export const collectionsRef = collection(db, "collections");
 export const usersRef = collection(db, "users");
 export const artpiecesRef = collection(db, "artpieces");
+export const artInCollectionsRef = collection(db, "artpieces_in_collections");
