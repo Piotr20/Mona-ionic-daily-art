@@ -48,3 +48,7 @@ a {
 p {
     font-family: 'Noto Sans', sans-serif;
 }
+
+ion-tabs {
+    background: transparent !important;
+}
