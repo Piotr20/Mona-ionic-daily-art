@@ -10,6 +10,7 @@ import {
   IonModal,
   IonPage,
   IonTitle,
+  IonToast,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { useState } from "react";
@@ -36,12 +37,13 @@ const Collection = () => {
   const [currentCollection, setCurrentCollection] = useState(null);
   const [newCollectionName, setNewCollectionName] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [showUpdateToast, setShowUpdateToast] = useState(false);
+  const [showDeleteToast, setShowDeleteToast] = useState(false);
   const history = useHistory();
 
   const getCollection = async () => {
     const docRef = doc(collectionsRef, collectionId);
     const docSnap = await getDoc(docRef);
-    console.log(docSnap.data());
     setCurrentCollection(docSnap.data());
   };
 
@@ -74,12 +76,15 @@ const Collection = () => {
     await updateDoc(collectionDoc, newDoc);
     setIsOpen(false);
     window.location.reload();
+    setShowUpdateToast(true);
+    setNewCollectionName("");
   };
 
   const deleteCollection = async () => {
     const collectionDoc = doc(collectionsRef, collectionId);
     await deleteDoc(collectionDoc);
     history.push("/collections");
+    setShowDeleteToast(true);
   };
 
   // const goBack = () => {
@@ -133,6 +138,20 @@ const Collection = () => {
               inputValue={newCollectionName}
               setInputValue={setNewCollectionName}
               action={updateCollection}
+            />
+          )}
+          <IonToast
+            isOpen={showUpdateToast}
+            onDidDismiss={() => setShowUpdateToast(false)}
+            message={`Collection name changed to ${newCollectionName}`}
+            duration={1500}
+          />
+          {currentCollection && (
+            <IonToast
+              isOpen={showDeleteToast}
+              onDidDismiss={() => setShowDeleteToast(false)}
+              message={`Collection ${currentCollection.name} has been deleted`}
+              duration={1500}
             />
           )}
         </IonItem>

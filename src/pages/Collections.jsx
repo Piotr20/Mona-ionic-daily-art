@@ -10,6 +10,7 @@ import {
   IonModal,
   IonPage,
   IonTitle,
+  IonToast,
   IonToolbar,
   useIonViewWillEnter,
 } from "@ionic/react";
@@ -26,6 +27,7 @@ const Collections = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState("");
   const [collections, setCollections] = useState();
+  const [showToast, setShowToast] = useState(false);
   const auth = getAuth();
 
   useIonViewWillEnter(() => {
@@ -59,6 +61,8 @@ const Collections = () => {
     });
     history.push(`/collections/${newDoc.id}`);
     setIsOpen(false);
+    setShowToast(true);
+    setNewCollectionName("");
   };
 
   return (
@@ -81,6 +85,13 @@ const Collections = () => {
             inputValue={newCollectionName}
             setInputValue={setNewCollectionName}
             action={addNewCollection}
+          />
+          {/* Collection added - toast */}
+          <IonToast
+            isOpen={showToast}
+            onDidDismiss={() => setShowToast(false)}
+            message={`Collection ${newCollectionName} has been created`}
+            duration={1500}
           />
         </IonItem>
       </IonHeader>
