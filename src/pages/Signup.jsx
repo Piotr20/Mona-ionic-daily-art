@@ -12,7 +12,11 @@ import {
 } from "@ionic/react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  updateProfile,
+} from "firebase/auth";
 import { auth, app } from "../firebase/firebaseInit";
 import { addDoc } from "firebase/firestore";
 import { usersRef } from "../firebase/firebaseInit";
@@ -48,7 +52,7 @@ export default function SignUpPage() {
           } catch (e) {
             console.error("Error adding document: ", e);
           }
-
+          addFavorites(user.uid);
           history.replace("/preferences");
         })
         .catch((error) => {
@@ -103,18 +107,31 @@ export default function SignUpPage() {
               I accept Terms & Conditions
             </p>
             <div className="ion-padding">
-              <IonButton color="custom-orange" className="signup-button" type="submit" expand="block">
+              <IonButton
+                color="custom-orange"
+                className="signup-button"
+                type="submit"
+                expand="block"
+              >
                 Sign up
               </IonButton>
             </div>
             <div className="ion-text-center">
-              <IonButton size="small" fill="clear" onClick={() => history.replace("/login")}>
+              <IonButton
+                size="small"
+                fill="clear"
+                onClick={() => history.replace("/login")}
+              >
                 Go back to sign in
               </IonButton>
             </div>
           </form>
         </IonCard>
-        <IonToast isOpen={showToast} message="You need to agree to the Terms & Conditions" duration={1000} />
+        <IonToast
+          isOpen={showToast}
+          message="You need to agree to the Terms & Conditions"
+          duration={1000}
+        />
       </IonContent>
     </IonPage>
   );
