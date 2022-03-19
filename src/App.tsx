@@ -38,6 +38,7 @@ import Collection from "./pages/Collection";
 import SignUpPage from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
 import Preferences from "./pages/Preferences";
+import ArtPiece from "./pages/ArtPiece";
 
 setupIonicReact();
 
@@ -57,6 +58,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/collections/:collectionId">
             <Collection />
+          </Route>
+          <Route path="/artpiece/:artpieceId">
+            <ArtPiece />
           </Route>
           <Route path="/profile">
             <Profile />

@@ -186,7 +186,11 @@ const Collection = () => {
           {artPieces.map((piece) => {
             return (
               <div key={piece.id}>
-                {piece.data.img && <img src={piece.data.img} alt="artpiece" />}
+                {piece.data.img && (
+                  <Link to={`/artpiece/${piece.data.artpiece_id}`}>
+                    <img src={piece.data.img} alt="artpiece" />
+                  </Link>
+                )}
               </div>
             );
           })}
