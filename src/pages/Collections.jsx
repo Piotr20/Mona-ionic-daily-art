@@ -19,8 +19,12 @@ import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { collectionsRef } from "../firebase/firebaseInit";
 import "./Collections.css";
+<<<<<<< HEAD
 import SheetModal from "../components/SheetModal";
 import placeholder from "../assets/img-placeholder.png";
+=======
+import "../theme/global.css";
+>>>>>>> profile
 
 const Collections = () => {
   const history = useHistory();

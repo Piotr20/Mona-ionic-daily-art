@@ -1,7 +1,7 @@
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
-  IonIcon,
+  IonImg,
   IonLabel,
   IonRouterOutlet,
   IonTabBar,
@@ -10,7 +10,7 @@ import {
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { ellipse, square, triangle } from "ionicons/icons";
+// import { ellipse, square, triangle } from "ionicons/icons";
 import Daily from "./pages/Daily";
 import Collections from "./pages/Collections";
 import Profile from "./pages/Profile";
@@ -71,18 +71,21 @@ const App: React.FC = () => (
             <SignUpPage />
           </Route>
         </IonRouterOutlet>
-        <IonTabBar slot="bottom">
+        <IonTabBar slot="bottom" className="bottom-nav">
           <IonTabButton tab="tab1" href="/daily">
-            <IonIcon icon={triangle} />
-            <IonLabel>Daily</IonLabel>
+            {/* <IonIcon icon={triangle} /> */}
+            <IonImg src="../assets/icon/daily-art.png" alt="" />
+            {/* <IonLabel>Daily</IonLabel> */}
           </IonTabButton>
           <IonTabButton tab="tab2" href="/collections">
-            <IonIcon icon={ellipse} />
-            <IonLabel>Collections</IonLabel>
+            {/* <IonIcon icon={ellipse} /> */}
+            <IonImg src="../assets/icon/collections.png" alt="" />
+            {/* <IonLabel>Collections</IonLabel> */}
           </IonTabButton>
           <IonTabButton tab="tab3" href="/profile">
-            <IonIcon icon={square} />
-            <IonLabel>Profile</IonLabel>
+            {/* <IonIcon icon={square} /> */}
+            <IonImg src="../assets/icon/profile.png" alt="" />
+            {/* <IonLabel>Profile</IonLabel> */}
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

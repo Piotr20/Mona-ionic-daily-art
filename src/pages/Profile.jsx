@@ -13,148 +13,172 @@ import {
   IonIcon,
 } from "@ionic/react";
 import { useState, useEffect } from "react";
-import { getAuth, signOut } from "firebase/auth";
-import { getUserRef } from "../firebase/firebaseInit";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { usersRef } from "../firebase/firebaseInit";
 import { get, update } from "@firebase/database";
-import { brushOutline, businessOutline, cameraOutline, hammerOutline } from "ionicons/icons";
+import {
+  brushOutline,
+  businessOutline,
+  cameraOutline,
+  hammerOutline,
+} from "ionicons/icons";
+import { collection, query, where, getDocs } from "firebase/firestore";
+// import { Toast } from "@capacitor/toast";
 import "./Profile.css";
+import "../theme/global.css";
 
 export default function ProfilePage() {
   const auth = getAuth();
+  // const user = auth.currentUser;
+
   const [user, setUser] = useState({});
+  const [usersArray, setUsersArray] = useState([]);
+
   const [name, setName] = useState("");
+  //   const displayName = user.name;
   const [email, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [showLoader, dismissLoader] = useIonLoading();
 
-  useEffect(() => {
-      setUser(auth.currentUser);
+  async function getUserDataFromDB() {
+    const q = query(usersRef);
 
-      async function getUserDataFromDB() {
-          const snapshot = await get(getUserRef(user.uid));
-          const userData = snapshot.val();
-          if (userData) {
-              setName(userData.name);
-          }
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      usersArray.push({ data: doc.data(), docId: doc.id });
+    });
+    console.log(usersArray);
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        //when user signed in
+        setUser(user);
+        console.log(user);
+      } else {
+        // when user signed out
       }
+    });
+    // current user from users collection
+    // for (const cokolwiek of usersArray) {
+    //   if (cokolwiek.uid == user.uid) {
+    //     setCurrentUser(cokolwiek);
+    //   }
+    // }
+  }
 
-      if (user) getUserDataFromDB();
-  }, [auth.currentUser, user]);
+  useEffect(() => {
+    getUserDataFromDB();
+  });
 
   function handleSignOut() {
-      signOut(auth);
+    signOut(auth);
   }
 
-  async function handleSubmit(event) {
-      event.preventDefault();
-      showLoader();
+  async function handleSubmit(event) {}
 
-      const userToUpdate = {
-          name: name,
-          email: email,
-          password: password
-      };
-
-      await update(getUserRef(user.uid), userToUpdate);
-      dismissLoader();
-      // await Toast.show({
-      //     text: "User Profile saved!",
-      //     position: "top"
-      // });
-  }
   return (
-      <IonPage className="profile-page">
-          <IonHeader>
-              <IonToolbar>
-                  <IonTitle>Profile</IonTitle>
-              </IonToolbar>
-          </IonHeader>
-          <IonContent fullscreen>
-            <IonHeader collapse="condense" className="page-title">
-                <IonToolbar>
-                    <IonTitle size="large">Profile</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+    <IonPage className="profile-page">
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Profile</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <IonHeader collapse="condense" className="page-title">
+          <IonToolbar>
+            <IonTitle size="large">Profile</IonTitle>
+          </IonToolbar>
+        </IonHeader>
 
-            <IonHeader className="header">Edit</IonHeader>
+        <IonHeader className="header">Edit</IonHeader>
 
-              {/* <IonItem>
-                  <IonLabel>Email:</IonLabel>
-                  <IonInput value={user?.email} placeholder="Email"></IonInput>
-              </IonItem>
-              <IonItem>
-                  <IonLabel>Name</IonLabel>
-                  <IonInput value={user?.name} placeholder="Name"></IonInput>
-              </IonItem>
-              <IonItem>
-                  <IonLabel>Name</IonLabel>
-                  <IonInput value={user?.password} placeholder="Password" type="password"></IonInput>
-              </IonItem> */}
-              <form onSubmit={handleSubmit} className="profile-form">
-                  <IonItem>
-                  <IonLabel position="stacked">Email</IonLabel>
-                      <IonInput
-                          value={user?.email}
-                          type="text"
-                          placeholder="Type your email"
-                          onIonChange={e => setMail(e.target.value)}
-                      />
-                     
-                      <IonLabel position="stacked">Name</IonLabel>
-                      <IonInput
-                          value={user?.name}
-                          type="text"
-                          placeholder="Type your name"
-                          onIonChange={e => setName(e.target.value)}
-                      />
-                    
-                      <IonLabel position="stacked">Password</IonLabel>
-                      <IonInput
-                          value={password}
-                          type="password"
-                          placeholder="Type your password"
-                          onIonChange={e => setPassword(e.target.value)}
-                      />
-                  </IonItem>
-                  <div className="ion-padding">
-                      <IonButton type="submit" expand="block">
-                          Save
-                      </IonButton>
-                  </div>
-              </form>
+        <form onSubmit={handleSubmit} className="profile-form">
+          <IonItem>
+            <IonLabel position="stacked">Email</IonLabel>
+            <IonInput
+              value={email}
+              type="text"
+              placeholder={user?.email}
+              onIonChange={(e) => setMail(e.target.value)}
+            />
 
-              <IonHeader className="header">Preferences</IonHeader>
+            <IonLabel position="stacked">Name</IonLabel>
+            <IonInput
+              value={name}
+              type="text"
+              placeholder={user?.name}
+              onIonChange={(e) => setName(e.target.value)}
+            />
 
-                <IonItem className="preferences-profile">
-                    <IonIcon icon={brushOutline} slot="start" />
-                    <IonLabel>Paintings</IonLabel>
-                    <IonToggle checked />
-                </IonItem>
+            <IonLabel position="stacked">Password</IonLabel>
+            <IonInput
+              value={password}
+              type="password"
+              placeholder="Type your password"
+              onIonChange={(e) => setPassword(e.target.value)}
+            />
+          </IonItem>
+          <div className="ion-padding">
+            <IonButton
+              color="custom-orange"
+              className="signup-button"
+              type="submit"
+              expand="block"
+            >
+              Save
+            </IonButton>
+          </div>
+        </form>
 
-                <IonItem className="preferences-profile">
-                    <IonIcon icon={hammerOutline} slot="start" />
-                    <IonLabel>Sculptures</IonLabel>
-                    <IonToggle checked />
-                </IonItem>
+        <IonHeader className="header">Preferences</IonHeader>
 
-                <IonItem className="preferences-profile">
-                    <IonIcon icon={cameraOutline} slot="start" />
-                    <IonLabel>Photography</IonLabel>
-                    <IonToggle checked />
-                </IonItem>
+        <form onSubmit={handleSubmit} className="profile-form">
+          <IonItem className="preferences-profile">
+            <IonIcon icon={brushOutline} slot="start" />
+            <IonLabel>Paintings</IonLabel>
+            <IonToggle checked />
+          </IonItem>
 
-                <IonItem className="preferences-profile">
-                    <IonIcon icon={businessOutline} slot="start" />
-                    <IonLabel>Architecture</IonLabel>
-                    <IonToggle checked />
-                </IonItem>
+          <IonItem className="preferences-profile">
+            <IonIcon icon={hammerOutline} slot="start" />
+            <IonLabel>Sculptures</IonLabel>
+            <IonToggle checked />
+          </IonItem>
 
-                <div className="ion-padding">
-                    <IonButton onClick={handleSignOut} expand="block">Log out
-                    </IonButton>
-                </div>  
-          </IonContent>
-                     
-      </IonPage>
+          <IonItem className="preferences-profile">
+            <IonIcon icon={cameraOutline} slot="start" />
+            <IonLabel>Photography</IonLabel>
+            <IonToggle checked />
+          </IonItem>
+
+          <IonItem>
+            <IonIcon icon={businessOutline} slot="start" />
+            <IonLabel>Architecture</IonLabel>
+            <IonToggle checked />
+          </IonItem>
+          <div className="ion-padding">
+            <IonButton
+              color="custom-orange"
+              className="signup-button"
+              type="submit"
+              expand="block"
+            >
+              Save
+            </IonButton>
+          </div>
+        </form>
+
+        <div className="ion-padding">
+          <IonButton
+            className="logout-button"
+            onClick={handleSignOut}
+            expand="block"
+          >
+            <h3>Log out</h3>
+          </IonButton>
+        </div>
+      </IonContent>
+    </IonPage>
   );
 }
