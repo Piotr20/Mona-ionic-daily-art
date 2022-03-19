@@ -38,8 +38,17 @@ import Collection from "./pages/Collection";
 import SignUpPage from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
 import Preferences from "./pages/Preferences";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
 
 setupIonicReact();
+
+const auth = getAuth();
+onAuthStateChanged(auth, (userA) => {
+  if (userA) {
+    // console.log("variable", userA);
+  } else {
+  }
+});
 
 const App: React.FC = () => (
   <IonApp>

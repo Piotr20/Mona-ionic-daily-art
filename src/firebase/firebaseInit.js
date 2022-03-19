@@ -33,3 +33,5 @@ export const storage = getStorage(app);
 const db = getFirestore(app);
 export const collectionsRef = collection(db, "collections");
 export const usersRef = collection(db, "users");
+export const artInCollectionsRef = collection(db, "artpieces_in_collections");
+export const artpiecesRef = collection(db, "artpieces");

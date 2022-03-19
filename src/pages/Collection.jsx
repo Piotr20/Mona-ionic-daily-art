@@ -28,7 +28,11 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { collectionsRef } from "../firebase/firebaseInit";
+import {
+  artInCollectionsRef,
+  artpiecesRef,
+  collectionsRef,
+} from "../firebase/firebaseInit";
 import SheetModal from "../components/SheetModal";
 
 const Collection = () => {
@@ -39,6 +43,7 @@ const Collection = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showUpdateToast, setShowUpdateToast] = useState(false);
   const [showDeleteToast, setShowDeleteToast] = useState(false);
+  const [artPieces, setArtPieces] = useState([]);
   const history = useHistory();
 
   const getCollection = async () => {
@@ -47,24 +52,39 @@ const Collection = () => {
     setCurrentCollection(docSnap.data());
   };
 
-  // const getCollection = async () => {
-  //   const querySnapshot = await getDocs(collectionsRef);
-  //   const collectionsArray = [];
-  //   querySnapshot.forEach((doc) => {
-  //     const col = {
-  //       id: doc.id,
-  //       data: doc.data(),
-  //     };
-  //     collectionsArray.push(col);
-  //   });
+  const getArtPieces = async () => {
+    const querySnapshotId = await getDocs(artInCollectionsRef);
+    const artPiecesArray = [];
+    querySnapshotId.forEach((doc) => {
+      const artpiece = {
+        id: doc.id,
+        data: doc.data(),
+      };
+      if (artpiece.data.collection_id === collectionId) {
+        artPiecesArray.push(artpiece);
+      }
+    });
 
-  //   const current = collectionsArray.find((col) => col.id === collectionId);
-  //   setCurrentCollection(current);
-  //   console.log(current);
-  // };
+    // const querySnapshotData = await getDocs(artpiecesRef);
+    // // const artPiecesArray = [];
+    // querySnapshotData.forEach((doc) => {
+    //   console.log(doc.data());
+    //   // const artpiece = {
+    //   //   id: doc.id,
+    //   //   data: doc.data(),
+    //   // };
+    //   // if (artpiece.data.collection_id === collectionId) {
+    //   //   artPiecesArray.push(artpiece);
+    //   // }
+    // });
+
+    setArtPieces(artPiecesArray);
+    console.log(artPiecesArray);
+  };
 
   useIonViewWillEnter(() => {
     getCollection();
+    getArtPieces();
   });
 
   const updateCollection = async () => {
@@ -162,7 +182,15 @@ const Collection = () => {
         </IonItem>
       </IonHeader>
       <IonContent>
-        <IonList></IonList>
+        <IonList>
+          {artPieces.map((piece) => {
+            return (
+              <div key={piece.id}>
+                {piece.data.img && <img src={piece.data.img} alt="artpiece" />}
+              </div>
+            );
+          })}
+        </IonList>
       </IonContent>
     </IonPage>
   );
