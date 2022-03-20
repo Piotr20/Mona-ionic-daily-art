@@ -39,11 +39,8 @@ import Collection from "./pages/Collection";
 import SignUpPage from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
 import Preferences from "./pages/Preferences";
-<<<<<<< HEAD
 import ArtPiece from "./pages/ArtPiece";
-=======
 import { onAuthStateChanged, getAuth } from "firebase/auth";
->>>>>>> master
 
 setupIonicReact();
 

@@ -69,35 +69,48 @@ const Collections = () => {
   return (
     <IonPage className="collections">
       <IonHeader>
-      <IonToolbar>
-          <IonTitle slot="start">Collections</IonTitle>
-        </IonToolbar>
-        </IonHeader>
-        {/* <IonItem> */}
-          {/* Add a new collection - modal */}
-          <SheetModal
-            title="Add a new collection"
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            inputValue={newCollectionName}
-            setInputValue={setNewCollectionName}
-            action={addNewCollection}
-          />
-          {/* Collection added - toast */}
-          <IonToast
-            isOpen={showToast}
-            onDidDismiss={() => setShowToast(false)}
-            message={`Collection ${newCollectionName} has been created`}
-            duration={1500}
-          />
-        {/* </IonItem> */}
-      <IonContent fullscreen>
-      <IonHeader collapse="condense" className="page-title">
-          <IonToolbar>
-            <IonTitle size="large">Collections</IonTitle>
-            <IonButton onClick={() => setIsOpen(true)} className="add-btn" color="custom-orange" slot="end">
+        <IonToolbar>
+          <IonTitle size="large">Collections</IonTitle>
+          <IonButton
+            onClick={() => setIsOpen(true)}
+            className="add-btn"
+            color="custom-orange"
+            slot="end"
+          >
             +
           </IonButton>
+        </IonToolbar>
+      </IonHeader>
+      {/* <IonItem> */}
+      {/* Add a new collection - modal */}
+      <SheetModal
+        title="Add a new collection"
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        inputValue={newCollectionName}
+        setInputValue={setNewCollectionName}
+        action={addNewCollection}
+      />
+      {/* Collection added - toast */}
+      <IonToast
+        isOpen={showToast}
+        onDidDismiss={() => setShowToast(false)}
+        message={`Collection ${newCollectionName} has been created`}
+        duration={1500}
+      />
+      {/* </IonItem> */}
+      <IonContent>
+        <IonHeader collapse="condense" className="page-title">
+          <IonToolbar>
+            <IonTitle size="large">Collections</IonTitle>
+            <IonButton
+              onClick={() => setIsOpen(true)}
+              className="add-btn"
+              color="custom-orange"
+              slot="end"
+            >
+              +
+            </IonButton>
           </IonToolbar>
         </IonHeader>
         <div className="collections-grid">
@@ -105,7 +118,11 @@ const Collections = () => {
             collections.map((collection) => {
               return (
                 <Link to={`/collections/${collection.id}`} key={collection.id}>
-                  <IonImg className="collection-img" alt="coverimage" src={placeholder} />
+                  <IonImg
+                    className="collection-img"
+                    alt="coverimage"
+                    src={placeholder}
+                  />
                   <IonLabel>{collection.data.name}</IonLabel>
                 </Link>
               );
