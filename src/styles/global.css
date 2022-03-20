@@ -5,9 +5,9 @@ body {
 .bottom-nav {
   width: 65%;
   margin: 0 auto;
-  margin-bottom: 4px;
+  margin-bottom: 24px;
   border-radius: 120px;
-  padding: 0 8px;
+  padding: 4px 12px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   position: fixed;
   bottom: 0;

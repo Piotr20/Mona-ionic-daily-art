@@ -45,8 +45,8 @@
   padding: 0 16px;
 }
 .logout-wrapper {
-  --padding-bottom: 59px !important;
-  padding-bottom: 59px !important;
+  --padding-bottom: 90px !important;
+  padding-bottom: 90px !important;
 }
 
 .logout-button {
