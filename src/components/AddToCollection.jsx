@@ -2,6 +2,7 @@ import { getAuth } from "@firebase/auth";
 import {
   IonButton,
   IonContent,
+  IonHeader,
   IonItem,
   IonLabel,
   IonModal,
@@ -115,9 +116,8 @@ const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
       onDidDismiss={() => setIsOpen(false)}
     >
       <IonContent className="new-collection-modal">
-        <IonToolbar>
-          <IonTitle>Add to collection</IonTitle>
-        </IonToolbar>
+        <IonHeader>Add to collection</IonHeader>
+
         <IonRadioGroup
           value={selected}
           onIonChange={(e) => setSelected(e.detail.value)}
@@ -125,7 +125,7 @@ const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
           {collections ? (
             collections.map((collection) => {
               return (
-                <IonItem key={collection.id}>
+                <IonItem color="custom-black" key={collection.id}>
                   <IonLabel>{collection.data.name}</IonLabel>
                   <IonRadio slot="start" value={collection.data.name} />
                 </IonItem>

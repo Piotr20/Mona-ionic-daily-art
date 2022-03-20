@@ -110,3 +110,9 @@
 .like.active {
   background-color: #cf3540;
 }
+.new-collection-modal ion-header {
+  margin-bottom: 16px;
+}
+.new-collection-modal ion-button {
+  margin-top: 16px;
+}

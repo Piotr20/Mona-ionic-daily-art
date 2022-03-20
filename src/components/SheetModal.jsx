@@ -24,11 +24,6 @@ const SheetModal = ({
       initialBreakpoint={0.5}
       onDidDismiss={() => setIsOpen(false)}
     >
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>{title}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent className="new-collection-modal">
         <IonHeader className="addNewCollection-tittle">{title}</IonHeader>
         <IonItem>
@@ -38,16 +33,15 @@ const SheetModal = ({
             onIonChange={(e) => setInputValue(e.detail.value)}
           ></IonInput>
         </IonItem>
-        <div className="ion-padding">
-          <IonButton
-            onClick={action}
-            color="custom-orange"
-            expand="block"
-            className="modal-btn orange-button"
-          >
-            Save
-          </IonButton>
-        </div>
+
+        <IonButton
+          onClick={action}
+          color="custom-orange"
+          expand="block"
+          className="modal-btn orange-button"
+        >
+          Save
+        </IonButton>
       </IonContent>
     </IonModal>
   );
