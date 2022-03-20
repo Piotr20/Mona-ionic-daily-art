@@ -31,7 +31,7 @@ const Daily = () => {
   const [recomended, setRecomended] = useState({});
   const [dailyArt, setDailyArt] = useState([]);
   const followIcon = useRef(null);
-  const [favorited, setFavorited] = useState(false);
+  const [favorited, setFavorited] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const auth = getAuth();
 
@@ -120,7 +120,7 @@ const Daily = () => {
   function handleLike(e) {
     setFavorited(!favorited);
 
-    if (favorited == true) {
+    if (favorited) {
       followIcon.current.classList.add("active");
       addArtPieceToFavorites();
     } else {
