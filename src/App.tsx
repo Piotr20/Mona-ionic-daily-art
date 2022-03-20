@@ -109,12 +109,16 @@ const App: React.FC = () => (
           <Route exact path="/collections">
             <Collections />
           </Route>
-          <Route exact path="/collections/:collectionId">
-            <Collection />
-          </Route>
-          <Route path="/artpiece/:artpieceId">
-            <ArtPiece />
-          </Route>
+          <Route
+            exact
+            path="/collections/:collectionId"
+            component={Collection}
+          />
+          <Route
+            exact
+            path="/collections/:collectionId/:artpieceId"
+            component={ArtPiece}
+          />
           <Route path="/profile">
             <Profile />
           </Route>

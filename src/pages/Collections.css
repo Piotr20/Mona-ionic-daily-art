@@ -21,7 +21,7 @@
   column-gap: 12px;
   row-gap: 16px;
   margin: 16px 20px;
-  font-family: 'Noto Sans', sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 16px;
   font-weight: bold;
 }
@@ -49,8 +49,35 @@
   padding: 20px !important;
 }
 
+#ion-react-wrapper ion-title {
+  font-size: 20px;
+}
+
 .modal-btn {
   margin-top: 12px !important;
 }
 
 /* COLLECTION */
+.collection-img-container {
+  position: relative;
+}
+
+.delete-artpiece {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 1000;
+  padding: 8px;
+}
+
+.artpiece-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+a {
+  text-decoration: none !important;
+  color: white !important;
+}

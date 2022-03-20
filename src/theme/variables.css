@@ -92,7 +92,7 @@ http://ionicframework.com/docs/theming/ */
 .ion-color-custom-light {
   --ion-color-base: var(--ion-color-custom-light);
 }
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   /*
    * Dark Colors
    * -------------------------------------------

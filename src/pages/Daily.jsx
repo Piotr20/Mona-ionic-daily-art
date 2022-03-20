@@ -20,7 +20,7 @@ import {
 } from "../firebase/firebaseInit";
 import "./Daily.css";
 import "../theme/global.css";
-import SheetModal from "../components/SheetModal2";
+import SheetModal from "../components/AddToCollection";
 
 const Daily = () => {
   const history = useHistory();
@@ -31,12 +31,11 @@ const Daily = () => {
   const [recomended, setRecomended] = useState({});
   const [dailyArt, setDailyArt] = useState([]);
   const followIcon = useRef(null);
-  const [favorited, setFavorited] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [collections, setCollections] = useState([]);
   const auth = getAuth();
 
   useEffect(() => {
-    // checkIfArtPieceExists();
     verifyUserPreferences();
   }, [auth]);
 
@@ -149,39 +148,19 @@ const Daily = () => {
     });
   }
 
-  const checkIfArtPieceExists = async () => {
-    // get current user's favorite collection id
+  // function displayLike() {
+  //   setFavorited(!favorited);
 
-    console.log(await user);
-    // if (auth.currentUser) {
-    //   console.log("hihi", auth.currentUser.uid);
-    // }
-    // const q1 = query(collectionsRef, where("uid", "==", auth.currentUser.uid));
+  //   if (favorited) {
+  //     followIcon.current.classList.add("active");
+  //     addArtPieceToFavorites();
+  //   } else {
+  //     followIcon.current.classList.remove("active");
+  //     // remove artpiece from favorites
+  //   }
+  // }
 
-    // const querySnapshot = await getDocs(q1);
-
-    // querySnapshot.forEach((doc) => {
-    //   console.log("check if", doc.id, " => ", doc.data());
-    // });
-
-    // // if artpiece reference exists, set favorite to true
-    // const q2 = query(
-    //   artInCollectionsRef,
-    //   where("artpiece_id", "==", recomended.id),
-    //   where("collection_id", "==", "Favorites")
-    // );
-
-    // let collectionId = "";
-
-    // const querySnapshot = await getDocs(q2);
-    // querySnapshot.forEach((doc) => {
-    //   console.log(doc.id, " => ", doc.data());
-    //   collectionId = doc.id;
-    // });
-  };
-
-  const [collections, setCollections] = useState([]);
-
+  // fetch user's collections to display in the "Add to collection" modal
   const getCollections = async () => {
     const q = query(collectionsRef, where("uid", "==", auth.currentUser.uid));
 
@@ -189,12 +168,13 @@ const Daily = () => {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // console.log(doc.id, " => ", doc.data());
-      if (doc.data().name !== "Favorites") {
-        let collection = {
-          id: doc.id,
-          data: doc.data(),
-        };
+      let collection = {
+        id: doc.id,
+        data: doc.data(),
+      };
+      if (collection.data.name === "Favorites") {
+        collectionsArray.unshift(collection);
+      } else {
         collectionsArray.push(collection);
       }
     });
@@ -215,12 +195,12 @@ const Daily = () => {
         <div className="daily-labels-wrapper">
           <span className="category label">{recomended?.data?.period}</span>
           <span className="category label">{recomended?.data?.category}</span>
-          <span ref={followIcon} className="like icon" onClick={handleLike}>
+          {/* <span ref={followIcon} className="like icon" onClick={displayLike}>
             <IonImg
               className="icon-self"
               src="assets/icon/custom-icons/heart.svg"
             ></IonImg>
-          </span>
+          </span>*/}
           <span
             className="add-collection icon"
             onClick={() => {
