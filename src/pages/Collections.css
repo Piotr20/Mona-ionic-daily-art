@@ -11,6 +11,10 @@
   margin-right: 16px;
 }
 
+.addNewCollection-tittle {
+  margin: 40px 0 24px 0;
+}
+
 .collections ion-header::after {
   display: none !important;
 }

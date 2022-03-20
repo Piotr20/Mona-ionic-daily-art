@@ -65,3 +65,7 @@
 .button-native {
   padding: 10px 40px;
 }
+
+.italic-subtext {
+  font-style: italic;
+}

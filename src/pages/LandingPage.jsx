@@ -43,8 +43,8 @@ const LandingPage = () => {
         <IonImg className="landing-bg-img" src="assets/Images/Mona-lisa.jpg" />
         <IonCard className="landingpage-card" color="transparent">
           <IonHeader className="landingpage-header">MONA</IonHeader>
-          <p>
-            A work is finished when an artist realizes his intentions
+          <p className="italic-subtext">
+            Discover history of human creativity and add some culture to your daily life with MONA app.
           </p>
           <div className="ion-padding">
             <IonButton
