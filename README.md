@@ -91,24 +91,30 @@ In the Profile page, the user can preview their account details and update them 
 
 # How to run
 
-If you want to run it on the web you need to clone this repositiory make sure you are on master and run this comands
+**Important!**
 
-**!!!Important**
-remember to turn on dark mode since that what it was intended to be used with.
+Remember to turn on dark mode since that what's how it was intended to be used with
+
+## Web
+
+If you want to run it on the web, you need to clone this repositiory, make sure you are on master and run these commands
 
     npm i
 
-### Followed by
+Followed by
 
     ionic serve
 
-## If you want to run it on your device we shipped prepared ios folder
+## iOS
+
+If you want to run it on your device we shipped a prepared iOS folder
 
     npm i
 
-### Followed by
+Followed by
 
     ionic capacitor open ios
 
-It should open the Xcoe for you and you should be able to either chose you own device or any given emulator
-We did not prepare anything for android since we are not a big fans of Android :)
+It should open the XCode for you and you should be able to either choose your own device or any given emulator.
+
+We did not prepare anything for Android since we are not a big fans of Android :)
