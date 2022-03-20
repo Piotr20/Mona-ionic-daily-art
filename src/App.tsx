@@ -34,10 +34,12 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import "./theme/global.css";
 import Collection from "./pages/Collection";
 import SignUpPage from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
 import Preferences from "./pages/Preferences";
+import ArtPiece from "./pages/ArtPiece";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 
 setupIonicReact();
@@ -66,6 +68,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/collections/:collectionId">
             <Collection />
+          </Route>
+          <Route path="/artpiece/:artpieceId">
+            <ArtPiece />
           </Route>
           <Route path="/profile">
             <Profile />

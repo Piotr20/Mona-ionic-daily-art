@@ -66,7 +66,7 @@ const Login = () => {
               <IonButton
                 color="custom-orange"
                 expand="block"
-                className="login-button"
+                className="login-button orange-button"
                 type="submit"
               >
                 Login
@@ -76,6 +76,7 @@ const Login = () => {
               <IonButton
                 size="small"
                 fill="clear"
+                color="custom-light"
                 onClick={() => history.replace("/signup")}
               >
                 Not a member?&nbsp;
