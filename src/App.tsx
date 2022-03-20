@@ -98,58 +98,52 @@ PushNotifications.addListener(
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/daily">
-            <Daily />
-          </Route>
-          <Route exact path="/preferences">
-            <Preferences />
-          </Route>
-          <Route exact path="/collections">
-            <Collections />
-          </Route>
-          <Route
-            exact
-            path="/collections/:collectionId"
-            component={Collection}
-          />
-          <Route
-            exact
-            path="/collections/:collectionId/:artpieceId"
-            component={ArtPiece}
-          />
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/">
-            <LandingPage />
-          </Route>
-          <Route exact path="/signup">
-            <SignUpPage />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom" className="bottom-nav">
-          <IonTabButton tab="tab1" href="/daily">
-            {/* <IonIcon icon={triangle} /> */}
-            <IonImg src="../assets/icon/daily-art.png" alt="" />
-            {/* <IonLabel>Daily</IonLabel> */}
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/collections">
-            {/* <IonIcon icon={ellipse} /> */}
-            <IonImg src="../assets/icon/collections.png" alt="" />
-            {/* <IonLabel>Collections</IonLabel> */}
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/profile">
-            {/* <IonIcon icon={square} /> */}
-            <IonImg src="../assets/icon/profile.png" alt="" />
-            {/* <IonLabel>Profile</IonLabel> */}
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
+      <IonRouterOutlet>
+        <Route exact path="/daily">
+          <Daily />
+        </Route>
+        <Route exact path="/preferences">
+          <Preferences />
+        </Route>
+        <Route exact path="/collections">
+          <Collections />
+        </Route>
+        <Route exact path="/collections/:collectionId" component={Collection} />
+        <Route
+          exact
+          path="/collections/:collectionId/:artpieceId"
+          component={ArtPiece}
+        />
+        <Route path="/profile">
+          <Profile />
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/">
+          <LandingPage />
+        </Route>
+        <Route exact path="/signup">
+          <SignUpPage />
+        </Route>
+      </IonRouterOutlet>
+      <IonTabBar slot="bottom" className="bottom-nav" color="custom-dark">
+        <IonTabButton tab="tab1" href="/daily">
+          {/* <IonIcon icon={triangle} /> */}
+          <IonImg src="../assets/icon/daily-art.png" alt="" />
+          {/* <IonLabel>Daily</IonLabel> */}
+        </IonTabButton>
+        <IonTabButton tab="tab2" href="/collections">
+          {/* <IonIcon icon={ellipse} /> */}
+          <IonImg src="../assets/icon/collections.png" alt="" />
+          {/* <IonLabel>Collections</IonLabel> */}
+        </IonTabButton>
+        <IonTabButton tab="tab3" href="/profile">
+          {/* <IonIcon icon={square} /> */}
+          <IonImg src="../assets/icon/profile.png" alt="" />
+          {/* <IonLabel>Profile</IonLabel> */}
+        </IonTabButton>
+      </IonTabBar>
     </IonReactRouter>
   </IonApp>
 );

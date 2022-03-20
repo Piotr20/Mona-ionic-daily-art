@@ -1,57 +1,68 @@
 .profile-page {
-    background-color: #1d1d1d;
+  background-color: #1d1d1d;
 }
 
 .page-title {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 
 .profile-form ion-label {
-    font-family: 'Noto-Sans', sans-serif;
+  font-family: "Noto-Sans", sans-serif;
 }
 
 .profile-card {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .input {
-    --padding-start: 0px;
-    --inner-padding-start: 0px;
-    padding-bottom: 16px;
-  }
+  --padding-start: 0px;
+  --inner-padding-start: 0px;
+  padding-bottom: 16px;
+}
 
 .header {
-    font-size: 24px;
-    padding: 24px 0 16px 16px;
-    font-family: 'Noto-Sans', sans-serif;
+  font-size: 24px;
+  padding: 24px 0 16px 16px;
+  font-family: "Noto-Sans", sans-serif;
 }
 
 .preferences-profile {
-    padding-bottom: 16px;
+  padding-bottom: 16px;
 }
 
 .profile-form .ion-padding {
-    width: 150px;
-    align-self: center;
-    margin: 0 auto;
-    padding: 0;
-    margin-top: 40px;
-  }
+  width: 150px;
+  align-self: center;
+  margin: 0 auto;
+  padding: 0;
+  margin-top: 40px;
+}
+.profile-form:nth-of-type(2) .ion-padding {
+  margin-top: 0;
+}
+.profile-form:nth-of-type(2) p {
+  margin-top: 0;
+  padding: 0 16px;
+}
+.logout-wrapper {
+  --padding-bottom: 59px !important;
+  padding-bottom: 59px !important;
+}
 
-  .logout-button {
-      margin-top: 40px;
-      color: white;
-      background-color: none;
-  }
+.logout-button {
+  margin-top: 40px;
+  color: white;
+  background-color: none;
+}
 
-  ion-item {
-    font-family: 'Oranienbaum', serif;
-  }
+ion-item {
+  font-family: "Oranienbaum", serif;
+}
 
-  ion-input {
-    font-family: 'Noto Sans', sans-serif;
-  }
+ion-input {
+  font-family: "Noto Sans", sans-serif;
+}
 
-  .orange-button {
-    font-family: 'Oranienbaum', serif;
-  }
+.orange-button {
+  font-family: "Oranienbaum", serif;
+}

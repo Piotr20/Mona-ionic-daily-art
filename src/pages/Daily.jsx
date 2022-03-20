@@ -18,8 +18,8 @@ import {
   collectionsRef,
   usersRef,
 } from "../firebase/firebaseInit";
-import "./Daily.css";
 import "../theme/global.css";
+import "./Daily.css";
 import SheetModal from "../components/AddToCollection";
 
 const Daily = () => {
@@ -113,17 +113,6 @@ const Daily = () => {
     setRecomended(artArray[random]);
   }
 
-  function handleLike(e) {
-    setFavorited(!favorited);
-
-    if (favorited) {
-      followIcon.current.classList.add("active");
-      addArtPieceToFavorites();
-    } else {
-      followIcon.current.classList.remove("active");
-    }
-  }
-
   async function addArtPieceToFavorites() {
     // get doc with the name "Favorites" and current uid
     const q = query(
@@ -183,7 +172,7 @@ const Daily = () => {
 
   return (
     <IonPage>
-      <IonContent color="custom-black" fullscreen>
+      <IonContent color="custom-black" fullscreen className="daily-content">
         <div className="daily-img-wrapper">
           <div className="daily-overlay">
             <h2>{recomended?.data?.name}</h2>

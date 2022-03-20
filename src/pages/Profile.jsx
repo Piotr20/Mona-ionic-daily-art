@@ -15,7 +15,8 @@ import {
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { usersRef } from "../firebase/firebaseInit";
-import { get, update } from "@firebase/database";
+import { useHistory } from "react-router-dom";
+
 import {
   brushOutline,
   businessOutline,
@@ -24,10 +25,12 @@ import {
 } from "ionicons/icons";
 import { collection, query, where, getDocs } from "firebase/firestore";
 // import { Toast } from "@capacitor/toast";
-import "./Profile.css";
 import "../theme/global.css";
 
+import "./Profile.css";
+
 export default function ProfilePage() {
+  const history = useHistory();
   const auth = getAuth();
   // const user = auth.currentUser;
 
@@ -133,43 +136,24 @@ export default function ProfilePage() {
 
         <IonHeader className="header">Preferences</IonHeader>
 
-        <form onSubmit={handleSubmit} className="profile-form">
-          <IonItem className="preferences-profile">
-            <IonIcon icon={brushOutline} slot="start" />
-            <IonLabel>Paintings</IonLabel>
-            <IonToggle checked />
-          </IonItem>
-
-          <IonItem className="preferences-profile">
-            <IonIcon icon={hammerOutline} slot="start" />
-            <IonLabel>Sculptures</IonLabel>
-            <IonToggle checked />
-          </IonItem>
-
-          <IonItem className="preferences-profile">
-            <IonIcon icon={cameraOutline} slot="start" />
-            <IonLabel>Photography</IonLabel>
-            <IonToggle checked />
-          </IonItem>
-
-          <IonItem>
-            <IonIcon icon={businessOutline} slot="start" />
-            <IonLabel>Architecture</IonLabel>
-            <IonToggle checked />
-          </IonItem>
+        <form className="profile-form">
+          <p>
+            If you want to change your daily preferences please follow the
+            button.
+          </p>
           <div className="ion-padding">
             <IonButton
               color="custom-orange"
               className="signup-button orange-button"
-              type="submit"
               expand="block"
+              onClick={() => history.replace("/preferences")}
             >
-              Save
+              Change preferences
             </IonButton>
           </div>
         </form>
 
-        <div className="ion-padding">
+        <div className="ion-padding logout-wrapper">
           <IonButton
             className="logout-button"
             onClick={handleSignOut}

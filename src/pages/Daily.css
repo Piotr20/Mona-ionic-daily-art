@@ -5,6 +5,7 @@
 .daily-img {
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 .daily-overlay {
   background: linear-gradient(
@@ -27,6 +28,7 @@
 .daily-overlay h2 {
   font-family: "Oranienbaum", serif;
   font-size: 32px;
+  text-align: center;
 }
 .daily-overlay h4 {
   margin: 8px 0;
@@ -78,6 +80,7 @@
 }
 .daily-page-content {
   padding: 0 24px;
+  padding-bottom: 59px;
 }
 .daily-page-content .art-bio p {
   line-height: 130%;

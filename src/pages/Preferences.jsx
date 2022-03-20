@@ -1,4 +1,11 @@
-import { IonContent, IonHeader, IonPage, IonButton, IonImg, IonCard } from "@ionic/react";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonButton,
+  IonImg,
+  IonCard,
+} from "@ionic/react";
 import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -10,9 +17,8 @@ import "./Preferences.css";
 export default function Preferences() {
   const history = useHistory();
   const [user, setUser] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
-
   const [usersArray, setUsersArray] = useState([]);
+
   const [paintings, setPaintings] = useState(false);
   const [sculptures, setSculptures] = useState(false);
   const [photography, setPhotography] = useState(false);
@@ -21,20 +27,20 @@ export default function Preferences() {
   const sculpturesRef = useRef(null);
   const photographyRef = useRef(null);
   const architectureRef = useRef(null);
-  const auth = getAuth();
+
   useEffect(() => {
     hideTabs();
     fetchUserData();
-    setUser(auth.currentUser);
   }, []);
 
   async function fetchUserData() {
-    onAuthStateChanged(auth, (userA) => {
-      if (userA) {
-        //when user signed ins
-        setUser(userA);
-
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        //when user signed in
+        setUser(user);
         //current user
+        // console.log(user);
       } else {
         // when user signed out
         history.replace("/login");
@@ -42,7 +48,6 @@ export default function Preferences() {
     });
 
     const querySnapshot = await getDocs(usersRef);
-
     querySnapshot.forEach(async (doc) => {
       const docData = {
         data: await doc.data(),
@@ -51,27 +56,9 @@ export default function Preferences() {
 
       usersArray.push(docData);
     });
-    for (const userPreference of await usersArray) {
-      if (userPreference.data.uid === auth.currentUser.uid) {
-        if (userPreference.data.Preferences.paintings) {
-          setPaintings(userPreference.data.Preferences.paintings);
-          console.log("Paintings preference updated", paintings);
-        }
-        if (userPreference.data.Preferences.sculptures) {
-          setSculptures(userPreference.data.Preferences.sculptures);
-          console.log("Sculptures preference updated", sculptures);
-        }
-        if (userPreference.data.Preferences.architecture) {
-          setArchitecture(userPreference.data.Preferences.architecture);
-          console.log("Architecture preference updated", architecture);
-        }
-        if (userPreference.data.Preferences.photography) {
-          setPhotography(userPreference.data.Preferences.photography);
-          console.log("Photography preference updated", photography);
-        }
-      }
-    }
+
     //all docs in users collection
+    // console.log(usersArray);
   }
 
   async function handleSubmit(e) {
@@ -81,7 +68,7 @@ export default function Preferences() {
       if (userDoc.data.uid == user.uid) {
         const userToUpdate = doc(usersRef, userDoc.docId);
 
-        // Set the "preferences" objec of the current user
+        // Set the "capital" field of the city 'DC'
         await updateDoc(userToUpdate, {
           Preferences: {
             paintings: paintings,
@@ -101,7 +88,9 @@ export default function Preferences() {
       <IonContent fullscreen>
         <IonImg className="login-bg-img" src="assets/Images/Mona-lisa.jpg" />
         <IonCard className="signup-card" color="custom-dark">
-          <IonHeader className="preferences-header">Choose your preferences</IonHeader>
+          <IonHeader className="preferences-header">
+            Choose your preferences
+          </IonHeader>
           <form className="preferences-form" onSubmit={handleSubmit}>
             <div className="preferences-wrapper">
               <div
@@ -113,7 +102,7 @@ export default function Preferences() {
               >
                 <div className="preference-card">
                   <IonImg
-                    className={`card-image ${paintings ? "activated" : ""}`}
+                    className="card-image"
                     src="assets/Images/preferences/paintings.png"
                     ref={paintingsRef}
                   />
@@ -129,7 +118,7 @@ export default function Preferences() {
               >
                 <div className="preference-card">
                   <IonImg
-                    className={`card-image ${sculptures ? "activated" : ""}`}
+                    className="card-image"
                     src="assets/Images/preferences/sculpture.png"
                     ref={sculpturesRef}
                   />
@@ -146,7 +135,7 @@ export default function Preferences() {
               >
                 <div className="preference-card">
                   <IonImg
-                    className={`card-image ${architecture ? "activated" : ""}`}
+                    className="card-image"
                     src="assets/Images/preferences/architecture.png"
                     ref={architectureRef}
                   />
@@ -162,7 +151,7 @@ export default function Preferences() {
               >
                 <div className="preference-card">
                   <IonImg
-                    className={`card-image ${photography ? "activated" : ""}`}
+                    className="card-image"
                     src="assets/Images/preferences/photography.png"
                     ref={photographyRef}
                   />
@@ -171,7 +160,12 @@ export default function Preferences() {
               </div>
             </div>
             <div className="ion-padding">
-              <IonButton color="custom-orange" className="preferences-button" type="submit" expand="block">
+              <IonButton
+                color="custom-orange"
+                className="preferences-button"
+                type="submit"
+                expand="block"
+              >
                 Confirm
               </IonButton>
             </div>
