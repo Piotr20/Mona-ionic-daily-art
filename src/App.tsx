@@ -39,8 +39,15 @@ import Collection from "./pages/Collection";
 import SignUpPage from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
 import Preferences from "./pages/Preferences";
+import ArtPiece from "./pages/ArtPiece";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from "@capacitor/push-notifications";
 setupIonicReact();
 
 const auth = getAuth();
@@ -50,6 +57,43 @@ onAuthStateChanged(auth, (userA) => {
   } else {
   }
 });
+//push notification code
+console.log("Initializing HomePage");
+
+// Request permission to use push notifications
+// iOS will prompt user and return if they granted permission or not
+// Android will just grant without prompting
+PushNotifications.requestPermissions().then((result) => {
+  if (result.receive === "granted") {
+    // Register with Apple / Google to receive push via APNS/FCM
+    PushNotifications.register();
+  } else {
+    // Show some error
+  }
+});
+
+// On success, we should be able to receive notifications
+PushNotifications.addListener("registration", (token) => {
+  alert("Push registration success, token: " + token.value);
+});
+
+// Some issue with our setup and push will not work
+PushNotifications.addListener("registrationError", (error) => {
+  alert("Error on registration: " + JSON.stringify(error));
+});
+
+// Show us the notification payload if the app is open on our device
+PushNotifications.addListener("pushNotificationReceived", (notification) => {
+  alert("Push received: " + JSON.stringify(notification));
+});
+
+// Method called when tapping on a notification
+PushNotifications.addListener(
+  "pushNotificationActionPerformed",
+  (notification) => {
+    alert("Push action performed: " + JSON.stringify(notification));
+  }
+);
 
 const App: React.FC = () => (
   <IonApp>
@@ -65,9 +109,16 @@ const App: React.FC = () => (
           <Route exact path="/collections">
             <Collections />
           </Route>
-          <Route exact path="/collections/:collectionId">
-            <Collection />
-          </Route>
+          <Route
+            exact
+            path="/collections/:collectionId"
+            component={Collection}
+          />
+          <Route
+            exact
+            path="/collections/:collectionId/:artpieceId"
+            component={ArtPiece}
+          />
           <Route path="/profile">
             <Profile />
           </Route>

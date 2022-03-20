@@ -24,6 +24,11 @@ const SheetModal = ({
       initialBreakpoint={0.5}
       onDidDismiss={() => setIsOpen(false)}
     >
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>{title}</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="new-collection-modal">
         <IonHeader className="addNewCollection-tittle">{title}</IonHeader>
         <IonItem>
