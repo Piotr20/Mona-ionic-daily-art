@@ -20,7 +20,7 @@ import { Link, useHistory } from "react-router-dom";
 import { collectionsRef } from "../firebase/firebaseInit";
 import "./Collections.css";
 import SheetModal from "../components/SheetModal";
-import placeholder from "../assets/img-placeholder.png";
+import placeholder from "../assets/favorites-placeholder.png";
 import "../theme/global.css";
 
 const Collections = () => {
@@ -70,18 +70,9 @@ const Collections = () => {
     <IonPage className="collections">
       <IonHeader>
         <IonToolbar>
-          <IonTitle size="large">Collections</IonTitle>
-          <IonButton
-            onClick={() => setIsOpen(true)}
-            className="add-btn"
-            color="custom-orange"
-            slot="end"
-          >
-            +
-          </IonButton>
+          <IonTitle slot="start">Collections</IonTitle>
         </IonToolbar>
       </IonHeader>
-      {/* <IonItem> */}
       {/* Add a new collection - modal */}
       <SheetModal
         title="Add a new collection"
@@ -99,7 +90,7 @@ const Collections = () => {
         duration={1500}
       />
       {/* </IonItem> */}
-      <IonContent>
+      <IonContent fullscreen>
         <IonHeader collapse="condense" className="page-title">
           <IonToolbar>
             <IonTitle size="large">Collections</IonTitle>
