@@ -49,7 +49,7 @@ To make that happens we used some Capacitor plugins like:
 
 We created a few collections in Firestore to store our users data:
 
-- _users_
+- _users_ - Users from Firebase Authentication
 - _artpieces_ - At first we wanted to use an external API with a wide selection of art pieces (e.g. Artsy API, MET API). Unfortunately none of them suited our needs, so we decided to create our own small database in a Firestore collection. However, as a future improvement we would need to add more art pieces, because right now we only supply content for maximum 20 days (depending on the user’s preferences)
 - _collections_ - Stores all collections added by users
 - _artpieces_in_collections_ - Here, when a user saves an art piece in a collection, we store a connection between the specific collection and the art work
@@ -66,8 +66,16 @@ We kept our project and folder structure pretty simple. In the _src_ directory w
 **FEATURES**
 
 - Login and Sign up
-- One random artpiece a day
+
+To leverage authentication we used basic firebase auth functions with a minor additions such as Ionic toasts.
+
+- Daily art
+
+The way that functionality works is by taking seeded random number which we later use to fetch fitting artpiece once a day according to the preferences.
 - Preferences
+
+For the preferences we are checking the logged user's art preferebces abd vased wheteher he already chosen or not highlight them and later update the very user doc.
+
 - Favorites and Collections
 
 A Favorites collection is added when the user signs up.
@@ -82,12 +90,7 @@ In the collection page, the user can preview all their saved art pieces. They ca
 
 In the Profile page, the user can preview their account details and update them if needed. They are fetched from the Firestore collection and inserted as the value of the inputs. When the Save button is tapped, the document is updated with the new data.
 
-- Daily art
-  The way that functionality works is by taking seeded rabdom number which we later use to fetch fitting artpiece once a day according to the preferences.
-- Preferences
-  For the preferences we are checking the logged user's art preferebces abd vased wheteher he already chosen or not highlight them and later update the very user doc.
-- login/signup
-  To leverage authentication we used basic firebase auth functions with a minor additions such as ionic toasts.
+
 
 # How to run
 
