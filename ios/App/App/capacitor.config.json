@@ -1,0 +1,11 @@
+{
+  "appId": "mona.daily.art",
+  "appName": "Mona",
+  "webDir": "build",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  }
+}
