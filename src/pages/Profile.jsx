@@ -16,7 +16,7 @@ import { usersRef } from "../utilities/firebaseInit";
 import { useHistory } from "react-router-dom";
 
 import { query, getDocs } from "firebase/firestore";
-import "../theme/global.css";
+import "../styles/global.css";
 
 import "../styles/pages/Profile.css";
 

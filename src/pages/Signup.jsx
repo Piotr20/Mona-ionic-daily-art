@@ -12,16 +12,11 @@ import {
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  updateProfile,
-} from "firebase/auth";
-import { auth, app } from "../utilities/firebaseInit";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc } from "firebase/firestore";
 import { usersRef } from "../utilities/firebaseInit";
 import "../styles/pages/Signup.css";
-import "../theme/global.css";
+import "../styles/global.css";
 import { addFavorites } from "./Collections";
 import { hideTabs } from "../utilities/utilities";
 

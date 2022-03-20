@@ -15,7 +15,7 @@ import {
   collectionsRef,
   usersRef,
 } from "../utilities/firebaseInit";
-import "../theme/global.css";
+import "../styles/global.css";
 import "../styles/pages/Daily.css";
 import SheetModal from "../components/AddToCollection";
 
