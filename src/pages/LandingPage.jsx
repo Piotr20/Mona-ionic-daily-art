@@ -34,6 +34,7 @@ const LandingPage = () => {
         console.log(error);
       });
   }
+
   return (
     <IonPage id="login-page">
       <IonContent className="page-content" fullscreen>
