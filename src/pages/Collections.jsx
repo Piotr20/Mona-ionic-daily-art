@@ -64,15 +64,16 @@ const Collections = () => {
     setNewCollectionName("");
   };
 
-  const displayPlaceholder = () => {
-    // if (collection.data.cover_img) {
-    //   return collection.data.cover_img;
-    // } else if (collection.data.name === "Favorites") {
-    //   return favPlaceholder;
-    // } else {
-    //   return colPlaceholder;
-    // }
-    return colPlaceholder;
+  const displayPlaceholder = (collection) => {
+    let img = "";
+    if (collection.data.cover_img) {
+      img = collection.data.cover_img;
+    } else if (collection.data.name === "Favorites") {
+      img = favPlaceholder;
+    } else {
+      img = colPlaceholder;
+    }
+    return img;
   };
 
   return (
@@ -121,7 +122,7 @@ const Collections = () => {
                   <IonImg
                     className="collection-img"
                     alt="coverimage"
-                    src={displayPlaceholder()}
+                    src={displayPlaceholder(collection)}
                   />
                   <IonLabel>{collection.data.name}</IonLabel>
                 </Link>
