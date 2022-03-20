@@ -1,10 +1,12 @@
 import {
   IonButton,
   IonContent,
+  IonHeader,
   IonInput,
   IonItem,
   IonModal,
   IonTitle,
+  IonToolbar,
 } from "@ionic/react";
 
 const SheetModal = ({
@@ -22,8 +24,12 @@ const SheetModal = ({
       initialBreakpoint={0.5}
       onDidDismiss={() => setIsOpen(false)}
     >
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>{title}</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="new-collection-modal">
-        <IonTitle>{title}</IonTitle>
         <IonItem>
           <IonInput
             value={inputValue}
@@ -35,7 +41,7 @@ const SheetModal = ({
           onClick={action}
           color="custom-orange"
           expand="block"
-          className="modal-btn"
+          className="orange-button"
         >
           Save
         </IonButton>
