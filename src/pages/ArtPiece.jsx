@@ -1,4 +1,10 @@
-import { useIonViewWillEnter } from "@ionic/react";
+import {
+  IonContent,
+  IonImg,
+  IonPage,
+  useIonViewWillEnter,
+  useIonViewWillLeave,
+} from "@ionic/react";
 import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useParams } from "react-router";
@@ -19,7 +25,17 @@ const ArtPiece = () => {
     getArtPiece();
   });
 
-  return <div>{artpieceId}</div>;
+  useIonViewWillLeave(() => {
+    setCurrentArtPiece(null);
+  });
+
+  return (
+    <IonPage>
+      <IonContent>
+        <IonImg src={currentArtPiece?.imgUrl} alt="artpiece" />
+      </IonContent>
+    </IonPage>
+  );
 };
 
 export default ArtPiece;

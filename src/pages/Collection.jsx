@@ -4,6 +4,7 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
+  IonImg,
   IonInput,
   IonItem,
   IonList,
@@ -180,19 +181,25 @@ const Collection = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>
+        <div className="collections-grid">
           {artPieces.map((piece) => {
             return (
               <div key={piece.id}>
                 {piece.data.img && (
-                  <Link to={`/artpiece/${piece.data.artpiece_id}`}>
-                    <img src={piece.data.img} alt="artpiece" />
+                  <Link
+                    to={`/collections/${collectionId}/${piece.data.artpiece_id}`}
+                  >
+                    <IonImg
+                      className="collection-img"
+                      src={piece.data.img}
+                      alt="artpiece"
+                    />
                   </Link>
                 )}
               </div>
             );
           })}
-        </IonList>
+        </div>
       </IonContent>
     </IonPage>
   );

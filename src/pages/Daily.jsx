@@ -177,12 +177,15 @@ const Daily = () => {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // console.log(doc.id, " => ", doc.data());
       let collection = {
         id: doc.id,
         data: doc.data(),
       };
-      collectionsArray.push(collection);
+      if (collection.data.name === "Favorites") {
+        collectionsArray.unshift(collection);
+      } else {
+        collectionsArray.push(collection);
+      }
     });
     setCollections(collectionsArray);
   };

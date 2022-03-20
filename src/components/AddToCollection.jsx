@@ -2,16 +2,14 @@ import { getAuth } from "@firebase/auth";
 import {
   IonButton,
   IonContent,
-  IonInput,
   IonItem,
   IonLabel,
-  IonListHeader,
   IonModal,
   IonRadio,
   IonRadioGroup,
   IonTitle,
   IonToast,
-  useIonViewWillEnter,
+  IonToolbar,
 } from "@ionic/react";
 import { addDoc, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -23,12 +21,9 @@ const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
   const [showErrorToast, setShowErrorToast] = useState(false);
   const auth = getAuth();
 
-  useEffect(() => {
-    console.log(collections);
-  }, []);
-
   const addArtPieceToCollection = async () => {
     if (await isAlreadyAddedToCollection()) {
+      setSelected(null);
       setShowErrorToast(true);
     } else {
       // get doc with the selected name and current uid
@@ -52,6 +47,7 @@ const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
         img: artPiece.data.imgUrl,
       });
       // setIsOpen(false);
+      setSelected(null);
       setShowSuccessToast(true);
     }
   };
@@ -105,7 +101,9 @@ const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
       onDidDismiss={() => setIsOpen(false)}
     >
       <IonContent className="new-collection-modal">
-        <IonTitle>{title}</IonTitle>
+        <IonToolbar>
+          <IonTitle>Add to collection</IonTitle>
+        </IonToolbar>
         <IonRadioGroup
           value={selected}
           onIonChange={(e) => setSelected(e.detail.value)}
