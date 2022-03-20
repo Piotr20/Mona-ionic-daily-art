@@ -1,11 +1,15 @@
 {
-  "appId": "mona.daily.art",
-  "appName": "Mona",
-  "webDir": "build",
-  "bundledWebRuntime": false,
-  "plugins": {
-    "PushNotifications": {
-      "presentationOptions": ["badge", "sound", "alert"]
-    }
-  }
+	"appId": "io.ionic.starter",
+	"appName": "Mona",
+	"webDir": "build",
+	"bundledWebRuntime": false,
+	"plugins": {
+		"PushNotifications": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
+		}
+	}
 }
