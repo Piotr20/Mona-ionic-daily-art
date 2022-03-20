@@ -88,3 +88,24 @@ In the Profile page, the user can preview their account details and update them 
   For the preferences we are checking the logged user's art preferebces abd vased wheteher he already chosen or not highlight them and later update the very user doc.
 - login/signup
   To leverage authentication we used basic firebase auth functions with a minor additions such as ionic toasts.
+
+# How to run
+
+If you want to run it on the web you need to clone this repositiory make sure you are on master and run this comands
+
+    npm i
+
+### Followed by
+
+    ionic serve
+
+## If you want to run it on your device we shipped prepared ios folder
+
+    npm i
+
+### Followed by
+
+    ionic capacitor open ios
+
+It should open the Xcoe for you and you should be able to either chose you own device or any given emulator
+We did not prepare anything for android since we are not a big fans of Android :)
