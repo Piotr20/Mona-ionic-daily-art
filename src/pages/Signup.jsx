@@ -10,7 +10,7 @@ import {
   IonCheckbox,
   IonToast,
 } from "@ionic/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
@@ -22,6 +22,7 @@ import { addDoc } from "firebase/firestore";
 import { usersRef } from "../firebase/firebaseInit";
 import "./Signup.css";
 import { addFavorites } from "./Collections";
+import { hideTabs } from "../components/utilities";
 
 export default function SignUpPage() {
   const [mail, setMail] = useState("");
@@ -32,6 +33,10 @@ export default function SignUpPage() {
   const [idiotCounter, setIdiotCounter] = useState(0);
 
   const history = useHistory();
+
+  useEffect(() => {
+    hideTabs();
+  }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -100,9 +105,10 @@ export default function SignUpPage() {
             </IonItem>
             <p className="signup-checkbox-wrapper">
               <IonCheckbox
+                value={checkbox}
                 className="signup-checkbox"
                 color="light"
-                onIonChange={(e) => setCheckbox(e.detail.checked)}
+                onIonChange={(e) => setCheckbox(e.target.checked)}
               />
               I accept Terms & Conditions
             </p>

@@ -1,9 +1,27 @@
-import { IonContent, IonHeader, IonImg, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import {
+  IonContent,
+  IonHeader,
+  IonImg,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
 import { addDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore";
-import { artInCollectionsRef, artpiecesRef, collectionsRef, usersRef } from "../firebase/firebaseInit";
+import {
+  artInCollectionsRef,
+  artpiecesRef,
+  collectionsRef,
+  usersRef,
+} from "../firebase/firebaseInit";
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from "@capacitor/push-notifications";
 import "./Daily.css";
 import "../theme/global.css";
 
@@ -56,16 +74,28 @@ const Daily = () => {
     const artArray = [];
 
     for (const artwork of artpiecesArray) {
-      if (userDoc.data.Preferences.paintings === true && artwork.data.category === "painting") {
+      if (
+        userDoc.data.Preferences.paintings === true &&
+        artwork.data.category === "painting"
+      ) {
         artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.sculptures === true && artwork.data.category === "sculpture") {
+      if (
+        userDoc.data.Preferences.sculptures === true &&
+        artwork.data.category === "sculpture"
+      ) {
         artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.photography === true && artwork.data.category === "photography") {
+      if (
+        userDoc.data.Preferences.photography === true &&
+        artwork.data.category === "photography"
+      ) {
         artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.architecture === true && artwork.data.category === "architecture") {
+      if (
+        userDoc.data.Preferences.architecture === true &&
+        artwork.data.category === "architecture"
+      ) {
         artArray.push(artwork);
       }
     }
@@ -74,7 +104,8 @@ const Daily = () => {
 
     function rand_from_seed(x, iterations) {
       iterations = iterations || 100;
-      for (var i = 0; i < iterations; i++) x = (x ^ (x << 1) ^ (x >> 1)) % artArray.length;
+      for (var i = 0; i < iterations; i++)
+        x = (x ^ (x << 1) ^ (x >> 1)) % artArray.length;
 
       return x;
     }
@@ -118,6 +149,43 @@ const Daily = () => {
       img: recomended.data.imgUrl,
     });
   }
+  //push notification code
+  console.log("Initializing HomePage");
+
+  // Request permission to use push notifications
+  // iOS will prompt user and return if they granted permission or not
+  // Android will just grant without prompting
+  PushNotifications.requestPermissions().then((result) => {
+    if (result.receive === "granted") {
+      // Register with Apple / Google to receive push via APNS/FCM
+      PushNotifications.register();
+    } else {
+      // Show some error
+    }
+  });
+
+  // On success, we should be able to receive notifications
+  PushNotifications.addListener("registration", (token) => {
+    alert("Push registration success, token: " + token.value);
+  });
+
+  // Some issue with our setup and push will not work
+  PushNotifications.addListener("registrationError", (error) => {
+    alert("Error on registration: " + JSON.stringify(error));
+  });
+
+  // Show us the notification payload if the app is open on our device
+  PushNotifications.addListener("pushNotificationReceived", (notification) => {
+    alert("Push received: " + JSON.stringify(notification));
+  });
+
+  // Method called when tapping on a notification
+  PushNotifications.addListener(
+    "pushNotificationActionPerformed",
+    (notification) => {
+      alert("Push action performed: " + JSON.stringify(notification));
+    }
+  );
 
   return (
     <IonPage>
@@ -134,10 +202,16 @@ const Daily = () => {
           <span className="category label">{recomended?.data?.period}</span>
           <span className="category label">{recomended?.data?.category}</span>
           <span ref={followIcon} className="like icon" onClick={handleLike}>
-            <IonImg className="icon-self" src="assets/icon/custom-icons/heart.svg"></IonImg>
+            <IonImg
+              className="icon-self"
+              src="assets/icon/custom-icons/heart.svg"
+            ></IonImg>
           </span>
           <span className="add-collection icon">
-            <IonImg className="icon-self" src="assets/icon/custom-icons/folder.svg"></IonImg>
+            <IonImg
+              className="icon-self"
+              src="assets/icon/custom-icons/folder.svg"
+            ></IonImg>
           </span>
         </div>
         <div className="daily-page-content">
