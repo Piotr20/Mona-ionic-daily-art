@@ -9,36 +9,24 @@ import {
   IonButton,
   IonInput,
   useIonLoading,
-  IonToggle,
-  IonIcon,
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { usersRef } from "../firebase/firebaseInit";
+import { usersRef } from "../utilities/firebaseInit";
 import { useHistory } from "react-router-dom";
 
-import {
-  brushOutline,
-  businessOutline,
-  cameraOutline,
-  hammerOutline,
-} from "ionicons/icons";
-import { collection, query, where, getDocs } from "firebase/firestore";
-// import { Toast } from "@capacitor/toast";
+import { query, getDocs } from "firebase/firestore";
 import "../theme/global.css";
 
-import "./Profile.css";
+import "../styles/pages/Profile.css";
 
 export default function ProfilePage() {
   const history = useHistory();
   const auth = getAuth();
-  // const user = auth.currentUser;
-
   const [user, setUser] = useState({});
   const [usersArray, setUsersArray] = useState([]);
 
   const [name, setName] = useState("");
-  //   const displayName = user.name;
   const [email, setMail] = useState("");
   const [password, setPassword] = useState("");
   const [showLoader, dismissLoader] = useIonLoading();
@@ -48,7 +36,6 @@ export default function ProfilePage() {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
       usersArray.push({ data: doc.data(), docId: doc.id });
     });
     console.log(usersArray);
@@ -62,12 +49,6 @@ export default function ProfilePage() {
         // when user signed out
       }
     });
-    // current user from users collection
-    // for (const cokolwiek of usersArray) {
-    //   if (cokolwiek.uid == user.uid) {
-    //     setCurrentUser(cokolwiek);
-    //   }
-    // }
   }
 
   useEffect(() => {

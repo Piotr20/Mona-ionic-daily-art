@@ -14,12 +14,12 @@ import {
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { collectionsRef } from "../firebase/firebaseInit";
-import "./Collections.css";
+import { collectionsRef } from "../utilities/firebaseInit";
+import "../styles/pages/Collections.css";
 import SheetModal from "../components/SheetModal";
 import favPlaceholder from "../assets/favorites-placeholder.png";
 import colPlaceholder from "../assets/collection-placeholder.png";
-import "../theme/global.css";
+import "../styles/global.css";
 
 const Collections = () => {
   const history = useHistory();

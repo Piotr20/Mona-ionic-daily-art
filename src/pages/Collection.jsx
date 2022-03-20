@@ -13,10 +13,10 @@ import {
 } from "@ionic/react";
 import { useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import "./Collections.css";
+import "../styles/pages/Collections.css";
 import { ellipsisHorizontalOutline } from "ionicons/icons";
 import { deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
-import { artInCollectionsRef, collectionsRef } from "../firebase/firebaseInit";
+import { artInCollectionsRef, collectionsRef } from "../utilities/firebaseInit";
 import SheetModal from "../components/SheetModal";
 import x from "../assets/akar-icons_cross.png";
 

@@ -4,17 +4,14 @@ import {
   IonCard,
   IonHeader,
   IonPage,
-  IonItem,
-  IonInput,
-  IonLabel,
   IonButton,
 } from "@ionic/react";
-import "./LandingPage.css";
+import "../styles/pages/LandingPage.css";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebaseInit";
-import { hideTabs } from "../components/utilities";
+import { auth } from "../utilities/firebaseInit";
+import { hideTabs } from "../utilities/utilities";
 
 const LandingPage = () => {
   const [mail, setMail] = useState("");
@@ -44,7 +41,8 @@ const LandingPage = () => {
         <IonCard className="landingpage-card" color="transparent">
           <IonHeader className="landingpage-header">MONA</IonHeader>
           <p className="italic-subtext">
-            Discover history of human creativity and add some culture to your daily life with MONA app.
+            Discover history of human creativity and add some culture to your
+            daily life with MONA app.
           </p>
           <div className="ion-padding">
             <IonButton
@@ -57,7 +55,12 @@ const LandingPage = () => {
             </IonButton>
           </div>
           <div className="ion-text-center">
-            <IonButton size="small" fill="clear" color="custom-light" onClick={() => history.replace("/signup")}>
+            <IonButton
+              size="small"
+              fill="clear"
+              color="custom-light"
+              onClick={() => history.replace("/signup")}
+            >
               Create an account
             </IonButton>
           </div>

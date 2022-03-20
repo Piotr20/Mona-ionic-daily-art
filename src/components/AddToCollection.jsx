@@ -21,7 +21,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { artInCollectionsRef, collectionsRef } from "../firebase/firebaseInit";
+import { artInCollectionsRef, collectionsRef } from "../utilities/firebaseInit";
 
 const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
   const [selected, setSelected] = useState(null);

@@ -1,27 +1,22 @@
 import {
   IonContent,
-  IonHeader,
   IonImg,
   IonPage,
-  IonTitle,
-  IonToast,
-  IonToolbar,
-  useIonViewWillEnter,
   IonRefresher,
   IonRefresherContent,
 } from "@ionic/react";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "@firebase/auth";
-import { addDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { getAuth } from "@firebase/auth";
+import { addDoc, getDocs, query, where } from "firebase/firestore";
 import {
   artInCollectionsRef,
   artpiecesRef,
   collectionsRef,
   usersRef,
-} from "../firebase/firebaseInit";
+} from "../utilities/firebaseInit";
 import "../theme/global.css";
-import "./Daily.css";
+import "../styles/pages/Daily.css";
 import SheetModal from "../components/AddToCollection";
 
 const Daily = () => {
@@ -52,7 +47,6 @@ const Daily = () => {
 
       usersArray.push(docData);
     });
-    // console.log(usersArray);
     const awaitedUsersDoc = await usersArray;
 
     //all docs in users collection
@@ -115,42 +109,6 @@ const Daily = () => {
 
     setRecomended(artArray[random]);
   }
-
-  async function addArtPieceToFavorites() {
-    // get doc with the name "Favorites" and current uid
-    const q = query(
-      collectionsRef,
-      where("uid", "==", auth.currentUser.uid),
-      where("name", "==", "Favorites")
-    );
-
-    let collectionId = "";
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-      collectionId = doc.id;
-    });
-
-    // add new doc to artpieces in collections
-    const newDoc = await addDoc(artInCollectionsRef, {
-      artpiece_id: recomended.docId,
-      collection_id: collectionId,
-      img: recomended.data.imgUrl,
-    });
-  }
-
-  // function displayLike() {
-  //   setFavorited(!favorited);
-
-  //   if (favorited) {
-  //     followIcon.current.classList.add("active");
-  //     addArtPieceToFavorites();
-  //   } else {
-  //     followIcon.current.classList.remove("active");
-  //     // remove artpiece from favorites
-  //   }
-  // }
 
   // fetch user's collections to display in the "Add to collection" modal
   const getCollections = async () => {
