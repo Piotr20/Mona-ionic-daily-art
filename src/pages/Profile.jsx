@@ -55,8 +55,9 @@ export default function ProfilePage() {
     getUserDataFromDB();
   });
 
-  function handleSignOut() {
-    signOut(auth);
+  async function handleSignOut() {
+    await signOut(auth);
+    history.replace("/");
   }
 
   async function handleSubmit(event) {}
@@ -91,7 +92,7 @@ export default function ProfilePage() {
             <IonInput
               value={name}
               type="text"
-              placeholder={user?.name}
+              placeholder={user?.displayName}
               onIonChange={(e) => setName(e.target.value)}
             />
 
