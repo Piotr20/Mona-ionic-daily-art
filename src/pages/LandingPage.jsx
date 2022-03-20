@@ -42,10 +42,9 @@ const LandingPage = () => {
       <IonContent className="page-content" fullscreen>
         <IonImg className="landing-bg-img" src="assets/Images/Mona-lisa.jpg" />
         <IonCard className="landingpage-card" color="transparent">
-          <IonHeader className="landingpage-header">Landing page</IonHeader>
+          <IonHeader className="landingpage-header">MONA</IonHeader>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit labore nihil mollitia laudantium
-            itaque dicta dolores. Eaque, dolor. Nulla, error!
+            A work is finished when an artist realizes his intentions
           </p>
           <div className="ion-padding">
             <IonButton
