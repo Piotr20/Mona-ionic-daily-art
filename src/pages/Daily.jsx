@@ -7,6 +7,8 @@ import {
   IonToast,
   IonToolbar,
   useIonViewWillEnter,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/react";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
@@ -36,6 +38,7 @@ const Daily = () => {
   const auth = getAuth();
 
   useEffect(() => {
+    doRefresh();
     verifyUserPreferences();
   }, [auth]);
 
@@ -169,10 +172,18 @@ const Daily = () => {
     });
     setCollections(collectionsArray);
   };
+  function doRefresh(event) {
+    setTimeout(() => {
+      event.detail.complete();
+    }, 700);
+  }
 
   return (
     <IonPage>
       <IonContent color="custom-black" fullscreen className="daily-content">
+        <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
         <div className="daily-img-wrapper">
           <div className="daily-overlay">
             <h2>{recomended?.data?.name}</h2>
