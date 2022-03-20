@@ -81,7 +81,7 @@ const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
           onClick={addArtPieceToCollection}
           color="custom-orange"
           expand="block"
-          className="modal-btn"
+          className="orange-button"
         >
           Save
         </IonButton>

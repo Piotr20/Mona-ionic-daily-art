@@ -11,6 +11,7 @@ import {
   IonPage,
   IonTitle,
   IonToast,
+  IonToolbar,
   useIonViewWillEnter,
 } from "@ionic/react";
 import { useState } from "react";
@@ -114,13 +115,15 @@ const Collection = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonItem>
+        <IonToolbar>
           <IonTitle>{currentCollection && currentCollection.name}</IonTitle>
+          {/* Don't show action sheet in favorites */}
           {currentCollection && currentCollection.name !== "Favorites" ? (
             <IonButton
               onClick={() => setShowActionSheet(true)}
               fill="clear"
-              color="custom-black"
+              color="custom-light"
+              slot="end"
             >
               <IonIcon icon={ellipsisHorizontalOutline} />
             </IonButton>
@@ -174,12 +177,7 @@ const Collection = () => {
               duration={1500}
             />
           )}
-        </IonItem>
-        <IonItem>
-          {/* how to rerender the component after "back" */}
-          {/* <IonButton onClick={goBack} fill="clear">Back to collections</IonButton> */}
-          {/* <Link to={goBack}>Back to collections</Link> */}
-        </IonItem>
+        </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonList>
