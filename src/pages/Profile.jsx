@@ -32,62 +32,23 @@ export default function ProfilePage() {
   const [password, setPassword] = useState("");
   const [showLoader, dismissLoader] = useIonLoading();
 
-  // const getUserDataFromDB = async () => {
-  //   let userData = null;
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       //when user signed in
-  //       setUser(user);
-  //       userData = user;
-  //     } else {
-  //       // when user signed out
-  //     }
-  //   });
-
-  //   if (user) {
-  //     const docRef = doc(usersRef, userData.uid);
-  //     const docSnap = await getDoc(docRef);
-  //     console.log("halo", docSnap.data());
-  //   }
-  //   // const querySnapshot = await getDocs(q);
-  //   // querySnapshot.forEach((doc) => {
-  //   //   console.log(doc.data());
-
-  //   // usersArray.push({ data: doc.data(), docId: doc.id });
-  //   // });
-  //   // console.log(usersArray);
-
-  //   // const auth = getAuth();
-  // };
+  useEffect(() => {
+    getUserDataFromDB();
+  }, []);
 
   async function getUserDataFromDB() {
-    const q = query(usersRef);
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      usersArray.push({ data: doc.data(), docId: doc.id });
-    });
-    // console.log(usersArray);
-    const auth = getAuth();
+    let userData = null;
     onAuthStateChanged(auth, (user) => {
       if (user) {
         //when user signed in
         setUser(user);
-        let idk = usersArray.filter((userr) => userr.data.uid === user.uid);
-        console.log(idk);
-        setCurrentUser(idk);
+
+        console.log(user);
       } else {
         // when user signed out
       }
     });
-    // const docRef = doc(usersRef, user.uid);
-    // const docSnap = await getDoc(docRef);
-    // console.log("halo", docSnap.data());
   }
-
-  useEffect(() => {
-    getUserDataFromDB();
-  }, [auth]);
 
   async function handleSignOut() {
     await signOut(auth);
