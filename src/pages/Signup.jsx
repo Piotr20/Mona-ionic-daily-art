@@ -12,7 +12,7 @@ import {
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { addDoc } from "firebase/firestore";
 import { usersRef } from "../utilities/firebaseInit";
 import "../styles/pages/Signup.css";
@@ -27,6 +27,7 @@ export default function SignUpPage() {
   const [checkbox, setCheckbox] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [idiotCounter, setIdiotCounter] = useState(0);
+  const auth = getAuth();
 
   const history = useHistory();
 
