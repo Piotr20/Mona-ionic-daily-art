@@ -16,12 +16,12 @@ The app adds some culture to your day through several features:
 To make _MONA_ more engaging, and give the feeling of a ‘virtual museum’ we followed some steps:
 
 - to achieve a classy and elegant look, we decided on _Oranienbaum_, which is a modern and high contrast Antique font; with a combination of sans-serif, modern font - Noto Sans - the fonts establish \*\*\*\*hierarchy and create visual interest
-- dark mode with linear, black gradient and shades of grey express sophistication, mystery, elegance, and high-end products and experiences.
-  As a contrasting color element, we used energetic orange to attract attention (for action buttons) and enhance the aesthetics of the app.
+- dark mode with linear, black gradient and shades of grey express sophistication, mystery, elegance, and high-end products and experiences. As a contrasting color element, we used energetic orange to attract attention (for action buttons) and enhance the aesthetics of the app.
+
 - keeping consistency and hierarchy to provide users with a clear and intuitive interface
 - applying an 8px grid to keep consistent spacing and make the app more scalable.
 
-**FOCUS ON USER EXPERIENCE**
+**USER EXPERIENCE**
 
 Besides a modern-looking app, we strive to keep the experience on a user-friendly level so he can easily follow commands and get familiar with the layout:
 
@@ -41,7 +41,7 @@ But the goal of the app wasn’t only to provide users with a nice-looking inter
 To make that happens we used some Capacitor plugins like:
 
 - Toast
-- Action Sheet - In the Collection page we use an action sheet, which allows the user to choose between Edit or Delete.
+- Action Sheet
 - Push Notifications
 - Splash Screen
 
@@ -70,9 +70,11 @@ We kept our project and folder structure pretty simple. In the _src_ directory w
 - Preferences
 - Favorites and Collections
 
-A Favorites collection is added when the user signs up. Then when the user wants to create a custom collection, they can tap on the + button in the Collections tab. It opens up a sheet modal, where they enter the name of the collection. That triggers a function, which creates a new document in Firestore with the name and the user ID and redirects to the collection page.
+A Favorites collection is added when the user signs up.
 
-In order to save an art piece in a collection, the user must tap on the collection icon in the Daily Art tab. That also opens up a sheet modal, which fetches the existing collection names (including Favorites, which are placed as the first one for easy access) and displays them in an Ionic radio component. If the current art piece has already been saved, a toast will show to inform the user and stop them from saving it again. If not, a new document is added to Firestore connected to the collection ID and an cover image for the collection is updated.
+To create a custom collection, they can tap on the + button in the Collections tab to enter the name. That triggers a function, which creates a new document in Firestore and redirects to the collection page.
+
+In order to save an art piece in a collection, the user must tap on the collection icon in the Daily Art tab. In the sheet modal we display the exsititng collection names in an Ionic radio component. If the current art piece has already been saved, a toast will show to inform the user and stop them from saving it again. If not, a new document is added to Firestore and an cover image for the collection is updated.
 
 In the collection page, the user can preview all their saved art pieces. They can also remove chosen art pieces as well as delete or update the name of the collection in the action sheet.
 
