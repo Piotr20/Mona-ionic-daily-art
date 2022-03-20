@@ -1,15 +1,30 @@
-import { IonContent, IonHeader, IonImg, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import {
+  IonContent,
+  IonHeader,
+  IonImg,
+  IonPage,
+  IonTitle,
+  IonToast,
+  IonToolbar,
+  useIonViewWillEnter,
+} from "@ionic/react";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
 import { addDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore";
-import { artInCollectionsRef, artpiecesRef, collectionsRef, usersRef } from "../firebase/firebaseInit";
+import {
+  artInCollectionsRef,
+  artpiecesRef,
+  collectionsRef,
+  usersRef,
+} from "../firebase/firebaseInit";
 import "./Daily.css";
 import "../theme/global.css";
+import SheetModal from "../components/SheetModal2";
 
 const Daily = () => {
   const history = useHistory();
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [usersArray, setUsersArray] = useState([]);
   const [artpiecesArray, setArtpiecesArray] = useState([]);
   const [recomendations, setRecomendations] = useState([]);
@@ -17,9 +32,11 @@ const Daily = () => {
   const [dailyArt, setDailyArt] = useState([]);
   const followIcon = useRef(null);
   const [favorited, setFavorited] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const auth = getAuth();
 
   useEffect(() => {
+    // checkIfArtPieceExists();
     verifyUserPreferences();
   }, [auth]);
 
@@ -58,16 +75,28 @@ const Daily = () => {
 
     console.log(userDoc);
     for (const artwork of artpiecesArray) {
-      if (userDoc.data.Preferences.paintings === true && artwork.data.category === "painting") {
+      if (
+        userDoc.data.Preferences.paintings === true &&
+        artwork.data.category === "painting"
+      ) {
         artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.sculptures === true && artwork.data.category === "sculpture") {
+      if (
+        userDoc.data.Preferences.sculptures === true &&
+        artwork.data.category === "sculpture"
+      ) {
         artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.photography === true && artwork.data.category === "photography") {
+      if (
+        userDoc.data.Preferences.photography === true &&
+        artwork.data.category === "photography"
+      ) {
         artArray.push(artwork);
       }
-      if (userDoc.data.Preferences.architecture === true && artwork.data.category === "architecture") {
+      if (
+        userDoc.data.Preferences.architecture === true &&
+        artwork.data.category === "architecture"
+      ) {
         artArray.push(artwork);
       }
     }
@@ -77,7 +106,8 @@ const Daily = () => {
 
     function rand_from_seed(x, iterations) {
       iterations = iterations || 100;
-      for (var i = 0; i < iterations; i++) x = (x ^ (x << 1) ^ (x >> 1)) % artArray.length;
+      for (var i = 0; i < iterations; i++)
+        x = (x ^ (x << 1) ^ (x >> 1)) % artArray.length;
       console.log("number", x);
       return x;
     }
@@ -88,7 +118,6 @@ const Daily = () => {
   }
 
   function handleLike(e) {
-    console.log("favourite", favorited);
     setFavorited(!favorited);
 
     if (favorited == true) {
@@ -127,6 +156,58 @@ const Daily = () => {
     });
   }
 
+  const checkIfArtPieceExists = async () => {
+    // get current user's favorite collection id
+
+    console.log(await user);
+    // if (auth.currentUser) {
+    //   console.log("hihi", auth.currentUser.uid);
+    // }
+    // const q1 = query(collectionsRef, where("uid", "==", auth.currentUser.uid));
+
+    // const querySnapshot = await getDocs(q1);
+
+    // querySnapshot.forEach((doc) => {
+    //   console.log("check if", doc.id, " => ", doc.data());
+    // });
+
+    // // if artpiece reference exists, set favorite to true
+    // const q2 = query(
+    //   artInCollectionsRef,
+    //   where("artpiece_id", "==", recomended.id),
+    //   where("collection_id", "==", "Favorites")
+    // );
+
+    // let collectionId = "";
+
+    // const querySnapshot = await getDocs(q2);
+    // querySnapshot.forEach((doc) => {
+    //   console.log(doc.id, " => ", doc.data());
+    //   collectionId = doc.id;
+    // });
+  };
+
+  const [collections, setCollections] = useState([]);
+
+  const getCollections = async () => {
+    const q = query(collectionsRef, where("uid", "==", auth.currentUser.uid));
+
+    let collectionsArray = [];
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // console.log(doc.id, " => ", doc.data());
+      if (doc.data().name !== "Favorites") {
+        let collection = {
+          id: doc.id,
+          data: doc.data(),
+        };
+        collectionsArray.push(collection);
+      }
+    });
+    setCollections(collectionsArray);
+  };
+
   return (
     <IonPage>
       <IonContent color="custom-black" fullscreen>
@@ -142,11 +223,30 @@ const Daily = () => {
           <span className="category label">{recomended?.data?.period}</span>
           <span className="category label">{recomended?.data?.category}</span>
           <span ref={followIcon} className="like icon" onClick={handleLike}>
-            <IonImg className="icon-self" src="assets/icon/custom-icons/heart.svg"></IonImg>
+            <IonImg
+              className="icon-self"
+              src="assets/icon/custom-icons/heart.svg"
+            ></IonImg>
           </span>
-          <span className="add-collection icon">
-            <IonImg className="icon-self" src="assets/icon/custom-icons/folder.svg"></IonImg>
+          <span
+            className="add-collection icon"
+            onClick={() => {
+              setIsOpen(true);
+              getCollections();
+            }}
+          >
+            <IonImg
+              className="icon-self"
+              src="assets/icon/custom-icons/folder.svg"
+            ></IonImg>
           </span>
+          <SheetModal
+            title="Add to collection"
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            collections={collections}
+            artPiece={recomended}
+          />
         </div>
         <div className="daily-page-content">
           <div className="art-bio">
