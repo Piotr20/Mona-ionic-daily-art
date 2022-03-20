@@ -9,10 +9,10 @@ import {
 import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { hideTabs, showTabs } from "../components/utilities";
-import { addDoc, getDocs, doc, updateDoc } from "firebase/firestore";
-import { usersRef } from "../firebase/firebaseInit";
-import "./Preferences.css";
+import { hideTabs, showTabs } from "../utilities/utilities";
+import { getDocs, doc, updateDoc } from "firebase/firestore";
+import { usersRef } from "../utilities/firebaseInit";
+import "../styles/pages/Preferences.css";
 
 export default function Preferences() {
   const history = useHistory();

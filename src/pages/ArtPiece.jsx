@@ -1,18 +1,15 @@
 import {
   IonContent,
-  IonHeader,
   IonImg,
   IonPage,
-  IonTitle,
-  IonToolbar,
   useIonViewWillEnter,
   useIonViewWillLeave,
 } from "@ionic/react";
 import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { artpiecesRef } from "../firebase/firebaseInit";
+import { artpiecesRef } from "../utilities/firebaseInit";
 
 const ArtPiece = () => {
   const { collectionId, artpieceId } = useParams();

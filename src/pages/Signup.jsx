@@ -12,18 +12,13 @@ import {
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  updateProfile,
-} from "firebase/auth";
-import { auth, app } from "../firebase/firebaseInit";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc } from "firebase/firestore";
-import { usersRef } from "../firebase/firebaseInit";
-import "./Signup.css";
-import "../theme/global.css";
+import { usersRef } from "../utilities/firebaseInit";
+import "../styles/pages/Signup.css";
+import "../styles/global.css";
 import { addFavorites } from "./Collections";
-import { hideTabs } from "../components/utilities";
+import { hideTabs } from "../utilities/utilities";
 
 export default function SignUpPage() {
   const [mail, setMail] = useState("");

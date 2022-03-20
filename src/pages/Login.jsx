@@ -6,15 +6,14 @@ import {
   IonPage,
   IonItem,
   IonInput,
-  IonLabel,
   IonButton,
 } from "@ionic/react";
-import "./Login.css";
+import "../styles/pages/Login.css";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebaseInit";
-import { hideTabs, showTabs } from "../components/utilities";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utilities/firebaseInit";
+import { hideTabs, showTabs } from "../utilities/utilities";
 
 const Login = () => {
   const [mail, setMail] = useState("");

@@ -1,12 +1,10 @@
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import {
   IonApp,
   IonImg,
-  IonLabel,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
-  IonTabs,
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
@@ -33,8 +31,8 @@ import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
 /* Theme variables */
-import "./theme/variables.css";
-import "./theme/global.css";
+import "./styles/variables.css";
+import "./styles/global.css";
 import Collection from "./pages/Collection";
 import SignUpPage from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
@@ -42,12 +40,7 @@ import Preferences from "./pages/Preferences";
 import ArtPiece from "./pages/ArtPiece";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 
-import {
-  ActionPerformed,
-  PushNotificationSchema,
-  PushNotifications,
-  Token,
-} from "@capacitor/push-notifications";
+import { PushNotifications } from "@capacitor/push-notifications";
 setupIonicReact();
 
 const auth = getAuth();
@@ -129,19 +122,13 @@ const App: React.FC = () => (
       </IonRouterOutlet>
       <IonTabBar slot="bottom" className="bottom-nav" color="custom-dark">
         <IonTabButton tab="tab1" href="/daily">
-          {/* <IonIcon icon={triangle} /> */}
           <IonImg src="../assets/icon/daily-art.png" alt="" />
-          {/* <IonLabel>Daily</IonLabel> */}
         </IonTabButton>
         <IonTabButton tab="tab2" href="/collections">
-          {/* <IonIcon icon={ellipse} /> */}
           <IonImg src="../assets/icon/collections.png" alt="" />
-          {/* <IonLabel>Collections</IonLabel> */}
         </IonTabButton>
         <IonTabButton tab="tab3" href="/profile">
-          {/* <IonIcon icon={square} /> */}
           <IonImg src="../assets/icon/profile.png" alt="" />
-          {/* <IonLabel>Profile</IonLabel> */}
         </IonTabButton>
       </IonTabBar>
     </IonReactRouter>
