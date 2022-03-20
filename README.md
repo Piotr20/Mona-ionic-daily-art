@@ -93,6 +93,9 @@ In the Profile page, the user can preview their account details and update them 
 
 If you want to run it on the web you need to clone this repositiory make sure you are on master and run this comands
 
+**!!!Important**
+remember to turn on dark mode since that what it was intended to be used with.
+
     npm i
 
 ### Followed by
