@@ -4,23 +4,21 @@ import {
   IonContent,
   IonHeader,
   IonImg,
-  IonInput,
-  IonItem,
   IonLabel,
-  IonModal,
   IonPage,
   IonTitle,
   IonToast,
   IonToolbar,
   useIonViewWillEnter,
 } from "@ionic/react";
-import { addDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { collectionsRef } from "../firebase/firebaseInit";
 import "./Collections.css";
 import SheetModal from "../components/SheetModal";
-import placeholder from "../assets/favorites-placeholder.png";
+import favPlaceholder from "../assets/favorites-placeholder.png";
+import colPlaceholder from "../assets/collection-placeholder.png";
 import "../theme/global.css";
 
 const Collections = () => {
@@ -64,6 +62,18 @@ const Collections = () => {
     setIsOpen(false);
     setShowToast(true);
     setNewCollectionName("");
+  };
+
+  const displayPlaceholder = (collection) => {
+    let img = "";
+    if (collection.data.cover_img) {
+      img = collection.data.cover_img;
+    } else if (collection.data.name === "Favorites") {
+      img = favPlaceholder;
+    } else {
+      img = colPlaceholder;
+    }
+    return img;
   };
 
   return (
@@ -112,7 +122,7 @@ const Collections = () => {
                   <IonImg
                     className="collection-img"
                     alt="coverimage"
-                    src={placeholder}
+                    src={displayPlaceholder(collection)}
                   />
                   <IonLabel>{collection.data.name}</IonLabel>
                 </Link>

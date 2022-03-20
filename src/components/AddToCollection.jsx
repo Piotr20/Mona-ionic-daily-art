@@ -11,7 +11,14 @@ import {
   IonToast,
   IonToolbar,
 } from "@ionic/react";
-import { addDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { artInCollectionsRef, collectionsRef } from "../firebase/firebaseInit";
 
@@ -46,6 +53,13 @@ const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
         collection_id: collectionId,
         img: artPiece.data.imgUrl,
       });
+
+      // add cover img to collection
+      const collectionDoc = doc(collectionsRef, collectionId);
+      await updateDoc(collectionDoc, {
+        cover_img: artPiece.data.imgUrl,
+      });
+
       // setIsOpen(false);
       setSelected(null);
       setShowSuccessToast(true);
@@ -132,7 +146,7 @@ const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
         <IonToast
           isOpen={showSuccessToast}
           onDidDismiss={() => setShowSuccessToast(false)}
-          message={`Art piece added to ${selected}`}
+          message={`Art piece added to collection`}
           duration={2500}
         />
         <IonToast
