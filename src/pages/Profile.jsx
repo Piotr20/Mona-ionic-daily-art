@@ -24,6 +24,7 @@ export default function ProfilePage() {
   const history = useHistory();
   const auth = getAuth();
   const [user, setUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
   const [usersArray, setUsersArray] = useState([]);
 
   const [name, setName] = useState("");
@@ -72,12 +73,13 @@ export default function ProfilePage() {
       if (user) {
         //when user signed in
         setUser(user);
-        console.log("halo", user.uid);
+        let idk = usersArray.filter((userr) => userr.data.uid === user.uid);
+        console.log(idk);
+        setCurrentUser(idk);
       } else {
         // when user signed out
       }
     });
-    let idk = usersArray.filter((userr) => userr.data.uid === user.uid);
     // const docRef = doc(usersRef, user.uid);
     // const docSnap = await getDoc(docRef);
     // console.log("halo", docSnap.data());
@@ -114,7 +116,7 @@ export default function ProfilePage() {
           <IonItem>
             <IonLabel position="stacked">Email</IonLabel>
             <IonInput
-              value={email}
+              value={user?.email}
               type="text"
               placeholder={user?.email}
               onIonChange={(e) => setMail(e.target.value)}
@@ -122,7 +124,7 @@ export default function ProfilePage() {
 
             <IonLabel position="stacked">Name</IonLabel>
             <IonInput
-              value={name}
+              value={currentUser?.name}
               type="text"
               placeholder={user?.displayName}
               onIonChange={(e) => setName(e.target.value)}
@@ -130,7 +132,7 @@ export default function ProfilePage() {
 
             <IonLabel position="stacked">Password</IonLabel>
             <IonInput
-              value={password}
+              value={user?.password}
               type="password"
               placeholder="Type your password"
               onIonChange={(e) => setPassword(e.target.value)}
