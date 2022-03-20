@@ -15,7 +15,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { usersRef } from "../utilities/firebaseInit";
 import { useHistory } from "react-router-dom";
 
-import { query, getDocs } from "firebase/firestore";
+import { query, getDocs, doc, getDoc } from "firebase/firestore";
 import "../styles/global.css";
 
 import "../styles/pages/Profile.css";
@@ -31,6 +31,34 @@ export default function ProfilePage() {
   const [password, setPassword] = useState("");
   const [showLoader, dismissLoader] = useIonLoading();
 
+  // const getUserDataFromDB = async () => {
+  //   let userData = null;
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       //when user signed in
+  //       setUser(user);
+  //       userData = user;
+  //     } else {
+  //       // when user signed out
+  //     }
+  //   });
+
+  //   if (user) {
+  //     const docRef = doc(usersRef, userData.uid);
+  //     const docSnap = await getDoc(docRef);
+  //     console.log("halo", docSnap.data());
+  //   }
+  //   // const querySnapshot = await getDocs(q);
+  //   // querySnapshot.forEach((doc) => {
+  //   //   console.log(doc.data());
+
+  //   // usersArray.push({ data: doc.data(), docId: doc.id });
+  //   // });
+  //   // console.log(usersArray);
+
+  //   // const auth = getAuth();
+  // };
+
   async function getUserDataFromDB() {
     const q = query(usersRef);
 
@@ -38,22 +66,26 @@ export default function ProfilePage() {
     querySnapshot.forEach((doc) => {
       usersArray.push({ data: doc.data(), docId: doc.id });
     });
-    console.log(usersArray);
+    // console.log(usersArray);
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
         //when user signed in
         setUser(user);
-        console.log(user);
+        console.log("halo", user.uid);
       } else {
         // when user signed out
       }
     });
+    let idk = usersArray.filter((userr) => userr.data.uid === user.uid);
+    // const docRef = doc(usersRef, user.uid);
+    // const docSnap = await getDoc(docRef);
+    // console.log("halo", docSnap.data());
   }
 
   useEffect(() => {
     getUserDataFromDB();
-  });
+  }, [auth]);
 
   async function handleSignOut() {
     await signOut(auth);
