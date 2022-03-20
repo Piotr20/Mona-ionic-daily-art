@@ -122,7 +122,7 @@ export default function ProfilePage() {
           <div className="ion-padding">
             <IonButton
               color="custom-orange"
-              className="signup-button"
+              className="signup-button orange-button"
               type="submit"
               expand="block"
             >
@@ -160,7 +160,7 @@ export default function ProfilePage() {
           <div className="ion-padding">
             <IonButton
               color="custom-orange"
-              className="signup-button"
+              className="signup-button orange-button"
               type="submit"
               expand="block"
             >
@@ -174,6 +174,7 @@ export default function ProfilePage() {
             className="logout-button"
             onClick={handleSignOut}
             expand="block"
+            color="custom-black"
           >
             <h3>Log out</h3>
           </IonButton>
