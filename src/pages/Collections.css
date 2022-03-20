@@ -58,3 +58,26 @@
 }
 
 /* COLLECTION */
+.collection-img-container {
+  position: relative;
+}
+
+.delete-artpiece {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 1000;
+  padding: 8px;
+}
+
+.artpiece-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+a {
+  text-decoration: none !important;
+  color: white !important;
+}

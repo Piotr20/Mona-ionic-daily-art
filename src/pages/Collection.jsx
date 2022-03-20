@@ -5,10 +5,6 @@ import {
   IonHeader,
   IonIcon,
   IonImg,
-  IonInput,
-  IonItem,
-  IonList,
-  IonModal,
   IonPage,
   IonTitle,
   IonToast,
@@ -19,23 +15,10 @@ import { useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import "./Collections.css";
 import { ellipsisHorizontalOutline } from "ionicons/icons";
-import {
-  deleteDoc,
-  doc,
-  documentId,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import {
-  artInCollectionsRef,
-  artpiecesRef,
-  collectionsRef,
-} from "../firebase/firebaseInit";
+import { deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { artInCollectionsRef, collectionsRef } from "../firebase/firebaseInit";
 import SheetModal from "../components/SheetModal";
+import x from "../assets/akar-icons_cross.png";
 
 const Collection = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
@@ -46,6 +29,7 @@ const Collection = () => {
   const [showUpdateToast, setShowUpdateToast] = useState(false);
   const [showDeleteToast, setShowDeleteToast] = useState(false);
   const [artPieces, setArtPieces] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
   const history = useHistory();
 
   const getCollection = async () => {
@@ -67,21 +51,7 @@ const Collection = () => {
       }
     });
 
-    // const querySnapshotData = await getDocs(artpiecesRef);
-    // // const artPiecesArray = [];
-    // querySnapshotData.forEach((doc) => {
-    //   console.log(doc.data());
-    //   // const artpiece = {
-    //   //   id: doc.id,
-    //   //   data: doc.data(),
-    //   // };
-    //   // if (artpiece.data.collection_id === collectionId) {
-    //   //   artPiecesArray.push(artpiece);
-    //   // }
-    // });
-
     setArtPieces(artPiecesArray);
-    console.log(artPiecesArray);
   };
 
   useIonViewWillEnter(() => {
@@ -109,9 +79,11 @@ const Collection = () => {
     setShowDeleteToast(true);
   };
 
-  // const goBack = () => {
-  //   history.push("/collections");
-  // };
+  const deleteArtPiece = async (e) => {
+    const artPieceId = e.target.name;
+    const artPieceDoc = doc(artInCollectionsRef, artPieceId);
+    await deleteDoc(artPieceDoc);
+  };
 
   return (
     <IonPage>
@@ -184,7 +156,7 @@ const Collection = () => {
         <div className="collections-grid">
           {artPieces.map((piece) => {
             return (
-              <div key={piece.id}>
+              <div key={piece.id} className="collection-img-container">
                 {piece.data.img && (
                   <Link
                     to={`/collections/${collectionId}/${piece.data.artpiece_id}`}
@@ -193,6 +165,13 @@ const Collection = () => {
                       className="collection-img"
                       src={piece.data.img}
                       alt="artpiece"
+                    />
+                    <img
+                      src={x}
+                      className="delete-artpiece"
+                      alt="delete"
+                      onClick={deleteArtPiece}
+                      name={piece.id}
                     />
                   </Link>
                 )}
