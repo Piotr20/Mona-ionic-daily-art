@@ -70,6 +70,7 @@ const Login = () => {
             </IonItem>
             <p>{error}</p>
             <div className="ion-padding">
+              <input type="submit" className="submit-enter" />
               <IonButton
                 color="custom-orange"
                 expand="block"

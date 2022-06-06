@@ -61,3 +61,9 @@ a {
 p {
   font-family: "Noto Sans", sans-serif;
 }
+
+.submit-enter {
+  position: absolute;
+  visibility: hidden;
+  left: -1000px;
+}

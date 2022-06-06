@@ -16,7 +16,7 @@ export function displayErrorMessage(code) {
   let errorMessage = "";
   switch (code) {
     case "auth/invalid-email":
-      errorMessage = "Incorrect email format. Must include @";
+      errorMessage = "Incorrect email format";
       break;
     case "auth/invalid-password":
       errorMessage = "Incorrect password";

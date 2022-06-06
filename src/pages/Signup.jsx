@@ -114,6 +114,7 @@ export default function SignUpPage() {
             </p>
             <p>{error}</p>
             <div className="ion-padding">
+              <input type="submit" className="submit-enter" />
               <IonButton
                 color="custom-orange"
                 className="signup-button orange-button"
