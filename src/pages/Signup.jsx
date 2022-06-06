@@ -18,7 +18,7 @@ import { usersRef } from "../utilities/firebaseInit";
 import "../styles/pages/Signup.css";
 import "../styles/global.css";
 import { addFavorites } from "./Collections";
-import { hideTabs } from "../utilities/utilities";
+import { displayErrorMessage, hideTabs } from "../utilities/utilities";
 
 export default function SignUpPage() {
   const [mail, setMail] = useState("");
@@ -27,6 +27,7 @@ export default function SignUpPage() {
   const [checkbox, setCheckbox] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [idiotCounter, setIdiotCounter] = useState(0);
+  const [error, setError] = useState("");
   const auth = getAuth();
 
   const history = useHistory();
@@ -59,6 +60,7 @@ export default function SignUpPage() {
         })
         .catch((error) => {
           console.log(error);
+          setError(displayErrorMessage(error.code));
         });
     } else {
       setIdiotCounter(idiotCounter + 1);
@@ -68,6 +70,7 @@ export default function SignUpPage() {
       }, 1000);
     }
   }
+
   return (
     <IonPage className="posts-page">
       <IonContent fullscreen>
@@ -86,7 +89,7 @@ export default function SignUpPage() {
             <IonItem color="custom-dark" className="signup-item">
               <IonInput
                 value={mail}
-                type="email"
+                type="text"
                 placeholder="Email"
                 onIonChange={(e) => setMail(e.target.value)}
               />
@@ -109,6 +112,7 @@ export default function SignUpPage() {
               />
               I accept Terms & Conditions
             </p>
+            <p>{error}</p>
             <div className="ion-padding">
               <IonButton
                 color="custom-orange"

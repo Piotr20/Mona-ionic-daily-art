@@ -13,11 +13,16 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utilities/firebaseInit";
-import { hideTabs, showTabs } from "../utilities/utilities";
+import {
+  displayErrorMessage,
+  hideTabs,
+  showTabs,
+} from "../utilities/utilities";
 
 const Login = () => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const history = useHistory();
 
   useEffect(() => {
@@ -36,8 +41,10 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error);
+        setError(displayErrorMessage(error.code));
       });
   }
+
   return (
     <IonPage id="login-page">
       <IonContent className="page-content" fullscreen>
@@ -48,7 +55,7 @@ const Login = () => {
             <IonItem color="custom-dark" className="login-item">
               <IonInput
                 value={mail}
-                type="email"
+                type="text"
                 placeholder="Type your mail"
                 onIonChange={(e) => setMail(e.target.value)}
               />
@@ -61,6 +68,7 @@ const Login = () => {
                 onIonChange={(e) => setPassword(e.target.value)}
               />
             </IonItem>
+            <p>{error}</p>
             <div className="ion-padding">
               <IonButton
                 color="custom-orange"
