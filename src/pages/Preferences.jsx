@@ -1,11 +1,4 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonButton,
-  IonImg,
-  IonCard,
-} from "@ionic/react";
+import { IonContent, IonHeader, IonPage, IonButton, IonImg, IonCard } from "@ionic/react";
 import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -60,20 +53,20 @@ export default function Preferences() {
     });
     for (const userPreference of await usersArray) {
       if (userPreference.data.uid === auth.currentUser.uid) {
-        if (userPreference.data.Preferences.paintings) {
-          setPaintings(userPreference.data.Preferences.paintings);
+        if (userPreference?.data.Preferences?.paintings) {
+          setPaintings(userPreference?.data.Preferences?.paintings);
           console.log("Paintings preference updated", paintings);
         }
-        if (userPreference.data.Preferences.sculptures) {
-          setSculptures(userPreference.data.Preferences.sculptures);
+        if (userPreference?.data.Preferences?.sculptures) {
+          setSculptures(userPreference?.data?.Preferences?.sculptures);
           console.log("Sculptures preference updated", sculptures);
         }
-        if (userPreference.data.Preferences.architecture) {
-          setArchitecture(userPreference.data.Preferences.architecture);
+        if (userPreference?.data?.Preferences?.architecture) {
+          setArchitecture(userPreference?.data?.Preferences?.architecture);
           console.log("Architecture preference updated", architecture);
         }
-        if (userPreference.data.Preferences.photography) {
-          setPhotography(userPreference.data.Preferences.photography);
+        if (userPreference?.data?.Preferences?.photography) {
+          setPhotography(userPreference?.data?.Preferences?.photography);
           console.log("Photography preference updated", photography);
         }
       }
@@ -108,9 +101,7 @@ export default function Preferences() {
       <IonContent fullscreen>
         <IonImg className="login-bg-img" src="assets/Images/Mona-lisa.jpg" />
         <IonCard className="signup-card" color="custom-dark">
-          <IonHeader className="preferences-header">
-            Choose your preferences
-          </IonHeader>
+          <IonHeader className="preferences-header">Choose your preferences</IonHeader>
           <form className="preferences-form" onSubmit={handleSubmit}>
             <div className="preferences-wrapper">
               <div
@@ -180,12 +171,7 @@ export default function Preferences() {
               </div>
             </div>
             <div className="ion-padding">
-              <IonButton
-                color="custom-orange"
-                className="preferences-button"
-                type="submit"
-                expand="block"
-              >
+              <IonButton color="custom-orange" className="preferences-button" type="submit" expand="block">
                 Confirm
               </IonButton>
             </div>

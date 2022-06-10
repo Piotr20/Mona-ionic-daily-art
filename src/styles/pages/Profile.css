@@ -43,6 +43,7 @@
 .profile-form:nth-of-type(2) p {
   margin-top: 0;
   padding: 0 16px;
+  padding-top: 16px;
 }
 .logout-wrapper {
   --padding-bottom: 90px !important;

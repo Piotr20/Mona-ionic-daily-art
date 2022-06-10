@@ -12,7 +12,7 @@ import {
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
 import { addDoc } from "firebase/firestore";
 import { usersRef } from "../utilities/firebaseInit";
 import "../styles/pages/Signup.css";
@@ -43,7 +43,16 @@ export default function SignUpPage() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          user.auth.currentUser.displayName = name;
+          console.log(user.auth.currentUser);
+          updateProfile(user.auth.currentUser, {
+            displayName: name,
+          })
+            .then(() => {
+              console.log("display name added");
+            })
+            .catch((error) => {
+              console.log("display name was not added an error has occured");
+            });
           try {
             const docRef = addDoc(usersRef, {
               uid: user.uid,
@@ -136,11 +145,7 @@ export default function SignUpPage() {
             </div>
           </form>
         </IonCard>
-        <IonToast
-          isOpen={showToast}
-          message="You need to agree to the Terms & Conditions"
-          duration={1000}
-        />
+        <IonToast isOpen={showToast} message="You need to agree to the Terms & Conditions" duration={1000} />
       </IonContent>
     </IonPage>
   );

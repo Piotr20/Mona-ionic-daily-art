@@ -1,29 +1,12 @@
-import {
-  IonContent,
-  IonImg,
-  IonPage,
-  IonRefresher,
-  IonRefresherContent,
-} from "@ionic/react";
+import { IonContent, IonImg, IonPage, IonRefresher, IonRefresherContent } from "@ionic/react";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth } from "@firebase/auth";
 import { addDoc, getDocs, query, where } from "firebase/firestore";
-import {
-  artInCollectionsRef,
-  artpiecesRef,
-  collectionsRef,
-  usersRef,
-} from "../utilities/firebaseInit";
+import { artpiecesRef, collectionsRef, usersRef } from "../utilities/firebaseInit";
 import "../styles/global.css";
 import "../styles/pages/Daily.css";
 import SheetModal from "../components/AddToCollection";
-import {
-  ActionPerformed,
-  PushNotificationSchema,
-  PushNotifications,
-  Token,
-} from "@capacitor/push-notifications";
 
 const Daily = () => {
   const history = useHistory();
@@ -39,9 +22,8 @@ const Daily = () => {
   const auth = getAuth();
 
   useEffect(() => {
-    doRefresh();
     verifyUserPreferences();
-  }, [auth]);
+  }, []);
 
   async function verifyUserPreferences() {
     const querySnapshot = await getDocs(usersRef);
@@ -75,28 +57,16 @@ const Daily = () => {
     const artArray = [];
 
     for (const artwork of artpiecesArray) {
-      if (
-        userDoc.data.Preferences.paintings === true &&
-        artwork.data.category === "painting"
-      ) {
+      if (userDoc.data.Preferences.paintings === true && artwork.data.category === "painting") {
         artArray.push(artwork);
       }
-      if (
-        userDoc.data.Preferences.sculptures === true &&
-        artwork.data.category === "sculpture"
-      ) {
+      if (userDoc.data.Preferences.sculptures === true && artwork.data.category === "sculpture") {
         artArray.push(artwork);
       }
-      if (
-        userDoc.data.Preferences.photography === true &&
-        artwork.data.category === "photography"
-      ) {
+      if (userDoc.data.Preferences.photography === true && artwork.data.category === "photography") {
         artArray.push(artwork);
       }
-      if (
-        userDoc.data.Preferences.architecture === true &&
-        artwork.data.category === "architecture"
-      ) {
+      if (userDoc.data.Preferences.architecture === true && artwork.data.category === "architecture") {
         artArray.push(artwork);
       }
     }
@@ -105,8 +75,7 @@ const Daily = () => {
 
     function rand_from_seed(x, iterations) {
       iterations = iterations || 100;
-      for (var i = 0; i < iterations; i++)
-        x = (x ^ (x << 1) ^ (x >> 1)) % artArray.length;
+      for (var i = 0; i < iterations; i++) x = (x ^ (x << 1) ^ (x >> 1)) % artArray.length;
 
       return x;
     }
@@ -136,52 +105,11 @@ const Daily = () => {
     });
     setCollections(collectionsArray);
   };
-  function doRefresh(event) {
-    setTimeout(() => {
-      event.detail.complete();
-    }, 700);
-  }
-  //push notification code
-
-  // Request permission to use push notifications
-  // iOS will prompt user and return if they granted permission or not
-  // Android will just grant without prompting
-  PushNotifications.requestPermissions().then((result) => {
-    if (result.receive === "granted") {
-      // Register with Apple / Google to receive push via APNS/FCM
-      PushNotifications.register();
-    } else {
-      // Show some error
-    }
-  });
-
-  // On success, we should be able to receive notifications
-  PushNotifications.addListener("registration", (token) => {
-    alert("Push registration success, token: " + token.value);
-  });
-
-  // Some issue with our setup and push will not work
-  PushNotifications.addListener("registrationError", (error) => {
-    alert("Error on registration: " + JSON.stringify(error));
-  });
-
-  // Show us the notification payload if the app is open on our device
-  PushNotifications.addListener("pushNotificationReceived", (notification) => {
-    alert("Push received: " + JSON.stringify(notification));
-  });
-
-  // Method called when tapping on a notification
-  PushNotifications.addListener(
-    "pushNotificationActionPerformed",
-    (notification) => {
-      alert("Push action performed: " + JSON.stringify(notification));
-    }
-  );
 
   return (
     <IonPage>
       <IonContent color="custom-black" fullscreen className="daily-content">
-        <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+        <IonRefresher slot="fixed">
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
         <div className="daily-img-wrapper">
@@ -208,10 +136,7 @@ const Daily = () => {
               getCollections();
             }}
           >
-            <IonImg
-              className="icon-self"
-              src="assets/icon/custom-icons/folder.svg"
-            ></IonImg>
+            <IonImg className="icon-self" src="assets/icon/custom-icons/folder.svg"></IonImg>
           </span>
           <SheetModal
             title="Add to collection"
