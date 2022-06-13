@@ -9,6 +9,9 @@
 .add-btn {
   --border-radius: 50% !important;
   margin-right: 16px;
+  font-size: 20px;
+  color: white;
+
 }
 
 .addNewCollection-tittle {
@@ -80,6 +83,7 @@
   top: 20px;
   left: 20px;
   z-index: 1000;
+  font-weight: bold;
 }
 
 a {

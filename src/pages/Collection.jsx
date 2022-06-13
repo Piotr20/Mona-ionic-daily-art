@@ -152,6 +152,9 @@ const Collection = () => {
           )}
         </IonToolbar>
       </IonHeader>
+      <Link to={`/collections`} className="artpiece-back">
+            Go back
+          </Link>
       <IonContent>
         <div className="collections-grid">
           {artPieces.map((piece) => {

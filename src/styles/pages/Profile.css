@@ -26,8 +26,16 @@
   font-family: "Noto-Sans", sans-serif;
 }
 
+.preferences {
+  margin-bottom: 24px;
+}
+
 .preferences-profile {
   padding-bottom: 16px;
+}
+
+.profile-form {
+  margin-bottom: 40px;
 }
 
 .profile-form .ion-padding {
@@ -48,12 +56,15 @@
 .logout-wrapper {
   --padding-bottom: 90px !important;
   padding-bottom: 90px !important;
+  margin: 40px 0;
 }
 
 .logout-button {
   margin-top: 40px;
   color: white;
   background-color: none;
+  width: 146px;
+  margin: 0 auto;
 }
 
 ion-item {

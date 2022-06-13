@@ -127,7 +127,7 @@ const SheetModal = ({ title, isOpen, setIsOpen, collections, artPiece }) => {
               return (
                 <IonItem color="custom-black" key={collection.id}>
                   <IonLabel>{collection.data.name}</IonLabel>
-                  <IonRadio slot="start" value={collection.data.name} />
+                  <IonRadio className="radio-btn" slot="start" value={collection.data.name} />
                 </IonItem>
               );
             })

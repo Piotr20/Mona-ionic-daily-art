@@ -157,7 +157,7 @@ export default function ProfilePage() {
           </div>
         </form>
 
-        <IonHeader className="header">Preferences</IonHeader>
+        <IonHeader className="header preferences">Preferences</IonHeader>
 
         <form className="profile-form">
           <div className="preferences-wrapper">
@@ -212,16 +212,19 @@ export default function ProfilePage() {
               color="custom-orange"
               className="signup-button orange-button"
               expand="block"
-              onClick={() => history.replace("/preferences")}
-            >
-              Change preferences
+              onClick={() => history.replace("/preferences")}>
+                Change preferences
             </IonButton>
           </div>
         </form>
 
         <div className="ion-padding logout-wrapper">
-          <IonButton className="logout-button" onClick={handleSignOut} expand="block" color="custom-black">
-            <h3>Log out</h3>
+          <IonButton 
+            className="logout-button orange-button" 
+            onClick={handleSignOut} 
+            expand="block" 
+            color="custom-black">
+              Log out
           </IonButton>
         </div>
       </IonContent>

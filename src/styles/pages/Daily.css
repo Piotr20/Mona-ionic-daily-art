@@ -116,3 +116,10 @@
 .new-collection-modal ion-button {
   margin-top: 16px;
 }
+
+.radio-btn {
+  background-color: white;
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+}
